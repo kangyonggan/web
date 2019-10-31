@@ -52,7 +52,8 @@
       ],
       "no-console": [
         "off"
-      ]
+      ],
+      "no-irregular-whitespace": "off"
     },
     "parserOptions": {
       "parser": "babel-eslint"
