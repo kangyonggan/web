@@ -8,17 +8,19 @@
         <img src="../../assets/images/logo.png">
       </router-link>
 
-      <div class="navList">
-        <router-link
+      <ul class="nav-list">
+        <li
           v-for="nav in navList"
           :key="nav.code"
-          :to="nav.code"
         >
-          {{ nav.value }}
-        </router-link>
-      </div>
+          <router-link :to="nav.code">
+            {{ nav.value }}
+          </router-link>
+        </li>
+      </ul>
 
       <el-button
+        class="login-btn"
         type="primary"
         round
       >
@@ -69,7 +71,7 @@
 
 <style scoped lang="scss">
   .navbar {
-    height: 80px;
+    height: 79px;
     background: #fff;
     border-bottom: 1px solid #f5f5f5;
 
@@ -83,19 +85,36 @@
       }
     }
 
-    .navList {
+    .nav-list {
       float: left;
-      margin-left: 20px;
+      list-style: none;
+      margin-top: 0;
 
-      a {
-        display: inline-block;
-        width: 75px;
-        text-align: center;
-        line-height: 80px;
+      li {
         float: left;
-        color: #333;
-        text-decoration: none;
+        width: 75px;
+        height: 80px;
+        line-height: 80px;
+        text-align: center;
+
+        a {
+          color: #333;
+          text-decoration: none;
+          padding: 12px;
+        }
+
+        a.router-link-exact-active {
+          border-bottom: 2px solid #f68136;
+        }
       }
+    }
+
+    .login-btn {
+      height: 36px;
+      margin-top: 22px;
+      width: 88px;
+      float: right;
+      background: #1677d9;
     }
   }
 </style>

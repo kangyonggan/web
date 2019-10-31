@@ -3,7 +3,7 @@
     <div class="container">
       <Navbar />
       <keep-alive>
-        <div class="content">
+        <div class="content main">
           <router-view />
         </div>
       </keep-alive>
@@ -32,11 +32,15 @@
     background: #f5f6f8;
     min-height: 100%;
     min-width: 1240px;
-    margin-bottom: -360px;
+    margin-bottom: -88px;
   }
 
   .empty {
-    height: 360px;
+    height: 88px;
+  }
+
+  .main {
+    padding: 25px 0;
   }
 
   .content {
