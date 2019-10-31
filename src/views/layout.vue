@@ -14,12 +14,12 @@
 </template>
 
 <script>
-  import Navbar from './layout/navbar';
-  import Footer from './layout/footer';
+    import Navbar from './layout/navbar';
+    import Footer from './layout/footer';
 
-  export default {
-    components: {Navbar, Footer}
-  };
+    export default {
+        components: {Navbar, Footer}
+    };
 </script>
 
 <style lang="scss">
@@ -27,6 +27,7 @@
     height: 100%;
     background: #f5f6f8;
   }
+
   .container {
     background: #f5f6f8;
     min-height: 100%;

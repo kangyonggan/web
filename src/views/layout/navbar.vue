@@ -68,34 +68,34 @@
 </script>
 
 <style scoped lang="scss">
-    .navbar {
+  .navbar {
+    height: 80px;
+    background: #fff;
+    border-bottom: 1px solid #f5f5f5;
+
+    .logo {
+      float: left;
+      display: inline-block;
+      height: 80px;
+
+      img {
         height: 80px;
-        background: #fff;
-        border-bottom: 1px solid #f5f5f5;
-
-        .logo {
-            float: left;
-            display: inline-block;
-            height: 80px;
-
-            img {
-                height: 80px;
-            }
-        }
-
-        .navList {
-            float: left;
-            margin-left: 20px;
-
-            a {
-                display: inline-block;
-                width: 75px;
-                text-align: center;
-                line-height: 80px;
-                float: left;
-                color: #333;
-                text-decoration: none;
-            }
-        }
+      }
     }
+
+    .navList {
+      float: left;
+      margin-left: 20px;
+
+      a {
+        display: inline-block;
+        width: 75px;
+        text-align: center;
+        line-height: 80px;
+        float: left;
+        color: #333;
+        text-decoration: none;
+      }
+    }
+  }
 </style>
