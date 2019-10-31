@@ -41,6 +41,5 @@
   .content {
     width: 1240px;
     margin: 0 auto;
-    padding: 30px 0;
   }
 </style>
