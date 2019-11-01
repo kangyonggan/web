@@ -54,6 +54,7 @@
     height: 87px;
     background: #fff;
     border-top: 1px solid #f5f5f5;
+    clear: both;
 
     .friend-link {
       float: left;
