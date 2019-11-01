@@ -10,7 +10,7 @@
             <span class="title">最新文章</span>
             <router-link
               class="more"
-              to="/"
+              to="/article"
             >
               <el-tooltip
                 content="更多"
@@ -20,7 +20,31 @@
               </el-tooltip>
             </router-link>
           </div>
-          <div class="article-list" />
+          <el-table
+            :data="articleList"
+          >
+            <el-table-column
+              prop="title"
+              label="标题"
+              width="608"
+            >
+              <template slot-scope="scope">
+                <router-link :to="'/article/' + scope.row.id">
+                  {{ scope.row.title }}
+                </router-link>
+              </template>
+            </el-table-column>
+            <el-table-column
+              label="日期"
+              align="center"
+              width="170"
+            >
+              <template slot-scope="scope">
+                <i class="el-icon-time" />
+                <span style="margin-left: 5px">{{ util.formatTimestamp(scope.row.createdTime, 'yyyy-MM-dd HH:mm') }}</span>
+              </template>
+            </el-table-column>
+          </el-table>
         </el-card>
       </el-col>
 
@@ -196,9 +220,41 @@
                         {'日期': '2019-11-03', '阅读量': 103, '收藏量': 43},
                         {'日期': '2019-11-04', '阅读量': 123, '收藏量': 64},
                         {'日期': '2019-11-05', '阅读量': 92, '收藏量': 23},
-                        {'日期': '2019-11-06', '阅读量': 59, '收藏量': 84},
+                        {'日期': '2019-11-06', '阅读量': 59, '收藏量': 84}
                     ]
-                }
+                },
+                articleList: [
+                    {
+                        id: 1,
+                        title: '用ElementUI实现多级菜单遇到的问题及解决方案',
+                        createdTime: 1572617564577
+                    },
+                    {
+                        id: 2,
+                        title: '前端消息去重思路及具体实现',
+                        createdTime: 1572617564577
+                    },
+                    {
+                        id: 3,
+                        title: 'SpringBoot中对配置文件明文密码进行加密',
+                        createdTime: 1572617564577
+                    },
+                    {
+                        id: 4,
+                        title: 'Vue中使用AES算法对请求响应加解密',
+                        createdTime: 1572617564577
+                    },
+                    {
+                        id: 5,
+                        title: 'Java根据IP离线获取国家、省市区和经纬度',
+                        createdTime: 1572617564577
+                    },
+                    {
+                        id: 6,
+                        title: 'Eureka分区在SpringBoot项目和非SpringBoot项目的配置和使用,Eureka分区在SpringBoot项目和非SpringBoot项目的配置和使用',
+                        createdTime: 1572617564577
+                    }
+                ]
             };
         },
         methods: {
@@ -209,7 +265,7 @@
     };
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
   /*通用box*/
   .box-card {
     .title {
@@ -239,8 +295,43 @@
       margin-left: 20px;
     }
 
-    .article-list {
+    .el-card__header {
+      border-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .el-card__body {
+      padding: 10px 20px;
+    }
+
+    .el-table {
       height: 326px;
+    }
+
+    .el-table::before {
+      height: 0;
+    }
+
+    th .cell {
+      font-size: 13px;
+      color: rgb(135, 150, 169);
+      font-weight: 100;
+    }
+
+    tr .cell {
+      line-height: 21px;
+      overflow: hidden;
+      text-overflow:ellipsis;
+      white-space: nowrap;
+
+      a {
+        color: #333;
+        text-decoration: none;
+      }
+
+      a:hover {
+        color: #e74e19;
+      }
     }
 
     .chart {
