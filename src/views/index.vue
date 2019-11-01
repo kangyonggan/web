@@ -24,7 +24,6 @@
             :data="articleList"
           >
             <el-table-column
-              prop="title"
               label="标题"
               width="608"
             >
@@ -36,8 +35,8 @@
             </el-table-column>
             <el-table-column
               label="日期"
-              align="center"
               width="170"
+              align="right"
             >
               <template slot-scope="scope">
                 <i class="el-icon-time" />
@@ -78,7 +77,7 @@
             <span class="title">读者收藏榜</span>
             <router-link
               class="more"
-              to="/"
+              to="/novel"
             >
               <el-tooltip
                 content="更多"
@@ -88,7 +87,35 @@
               </el-tooltip>
             </router-link>
           </div>
-          <div class="novel-list" />
+
+          <el-table
+            :data="novelList"
+          >
+            <el-table-column
+              label="类型"
+              width="68"
+            >
+              <template slot-scope="scope">
+                  [{{ scope.row.category }}]
+              </template>
+            </el-table-column>
+            <el-table-column
+              label="书名"
+              width="200"
+            >
+              <template slot-scope="scope">
+                <router-link :to="'/novel/' + scope.row.id">
+                  {{ scope.row.name }}
+                </router-link>
+              </template>
+            </el-table-column>
+            <el-table-column
+              prop="author"
+              label="作者"
+              align="right"
+              width="90"
+            />
+          </el-table>
         </el-card>
       </el-col>
 
@@ -98,7 +125,7 @@
             <span class="title">人气排行榜</span>
             <router-link
               class="more"
-              to="/"
+              to="/novel"
             >
               <el-tooltip
                 content="更多"
@@ -108,7 +135,35 @@
               </el-tooltip>
             </router-link>
           </div>
-          <div class="novel-list" />
+
+          <el-table
+            :data="novelList"
+          >
+            <el-table-column
+              label="类型"
+              width="68"
+            >
+              <template slot-scope="scope">
+                [{{ scope.row.category }}]
+              </template>
+            </el-table-column>
+            <el-table-column
+              label="书名"
+              width="200"
+            >
+              <template slot-scope="scope">
+                <router-link :to="'/novel/' + scope.row.id">
+                  {{ scope.row.name }}
+                </router-link>
+              </template>
+            </el-table-column>
+            <el-table-column
+              prop="author"
+              label="作者"
+              align="right"
+              width="90"
+            />
+          </el-table>
         </el-card>
       </el-col>
 
@@ -254,6 +309,50 @@
                         title: 'Eureka分区在SpringBoot项目和非SpringBoot项目的配置和使用,Eureka分区在SpringBoot项目和非SpringBoot项目的配置和使用',
                         createdTime: 1572617564577
                     }
+                ],
+                novelList: [
+                    {
+                        id: 1,
+                        name: '逆天邪神',
+                        author: '火星引力',
+                        category: '玄幻'
+                    },
+                    {
+                        id: 1,
+                        name: '逆天邪神',
+                        author: '火星引力',
+                        category: '修真'
+                    },
+                    {
+                        id: 1,
+                        name: '逆天邪神',
+                        author: '火星引力',
+                        category: '玄幻'
+                    },
+                    {
+                        id: 1,
+                        name: '逆天邪神',
+                        author: '火星引力',
+                        category: '修真'
+                    },
+                    {
+                        id: 1,
+                        name: '逆天邪神',
+                        author: '火星引力',
+                        category: '玄幻'
+                    },
+                    {
+                        id: 1,
+                        name: '逆天邪神',
+                        author: '火星引力',
+                        category: '修真'
+                    },
+                    {
+                        id: 1,
+                        name: '逆天邪神',
+                        author: '火星引力',
+                        category: '修真'
+                    }
                 ]
             };
         },
@@ -282,31 +381,6 @@
       float: right;
       margin-top: 6px;
     }
-  }
-
-  /*文章*/
-  .article-content {
-    .el-col {
-      width: 820px;
-    }
-
-    .right {
-      width: 400px;
-      margin-left: 20px;
-    }
-
-    .el-card__header {
-      border-bottom: 0;
-      padding-bottom: 0;
-    }
-
-    .el-card__body {
-      padding: 10px 20px;
-    }
-
-    .el-table {
-      height: 326px;
-    }
 
     .el-table::before {
       height: 0;
@@ -333,9 +407,35 @@
         color: #e74e19;
       }
     }
+  }
+
+  /*文章*/
+  .article-content {
+    .el-col {
+      width: 820px;
+    }
+
+    .right {
+      width: 400px;
+      margin-left: 20px;
+    }
+
+    .el-card__header {
+      border-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .el-card__body {
+      padding: 10px 20px;
+    }
+
+    .el-table {
+      height: 335px;
+    }
 
     .chart {
-      height: 326px;
+      height: 335px;
+      margin-top: 5px;
     }
   }
 
@@ -351,18 +451,28 @@
       margin: 0 20px;
     }
 
-    .novel-list {
+    .el-card__header {
+      border-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .el-card__body {
+      padding: 10px 20px;
+    }
+
+    .el-table {
       height: 386px;
     }
 
     .chart {
-      height: 386px;
+      margin-top: 5px;
+      height: 381px;
 
       ul {
         list-style: none;
         padding: 0;
         margin: 0;
-        height: 45px;
+        height: 40px;
 
         li {
           text-align: center;
