@@ -1,6 +1,6 @@
 <template>
   <div>
-    index
+    <base-search />
   </div>
 </template>
 
