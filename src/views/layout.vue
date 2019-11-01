@@ -5,7 +5,7 @@
       <keep-alive>
         <div class="content main">
           <router-view />
-          <div style="clear: both;height: 20px;"></div>
+          <div style="clear: both;height: 20px;" />
         </div>
       </keep-alive>
       <div class="empty" />

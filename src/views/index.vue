@@ -29,7 +29,12 @@
           <div slot="header">
             <span class="title">文章类型分布</span>
           </div>
-          <div class="chart" />
+          <div class="chart">
+            <ve-pie
+              :settings="{roseType: 'radius'}"
+              :data="articleChartData"
+            />
+          </div>
         </el-card>
       </el-col>
     </el-col>
@@ -88,7 +93,22 @@
           <div slot="header">
             <span class="title">小说阅读量走势</span>
           </div>
-          <div class="chart" />
+          <div class="chart">
+            <ul>
+              <li
+                v-for="(item, index) in novelChartDates"
+                :key="index"
+                :class="{active: index === novelChartDateActive}"
+                @click="changeNovelChart(index)"
+              >
+                {{ item }}
+              </li>
+            </ul>
+            <ve-line
+              :settings="{xAxisType: 'time'}"
+              :data="novelChartData"
+            />
+          </div>
         </el-card>
       </el-col>
     </el-col>
@@ -145,7 +165,48 @@
 </template>
 
 <script>
-    export default {};
+    import Vue from 'vue';
+    import Pie from 'v-charts/lib/pie';
+    import Line from 'v-charts/lib/line';
+
+    Vue.component(Pie.name, Pie);
+    Vue.component(Line.name, Line);
+
+    export default {
+        data() {
+            return {
+                novelChartDates: ['近一月', '近一季', '近半年', '近一年', '上线以来'],
+                novelChartDateActive: 0,
+                articleChartData: {
+                    columns: ['type', 'count'],
+                    rows: [
+                        {'type': 'Java', 'count': 1393},
+                        {'type': 'Javascript', 'count': 3530},
+                        {'type': 'SpringBoot', 'count': 2923},
+                        {'type': 'MySQL', 'count': 1723},
+                        {'type': 'Linux', 'count': 3792},
+                        {'type': 'Vue', 'count': 4593}
+                    ]
+                },
+                novelChartData: {
+                    columns: ['日期', '阅读量', '收藏量'],
+                    rows: [
+                        {'日期': '2019-11-01', '阅读量': 139, '收藏量': 23},
+                        {'日期': '2019-11-02', '阅读量': 50, '收藏量': 123},
+                        {'日期': '2019-11-03', '阅读量': 103, '收藏量': 43},
+                        {'日期': '2019-11-04', '阅读量': 123, '收藏量': 64},
+                        {'日期': '2019-11-05', '阅读量': 92, '收藏量': 23},
+                        {'日期': '2019-11-06', '阅读量': 59, '收藏量': 84},
+                    ]
+                }
+            };
+        },
+        methods: {
+            changeNovelChart(index) {
+                this.novelChartDateActive = index;
+            }
+        }
+    };
 </script>
 
 <style scoped lang="scss">
@@ -179,11 +240,11 @@
     }
 
     .article-list {
-      height: 306px;
+      height: 326px;
     }
 
     .chart {
-      height: 306px;
+      height: 326px;
     }
   }
 
@@ -200,11 +261,54 @@
     }
 
     .novel-list {
-      height: 306px;
+      height: 386px;
     }
 
     .chart {
-      height: 306px;
+      height: 386px;
+
+      ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        height: 45px;
+
+        li {
+          text-align: center;
+          float: left;
+          width: 60px;
+          height: 22px;
+          line-height: 22px;
+          margin-right: 10px;
+          cursor: pointer;
+          border-radius: 28px;
+          font-size: 14px;
+          font-weight: 600;
+          position: relative;
+        }
+
+        li::after {
+          content: "|";
+          position: absolute;
+          right: -8px;
+          top: 7px;
+          width: 10px;
+          height: 10px;
+          line-height: 10px;
+          text-align: center;
+          overflow: hidden;
+          color: #bebebe;
+        }
+
+        li:last-child::after {
+          content: '';
+        }
+
+        li.active {
+          background: #f5f5f5;
+          color: #1677d9;
+        }
+      }
     }
   }
 
