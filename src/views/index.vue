@@ -96,7 +96,7 @@
               width="68"
             >
               <template slot-scope="scope">
-                  [{{ scope.row.category }}]
+                [{{ scope.row.category }}]
               </template>
             </el-table-column>
             <el-table-column
@@ -204,16 +204,27 @@
       <!--相册-->
       <el-col>
         <el-card class="box-card">
+          <router-link
+            class="more"
+            to="/album"
+          >
+            <el-tooltip
+              content="更多"
+              placement="top"
+            >
+              <i class="el-icon-more" />
+            </el-tooltip>
+          </router-link>
           <el-carousel
             :interval="4000"
             type="card"
-            height="348px"
+            height="330px"
           >
             <el-carousel-item
-              v-for="item in 6"
-              :key="item"
+              v-for="item in photoList"
+              :key="item.url"
             >
-              <h3>{{ item }}</h3>
+              <img :src="item.url">
             </el-carousel-item>
           </el-carousel>
         </el-card>
@@ -223,10 +234,10 @@
       <el-col class="right">
         <el-card class="box-card">
           <div slot="header">
-            <span class="title">视频</span>
+            <span class="title">生活随拍</span>
             <router-link
               class="more"
-              to="/"
+              to="/video"
             >
               <el-tooltip
                 content="更多"
@@ -236,7 +247,53 @@
               </el-tooltip>
             </router-link>
           </div>
-          <div class="video-list" />
+          <ul class="video-list">
+            <li>
+              <dl>
+                <dd>
+                  <img src="../assets/images/test/video1.png">
+                </dd>
+                <dt>
+                  <div class="summary">
+                    这是我去年在路边捡一个女娃,后来我把他卖了200块钱.
+                  </div>
+                  <em class="date">
+                    2019年11月01日
+                  </em>
+                </dt>
+              </dl>
+            </li>
+            <li>
+              <dl>
+                <dd>
+                  <img src="../assets/images/test/video2.png">
+                </dd>
+                <dt>
+                  <div class="summary">
+                    有一天我出去玩,又把她以300块钱买了回来.
+                  </div>
+                  <em class="date">
+                    2019年11月01日
+                  </em>
+                </dt>
+              </dl>
+            </li>
+            <li>
+              <dl>
+                <dd>
+                  <img src="../assets/images/test/video1.png">
+                </dd>
+                <dt>
+                  <div class="summary">
+                    再后来,我又以400块钱卖了,请问我赚了多少钱.
+                  </div>
+                  <em class="date">
+                    2019年11月01日
+                  </em>
+                </dt>
+              </dl>
+            </li>
+          </ul>
         </el-card>
       </el-col>
     </el-col>
@@ -247,6 +304,12 @@
     import Vue from 'vue';
     import Pie from 'v-charts/lib/pie';
     import Line from 'v-charts/lib/line';
+    import img1 from '../assets/images/test/1.jpg';
+    import img2 from '../assets/images/test/2.jpg';
+    import img3 from '../assets/images/test/3.jpg';
+    import img4 from '../assets/images/test/4.jpg';
+    import img5 from '../assets/images/test/5.jpg';
+    import img6 from '../assets/images/test/6.jpg';
 
     Vue.component(Pie.name, Pie);
     Vue.component(Line.name, Line);
@@ -352,6 +415,26 @@
                         name: '逆天邪神',
                         author: '火星引力',
                         category: '修真'
+                    }
+                ],
+                photoList: [
+                    {
+                        url: img1
+                    },
+                    {
+                        url: img2
+                    },
+                    {
+                        url: img3
+                    },
+                    {
+                        url: img4
+                    },
+                    {
+                        url: img5
+                    },
+                    {
+                        url: img6
                     }
                 ]
             };
@@ -534,16 +617,62 @@
       margin-left: 20px;
     }
 
-    .el-carousel__item:nth-child(2n) {
-      background-color: #99a9bf;
+    .el-card__header {
+      border-bottom: 0;
+      padding-bottom: 0;
     }
 
-    .el-carousel__item:nth-child(2n+1) {
-      background-color: #d3dce6;
+    .el-card__body {
+      padding: 10px 20px;
     }
 
     .video-list {
       height: 306px;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+
+      li {
+        width: 100%;
+        float: left;
+
+        dl {
+          width: 342px;
+          height: 90px;
+          margin: 6px;
+
+          dd {
+            float: left;
+            width: 160px;
+            margin: 0;
+
+            img {
+              border: 0;
+              outline: none;
+              border-radius: 3px;
+              cursor: pointer;
+            }
+          }
+
+          dt {
+            width: 170px;
+            float: right;
+            font-size: 14px;
+            color: #333;
+
+            .summary {
+              height: 70px;
+              line-height: 1.5;
+            }
+
+            .date {
+              color: #999;
+              font-size: 12px;
+            }
+          }
+        }
+      }
+
     }
   }
 
