@@ -1,5 +1,5 @@
 <template>
-  <div style="min-height: 500px;position: relative;">
+  <div style="min-height: 480px;position: relative;">
     <svg
       class="me404"
       viewBox="0 0 1000 480"
@@ -330,7 +330,7 @@
     width: 1000px;
     height: 480px;
     position: absolute;
-    top: 420px;
+    top: 410px;
     left: 50%;
     margin-left: -400px;
     margin-top: -400px;
