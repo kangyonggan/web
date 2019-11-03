@@ -44,8 +44,13 @@
     padding: 20px 0;
   }
 
+  /*common*/
   .content {
     width: 1240px;
     margin: 0 auto;
+  }
+
+  a {
+    outline: none;
   }
 </style>

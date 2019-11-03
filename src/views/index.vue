@@ -24,17 +24,23 @@
             :data="articleList"
           >
             <el-table-column
-              label="标题"
+              label="文章标题"
               width="608"
             >
               <template slot-scope="scope">
+                <el-tag
+                  size="mini"
+                  type="danger"
+                >
+                  Java
+                </el-tag>
                 <router-link :to="'/article/' + scope.row.id">
                   {{ scope.row.title }}
                 </router-link>
               </template>
             </el-table-column>
             <el-table-column
-              label="日期"
+              label="发布日期"
               width="170"
               align="right"
             >
@@ -92,11 +98,13 @@
             :data="novelList"
           >
             <el-table-column
-              label="类型"
+              label="分类"
               width="68"
             >
               <template slot-scope="scope">
-                [{{ scope.row.category }}]
+                <el-tag size="mini">
+                  {{ scope.row.category }}
+                </el-tag>
               </template>
             </el-table-column>
             <el-table-column
@@ -140,11 +148,13 @@
             :data="novelList"
           >
             <el-table-column
-              label="类型"
+              label="分类"
               width="68"
             >
               <template slot-scope="scope">
-                [{{ scope.row.category }}]
+                <el-tag size="mini">
+                  {{ scope.row.category }}
+                </el-tag>
               </template>
             </el-table-column>
             <el-table-column
@@ -257,9 +267,17 @@
                   <div class="summary">
                     这是我去年在路边捡一个女娃,后来我把他卖了200块钱.
                   </div>
-                  <em class="date">
-                    2019年11月01日
-                  </em>
+                  <div>
+                    <el-tag
+                      size="mini"
+                      type="danger"
+                    >
+                      千岛湖
+                    </el-tag>
+                    <em class="date">
+                      2019年11月01日
+                    </em>
+                  </div>
                 </dt>
               </dl>
             </li>
@@ -272,6 +290,12 @@
                   <div class="summary">
                     有一天我出去玩,又把她以300块钱买了回来.
                   </div>
+                  <el-tag
+                    size="mini"
+                    type="danger"
+                  >
+                    太湖
+                  </el-tag>
                   <em class="date">
                     2019年11月01日
                   </em>
@@ -287,6 +311,12 @@
                   <div class="summary">
                     再后来,我又以400块钱卖了,请问我赚了多少钱.
                   </div>
+                  <el-tag
+                    size="mini"
+                    type="danger"
+                  >
+                    黄山
+                  </el-tag>
                   <em class="date">
                     2019年11月01日
                   </em>
@@ -668,6 +698,7 @@
             .date {
               color: #999;
               font-size: 12px;
+              float: right;
             }
           }
         }

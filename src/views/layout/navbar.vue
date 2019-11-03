@@ -62,6 +62,10 @@
                     {
                         code: '/game',
                         value: '游戏'
+                    },
+                    {
+                        code: '/about',
+                        value: '关于'
                     }
                 ]
             };
@@ -111,6 +115,7 @@
 
     .login-btn {
       height: 36px;
+      line-height: 0;
       margin-top: 22px;
       width: 88px;
       float: right;

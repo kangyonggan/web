@@ -23,6 +23,7 @@
         >
           <i class="el-icon-search" />
           <input
+            id="key"
             name="key"
             v-model="key"
             autocomplete="off"
@@ -32,6 +33,13 @@
             @keydown="keydown"
             @click="clickInput"
           >
+          <label
+            v-show="showSecondPlaceholder"
+            class="placeholder"
+            for="key"
+          >
+            {{ placeholder }}
+          </label>
           <div
             class="tips"
             v-show="showTips"
@@ -85,7 +93,24 @@
 </template>
 
 <script>
-    import {debounce} from 'lodash';
+    function debounce(fn, delay) {
+        let timer;
+        return function () {
+            let args = arguments;
+            let val = args[0].target.value;
+            if (val && val.length && val.length < 45) {
+                this.showSecondPlaceholder = true;
+            } else {
+                this.showSecondPlaceholder = false;
+            }
+            if (timer) {
+                clearTimeout(timer);
+            }
+            timer = setTimeout(() => {
+                fn.apply(this, args);
+            }, delay);
+        };
+    }
 
     export default {
         props: {
@@ -112,7 +137,8 @@
                 resultList: [],
                 isSearching: false,
                 showTips: false,
-                cursorIndex: -1
+                cursorIndex: -1,
+                showSecondPlaceholder: false
             };
         },
         mounted: function () {
@@ -338,6 +364,20 @@
         color: #bdc4d5;
         font-size: 24px;
         margin-top: 10px;
+      }
+
+      .placeholder {
+        z-index: 1;
+        position: absolute;
+        top: 13px;
+        right: 10px;
+        font-size: 13px;
+        color: #acacac;
+        cursor: text;
+        user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        -webkit-user-select: none;
       }
 
       .tips {
