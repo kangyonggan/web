@@ -74,12 +74,12 @@
         </el-table-column>
         <el-table-column
           label="访问量"
-          width="120"
+          width="90"
           prop="viewNum"
         />
         <el-table-column
           label="标签"
-          width="138"
+          width="160"
         >
           <template slot-scope="scope">
             <el-tag
@@ -95,7 +95,7 @@
         <el-table-column
           label="发布日期"
           align="center"
-          width="240"
+          width="190"
         >
           <template slot-scope="scope">
             <i class="el-icon-time" />
@@ -275,6 +275,14 @@
 
       a:hover {
         color: #e74e19;
+      }
+
+      .el-tag {
+        margin-right: 5px;
+      }
+
+      .el-tag:last-child {
+        margin-right: 0;
       }
     }
   }
