@@ -4,9 +4,12 @@
 
     <!--文章-->
     <el-col class="article-content">
-      <el-col>
-        <el-card class="box-card">
-          <div slot="header">
+      <el-col style="width: 820px;">
+        <el-card
+          class="box-card"
+          style="height: 413px;"
+        >
+          <div>
             <span class="title">最新文章</span>
             <router-link
               class="more"
@@ -22,6 +25,8 @@
           </div>
           <el-table
             :data="articleList"
+            :header-cell-style="headerCellStyle"
+            cell-class-name="body-cell"
           >
             <el-table-column
               label="文章标题"
@@ -56,24 +61,26 @@
             >
               <template slot-scope="scope">
                 <i class="el-icon-time" />
-                <span style="margin-left: 5px">{{ util.formatTimestamp(scope.row.createdTime, 'yyyy-MM-dd HH:mm') }}</span>
+                <span
+                  style="margin-left: 5px"
+                >{{ util.formatTimestamp(scope.row.createdTime, 'yyyy-MM-dd HH:mm') }}</span>
               </template>
             </el-table-column>
           </el-table>
         </el-card>
       </el-col>
 
-      <el-col class="right">
-        <el-card class="box-card">
-          <div slot="header">
-            <span class="title">文章标签分布</span>
-          </div>
-          <div class="chart">
-            <ve-pie
-              :settings="{roseType: 'radius'}"
-              :data="articleChartData"
-            />
-          </div>
+      <el-col style="width: 400px;float: right;">
+        <el-card
+          class="box-card"
+          style="height: 413px;"
+        >
+          <span class="title">文章标签分布</span>
+          <ve-pie
+            style="margin-top: 10px;"
+            :settings="{roseType: 'radius'}"
+            :data="articleChartData"
+          />
         </el-card>
       </el-col>
     </el-col>
@@ -87,9 +94,12 @@
       <img src="@/assets/images/bar2.jpg">
     </el-col>
     <el-col class="novel-content">
-      <el-col>
-        <el-card class="box-card">
-          <div slot="header">
+      <el-col style="width: 400px;">
+        <el-card
+          class="box-card"
+          style="height: 461px;"
+        >
+          <div>
             <span class="title">读者收藏榜</span>
             <router-link
               class="more"
@@ -106,6 +116,8 @@
 
           <el-table
             :data="novelList"
+            :header-cell-style="headerCellStyle"
+            cell-class-name="body-cell"
           >
             <el-table-column
               label="分类"
@@ -137,9 +149,12 @@
         </el-card>
       </el-col>
 
-      <el-col class="center">
-        <el-card class="box-card">
-          <div slot="header">
+      <el-col style="width: 400px;margin: 0 20px;">
+        <el-card
+          class="box-card"
+          style="height: 461px;"
+        >
+          <div>
             <span class="title">人气排行榜</span>
             <router-link
               class="more"
@@ -156,6 +171,8 @@
 
           <el-table
             :data="novelList"
+            :header-cell-style="headerCellStyle"
+            cell-class-name="body-cell"
           >
             <el-table-column
               label="分类"
@@ -187,13 +204,14 @@
         </el-card>
       </el-col>
 
-      <el-col>
-        <el-card class="box-card">
-          <div slot="header">
-            <span class="title">小说阅读量走势</span>
-          </div>
-          <div class="chart">
-            <ul>
+      <el-col style="width: 400px;">
+        <el-card
+          class="box-card"
+          style="height: 461px;"
+        >
+          <span class="title">小说阅读量走势</span>
+          <div style="margin-top: 10px;">
+            <ul class="novel-tags">
               <li
                 v-for="(item, index) in novelChartDates"
                 :key="index"
@@ -219,23 +237,30 @@
     </el-col>
     <el-col class="life-content">
       <!--相册-->
-      <el-col>
-        <el-card class="box-card">
-          <router-link
-            class="more"
-            to="/album"
-          >
-            <el-tooltip
-              content="更多"
-              placement="top"
+      <el-col style="width: 820px;">
+        <el-card
+          class="box-card"
+          style="height: 390px;"
+        >
+          <div>
+            <span class="title">大宝一周岁</span>
+            <router-link
+              class="more"
+              to="/album"
             >
-              <i class="el-icon-more" />
-            </el-tooltip>
-          </router-link>
+              <el-tooltip
+                content="更多"
+                placement="top"
+              >
+                <i class="el-icon-more" />
+              </el-tooltip>
+            </router-link>
+          </div>
+
           <el-carousel
             :interval="4000"
             type="card"
-            height="330px"
+            height="292px"
           >
             <el-carousel-item
               v-for="item in photoList"
@@ -248,9 +273,12 @@
       </el-col>
 
       <!--视频-->
-      <el-col class="right">
-        <el-card class="box-card">
-          <div slot="header">
+      <el-col style="width: 400px;float: right">
+        <el-card
+          class="box-card"
+          style="height: 390px;"
+        >
+          <div>
             <span class="title">生活随拍</span>
             <router-link
               class="more"
@@ -354,6 +382,11 @@
     export default {
         data() {
             return {
+                headerCellStyle: {
+                    fontSize: '13px',
+                    color: 'rgb(135, 150, 169)',
+                    fontWeight: '100'
+                },
                 novelChartDates: ['近一月', '近一季', '近半年', '近一年', '上线以来'],
                 novelChartDateActive: 0,
                 articleChartData: {
@@ -490,7 +523,7 @@
     };
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
   /*通用box*/
   .box-card {
     .title {
@@ -512,21 +545,14 @@
       height: 0;
     }
 
-    th .cell {
-      font-size: 13px;
-      color: rgb(135, 150, 169);
-      font-weight: 100;
-    }
-
-    tr .cell {
-      line-height: 21px;
-      overflow: hidden;
-      text-overflow:ellipsis;
-      white-space: nowrap;
-
+    .body-cell div {
       a {
         color: #333;
         text-decoration: none;
+        line-height: 21px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
 
       a:hover {
@@ -537,39 +563,12 @@
 
   /*文章*/
   .article-content {
-    .el-col {
-      width: 820px;
+    .el-tag {
+      margin-right: 5px;
     }
 
-    .right {
-      width: 400px;
-      margin-left: 20px;
-    }
-
-    .el-card__header {
-      border-bottom: 0;
-      padding-bottom: 0;
-    }
-
-    .el-card__body {
-      padding: 10px 20px;
-    }
-
-    .el-table {
-      height: 335px;
-
-      .el-tag {
-        margin-right: 5px;
-      }
-
-      .el-tag:last-child {
-        margin-right: 0;
-      }
-    }
-
-    .chart {
-      height: 335px;
-      margin-top: 5px;
+    .el-tag:last-child {
+      margin-right: 0;
     }
   }
 
@@ -577,72 +576,46 @@
   .novel-content {
     margin-top: -5px;
 
-    .el-col {
-      width: 400px;
-    }
+    .novel-tags {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      height: 40px;
 
-    .center {
-      margin: 0 20px;
-    }
+      li {
+        text-align: center;
+        float: left;
+        width: 60px;
+        height: 22px;
+        line-height: 22px;
+        margin-right: 10px;
+        cursor: pointer;
+        border-radius: 28px;
+        font-size: 14px;
+        font-weight: 600;
+        position: relative;
+      }
 
-    .el-card__header {
-      border-bottom: 0;
-      padding-bottom: 0;
-    }
+      li::after {
+        content: "|";
+        position: absolute;
+        right: -8px;
+        top: 7px;
+        width: 10px;
+        height: 10px;
+        line-height: 10px;
+        text-align: center;
+        overflow: hidden;
+        color: #bebebe;
+      }
 
-    .el-card__body {
-      padding: 10px 20px;
-    }
+      li:last-child::after {
+        content: '';
+      }
 
-    .el-table {
-      height: 386px;
-    }
-
-    .chart {
-      margin-top: 5px;
-      height: 381px;
-
-      ul {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-        height: 40px;
-
-        li {
-          text-align: center;
-          float: left;
-          width: 60px;
-          height: 22px;
-          line-height: 22px;
-          margin-right: 10px;
-          cursor: pointer;
-          border-radius: 28px;
-          font-size: 14px;
-          font-weight: 600;
-          position: relative;
-        }
-
-        li::after {
-          content: "|";
-          position: absolute;
-          right: -8px;
-          top: 7px;
-          width: 10px;
-          height: 10px;
-          line-height: 10px;
-          text-align: center;
-          overflow: hidden;
-          color: #bebebe;
-        }
-
-        li:last-child::after {
-          content: '';
-        }
-
-        li.active {
-          background: #f5f5f5;
-          color: #1677d9;
-        }
+      li.active {
+        background: #f5f5f5;
+        color: #1677d9;
       }
     }
   }
@@ -659,29 +632,11 @@
   .life-content {
     margin-top: -5px;
 
-    .el-col {
-      width: 820px;
-    }
-
-    .right {
-      width: 400px;
-      margin-left: 20px;
-    }
-
-    .el-card__header {
-      border-bottom: 0;
-      padding-bottom: 0;
-    }
-
-    .el-card__body {
-      padding: 10px 20px;
-    }
-
     .video-list {
       height: 306px;
       list-style: none;
       padding: 0;
-      margin: 0;
+      margin-top: 15px;
 
       li {
         width: 100%;

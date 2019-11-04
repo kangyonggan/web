@@ -14,6 +14,10 @@ const routers = [
                 component: (resolve) => require(['./views/index.vue'], resolve)
             },
             {
+                path: 'article',
+                component: (resolve) => require(['./views/article/index.vue'], resolve)
+            },
+            {
                 path: '*',
                 component: (resolve) => require(['./views/404.vue'], resolve)
             }
