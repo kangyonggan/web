@@ -24,6 +24,7 @@
             </router-link>
           </div>
           <el-table
+            v-loading="loadingArticleList"
             :data="articleList"
             :header-cell-style="headerCellStyle"
             cell-class-name="body-cell"
@@ -409,50 +410,8 @@
                         {'日期': '2019-11-06', '阅读量': 59, '收藏量': 84}
                     ]
                 },
-                articleList: [
-                    {
-                        id: 1,
-                        viewNum: 234,
-                        title: '用ElementUI实现多级菜单遇到的问题及解决方案',
-                        createdTime: 1572617564577
-                    },
-                    {
-                        id: 2,
-                        viewNum: 234,
-                        title: '前端消息去重思路及具体实现',
-                        createdTime: 1572617564577
-                    },
-                    {
-                        id: 3,
-                        viewNum: 234,
-                        title: 'SpringBoot中对配置文件明文密码进行加密',
-                        createdTime: 1572617564577
-                    },
-                    {
-                        id: 4,
-                        viewNum: 234,
-                        title: 'Vue中使用AES算法对请求响应加解密',
-                        createdTime: 1572617564577
-                    },
-                    {
-                        id: 5,
-                        viewNum: 234,
-                        title: 'Java根据IP离线获取国家、省市区和经纬度',
-                        createdTime: 1572617564577
-                    },
-                    {
-                        id: 6,
-                        viewNum: 234,
-                        title: 'Eureka分区在SpringBoot项目和非SpringBoot项目的配置和使用,Eureka分区在SpringBoot项目和非SpringBoot项目的配置和使用',
-                        createdTime: 1572617564577
-                    },
-                    {
-                        id: 6,
-                        viewNum: 234,
-                        title: 'Eureka分区在SpringBoot项目和非SpringBoot项目的配置和使用,Eureka分区在SpringBoot项目和非SpringBoot项目的配置和使用',
-                        createdTime: 1572617564577
-                    }
-                ],
+                articleList: [],
+                loadingArticleList: false,
                 novelList: [
                     {
                         id: 1,
@@ -520,12 +479,25 @@
             };
         },
         methods: {
+            loadArticleList() {
+                this.loadingArticleList = true;
+                this.axios.get('article').then(data => {
+                    this.articleList = data.pageInfo.list;
+                }).catch(res => {
+                    this.error(res.respMsg);
+                }).finally(() => {
+                    this.loadingArticleList = false;
+                });
+            },
             changeNovelChart(index) {
                 this.novelChartDateActive = index;
             },
             changeWebChart(index) {
                 this.webChartDateActive = index;
             }
+        },
+        mounted() {
+            this.loadArticleList();
         }
     };
 </script>

@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import store from './store';
 
 Vue.use(VueRouter);
 
@@ -35,12 +34,7 @@ const router = new VueRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
-    store.commit('setLoading', true);
     next();
-});
-
-router.afterEach(() => {
-    store.commit('setLoading', false);
 });
 
 export default router;

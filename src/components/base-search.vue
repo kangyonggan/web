@@ -241,7 +241,7 @@
                     this.cursorIndex = -1;
                     if (this.currIndex === 0) {
                         // 搜索文章
-                        this.axios.get('/article/search?key=' + e.target.value).then(data => {
+                        this.axios.get('article/search?key=' + e.target.value).then(data => {
                             this.resultList = data.list;
                             this.isSearching = false;
                         }).catch(res => {
@@ -250,7 +250,7 @@
                         });
                     } else {
                         // 搜索小说
-                        this.axios.get('/novel/search?key=' + e.target.value).then(data => {
+                        this.axios.get('novel/search?key=' + e.target.value).then(data => {
                             this.resultList = data.list;
                             this.isSearching = false;
                         }).catch(res => {
@@ -390,7 +390,7 @@
         border: 2px solid #dedede;
         border-top: 0;
         background: #fff;
-        z-index: 999;
+        z-index: 9999;
         max-height: 450px;
 
         ul {
