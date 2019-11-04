@@ -65,19 +65,22 @@
           class="box-card"
           style="height: 461px;"
         >
-          <span class="title">网站访问量走势</span>
+          <span class="title">流量走势</span>
           <div style="margin-top: 10px;">
             <ul class="tags">
               <li
                 v-for="(item, index) in chartDates"
                 :key="index"
-                :class="{active: index === webChartDateActive}"
-                @click="changeWebChart(index)"
+                :class="{active: index === chartTagActive}"
+                @click="changeChartTag(index)"
               >
                 {{ item }}
               </li>
             </ul>
-            <ve-line :data="webChartData" />
+            <ve-line
+              :data="chartData"
+              :settings="chartSettings"
+            />
           </div>
         </el-card>
       </el-col>
@@ -207,20 +210,12 @@
           class="box-card"
           style="height: 461px;"
         >
-          <span class="title">小说阅读量走势</span>
-          <div style="margin-top: 10px;">
-            <ul class="tags">
-              <li
-                v-for="(item, index) in chartDates"
-                :key="index"
-                :class="{active: index === novelChartDateActive}"
-                @click="changeNovelChart(index)"
-              >
-                {{ item }}
-              </li>
-            </ul>
-            <ve-line :data="novelChartData" />
-          </div>
+          <span class="title">小说分类</span>
+          <ve-pie
+            style="margin-top: 10px;"
+            :settings="{roseType: 'radius'}"
+            :data="novelChartData"
+          />
         </el-card>
       </el-col>
     </el-col>
@@ -386,28 +381,32 @@
                     fontWeight: '100'
                 },
                 chartDates: ['近一周', '近一月', '近三月', '近六月', '近一年'],
-                webChartDateActive: 0,
-                novelChartDateActive: 0,
-                webChartData: {
-                    columns: ['日期', '访问量'],
+                chartTagActive: 0,
+                chartSettings: {
+                    labelMap: {
+                        'webCount': '网站访问量',
+                        'articleCount': '文章访问量',
+                        'novelCount': '小说访问量'
+                    }
+                },
+                chartData: {
+                    columns: ['date', 'webCount', 'articleCount', 'novelCount'],
                     rows: [
-                        {'日期': '2019-11-01', '访问量': 39},
-                        {'日期': '2019-11-02', '访问量': 150},
-                        {'日期': '2019-11-03', '访问量': 53},
-                        {'日期': '2019-11-04', '访问量': 23},
-                        {'日期': '2019-11-05', '访问量': 192},
-                        {'日期': '2019-11-06', '访问量': 84}
+                        {'date': '2019-11-01', 'webCount': 39, 'articleCount': 34, 'novelCount': 65},
+                        {'date': '2019-11-02', 'webCount': 150, 'articleCount': 45, 'novelCount': 64},
+                        {'date': '2019-11-03', 'webCount': 53, 'articleCount': 23, 'novelCount': 35},
+                        {'date': '2019-11-04', 'webCount': 23, 'articleCount': 56, 'novelCount': 79},
+                        {'date': '2019-11-05', 'webCount': 192, 'articleCount': 145, 'novelCount': 43},
+                        {'date': '2019-11-06', 'webCount': 84, 'articleCount': 65, 'novelCount': 23},
                     ]
                 },
                 novelChartData: {
-                    columns: ['日期', '阅读量', '收藏量'],
+                    columns: ['category', 'count'],
                     rows: [
-                        {'日期': '2019-11-01', '阅读量': 139, '收藏量': 23},
-                        {'日期': '2019-11-02', '阅读量': 50, '收藏量': 123},
-                        {'日期': '2019-11-03', '阅读量': 103, '收藏量': 43},
-                        {'日期': '2019-11-04', '阅读量': 123, '收藏量': 64},
-                        {'日期': '2019-11-05', '阅读量': 92, '收藏量': 23},
-                        {'日期': '2019-11-06', '阅读量': 59, '收藏量': 84}
+                        {'category': '玄幻修真', 'count': 2393},
+                        {'category': '都市言情', 'count': 3530},
+                        {'category': '历史军事', 'count': 2923},
+                        {'category': '悬疑灵异', 'count': 2723}
                     ]
                 },
                 articleList: [],
@@ -481,7 +480,7 @@
         methods: {
             loadArticleList() {
                 this.loadingArticleList = true;
-                this.axios.get('article').then(data => {
+                this.axios.get('article?pageSize=7').then(data => {
                     this.articleList = data.pageInfo.list;
                 }).catch(res => {
                     this.error(res.respMsg);
@@ -489,11 +488,8 @@
                     this.loadingArticleList = false;
                 });
             },
-            changeNovelChart(index) {
-                this.novelChartDateActive = index;
-            },
-            changeWebChart(index) {
-                this.webChartDateActive = index;
+            changeChartTag(index) {
+                this.chartTagActive = index;
             }
         },
         mounted() {
