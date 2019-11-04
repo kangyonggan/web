@@ -11,15 +11,18 @@
       <div class="empty" />
     </div>
     <Footer />
+
+    <back-top />
   </div>
 </template>
 
 <script>
     import Navbar from './layout/navbar';
     import Footer from './layout/footer';
+    import BackTop from './layout/back-top';
 
     export default {
-        components: {Navbar, Footer}
+        components: {Navbar, Footer, BackTop}
     };
 </script>
 
