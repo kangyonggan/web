@@ -387,7 +387,7 @@
                     color: 'rgb(135, 150, 169)',
                     fontWeight: '100'
                 },
-                novelChartDates: ['近一月', '近一季', '近半年', '近一年', '上线以来'],
+                novelChartDates: ['近一月', '近三月', '近六月', '近一年', '全部'],
                 novelChartDateActive: 0,
                 articleChartData: {
                     columns: ['type', 'count'],
