@@ -25,18 +25,28 @@
           >
             <el-table-column
               label="文章标题"
-              width="608"
+              width="470"
+            >
+              <template slot-scope="scope">
+                <router-link :to="'/article/' + scope.row.id">
+                  {{ scope.row.title }}
+                </router-link>
+              </template>
+            </el-table-column>
+            <el-table-column
+              label="标签"
+              width="138"
+              align="right"
             >
               <template slot-scope="scope">
                 <el-tag
                   size="mini"
                   type="danger"
+                  v-for="tag in scope.row.tags.split(',')"
+                  :key="tag"
                 >
-                  Java
+                  {{ tag }}
                 </el-tag>
-                <router-link :to="'/article/' + scope.row.id">
-                  {{ scope.row.title }}
-                </router-link>
               </template>
             </el-table-column>
             <el-table-column
@@ -56,7 +66,7 @@
       <el-col class="right">
         <el-card class="box-card">
           <div slot="header">
-            <span class="title">文章类型分布</span>
+            <span class="title">文章标签分布</span>
           </div>
           <div class="chart">
             <ve-pie
@@ -99,7 +109,7 @@
           >
             <el-table-column
               label="分类"
-              width="68"
+              width="88"
             >
               <template slot-scope="scope">
                 <el-tag size="mini">
@@ -109,7 +119,7 @@
             </el-table-column>
             <el-table-column
               label="书名"
-              width="200"
+              width="180"
             >
               <template slot-scope="scope">
                 <router-link :to="'/novel/' + scope.row.id">
@@ -149,7 +159,7 @@
           >
             <el-table-column
               label="分类"
-              width="68"
+              width="88"
             >
               <template slot-scope="scope">
                 <el-tag size="mini">
@@ -159,7 +169,7 @@
             </el-table-column>
             <el-table-column
               label="书名"
-              width="200"
+              width="180"
             >
               <template slot-scope="scope">
                 <router-link :to="'/novel/' + scope.row.id">
@@ -374,31 +384,37 @@
                 articleList: [
                     {
                         id: 1,
+                        tags: 'Java,SpringBoot',
                         title: '用ElementUI实现多级菜单遇到的问题及解决方案',
                         createdTime: 1572617564577
                     },
                     {
                         id: 2,
+                        tags: 'Linux',
                         title: '前端消息去重思路及具体实现',
                         createdTime: 1572617564577
                     },
                     {
                         id: 3,
+                        tags: 'MySQL,Java',
                         title: 'SpringBoot中对配置文件明文密码进行加密',
                         createdTime: 1572617564577
                     },
                     {
                         id: 4,
+                        tags: 'Vue,Html',
                         title: 'Vue中使用AES算法对请求响应加解密',
                         createdTime: 1572617564577
                     },
                     {
                         id: 5,
+                        tags: 'Vue,Java',
                         title: 'Java根据IP离线获取国家、省市区和经纬度',
                         createdTime: 1572617564577
                     },
                     {
                         id: 6,
+                        tags: 'Vue,Java',
                         title: 'Eureka分区在SpringBoot项目和非SpringBoot项目的配置和使用,Eureka分区在SpringBoot项目和非SpringBoot项目的配置和使用',
                         createdTime: 1572617564577
                     }
@@ -408,43 +424,43 @@
                         id: 1,
                         name: '逆天邪神',
                         author: '火星引力',
-                        category: '玄幻'
+                        category: '玄幻修真'
                     },
                     {
                         id: 1,
                         name: '逆天邪神',
                         author: '火星引力',
-                        category: '修真'
+                        category: '都市言情'
                     },
                     {
                         id: 1,
                         name: '逆天邪神',
                         author: '火星引力',
-                        category: '玄幻'
+                        category: '玄幻修真'
                     },
                     {
                         id: 1,
                         name: '逆天邪神',
                         author: '火星引力',
-                        category: '修真'
+                        category: '都市言情'
                     },
                     {
                         id: 1,
                         name: '逆天邪神',
                         author: '火星引力',
-                        category: '玄幻'
+                        category: '玄幻修真'
                     },
                     {
                         id: 1,
                         name: '逆天邪神',
                         author: '火星引力',
-                        category: '修真'
+                        category: '玄幻修真'
                     },
                     {
                         id: 1,
                         name: '逆天邪神',
                         author: '火星引力',
-                        category: '修真'
+                        category: '玄幻修真'
                     }
                 ],
                 photoList: [
@@ -544,6 +560,14 @@
 
     .el-table {
       height: 335px;
+
+      .el-tag {
+        margin-right: 5px;
+      }
+
+      .el-tag:last-child {
+        margin-right: 0;
+      }
     }
 
     .chart {
