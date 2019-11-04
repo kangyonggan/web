@@ -25,7 +25,7 @@
           >
             <el-table-column
               label="文章标题"
-              width="470"
+              width="480"
             >
               <template slot-scope="scope">
                 <router-link :to="'/article/' + scope.row.id">
@@ -51,7 +51,7 @@
             </el-table-column>
             <el-table-column
               label="发布日期"
-              width="170"
+              width="160"
               align="right"
             >
               <template slot-scope="scope">
@@ -203,10 +203,7 @@
                 {{ item }}
               </li>
             </ul>
-            <ve-line
-              :settings="{xAxisType: 'time'}"
-              :data="novelChartData"
-            />
+            <ve-line :data="novelChartData" />
           </div>
         </el-card>
       </el-col>
