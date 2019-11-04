@@ -3,11 +3,11 @@
     <base-search />
 
     <!--文章-->
-    <el-col class="article-content">
+    <el-col>
       <el-col style="width: 820px;">
         <el-card
           class="box-card"
-          style="height: 413px;"
+          style="height: 461px;"
         >
           <div>
             <span class="title">最新文章</span>
@@ -30,7 +30,6 @@
           >
             <el-table-column
               label="文章标题"
-              width="480"
             >
               <template slot-scope="scope">
                 <router-link :to="'/article/' + scope.row.id">
@@ -39,24 +38,14 @@
               </template>
             </el-table-column>
             <el-table-column
-              label="标签"
-              width="138"
+              label="访问量"
+              prop="viewNum"
+              width="60"
               align="right"
-            >
-              <template slot-scope="scope">
-                <el-tag
-                  size="mini"
-                  type="danger"
-                  v-for="tag in scope.row.tags.split(',')"
-                  :key="tag"
-                >
-                  {{ tag }}
-                </el-tag>
-              </template>
-            </el-table-column>
+            />
             <el-table-column
               label="发布日期"
-              width="160"
+              width="140"
               align="right"
             >
               <template slot-scope="scope">
@@ -73,14 +62,22 @@
       <el-col style="width: 400px;float: right;">
         <el-card
           class="box-card"
-          style="height: 413px;"
+          style="height: 461px;"
         >
-          <span class="title">文章标签分布</span>
-          <ve-pie
-            style="margin-top: 10px;"
-            :settings="{roseType: 'radius'}"
-            :data="articleChartData"
-          />
+          <span class="title">网站访问量走势</span>
+          <div style="margin-top: 10px;">
+            <ul class="tags">
+              <li
+                v-for="(item, index) in chartDates"
+                :key="index"
+                :class="{active: index === webChartDateActive}"
+                @click="changeWebChart(index)"
+              >
+                {{ item }}
+              </li>
+            </ul>
+            <ve-line :data="webChartData" />
+          </div>
         </el-card>
       </el-col>
     </el-col>
@@ -211,9 +208,9 @@
         >
           <span class="title">小说阅读量走势</span>
           <div style="margin-top: 10px;">
-            <ul class="novel-tags">
+            <ul class="tags">
               <li
-                v-for="(item, index) in novelChartDates"
+                v-for="(item, index) in chartDates"
                 :key="index"
                 :class="{active: index === novelChartDateActive}"
                 @click="changeNovelChart(index)"
@@ -387,17 +384,18 @@
                     color: 'rgb(135, 150, 169)',
                     fontWeight: '100'
                 },
-                novelChartDates: ['近一月', '近三月', '近六月', '近一年', '全部'],
+                chartDates: ['近一周', '近一月', '近三月', '近六月', '近一年'],
+                webChartDateActive: 0,
                 novelChartDateActive: 0,
-                articleChartData: {
-                    columns: ['type', 'count'],
+                webChartData: {
+                    columns: ['日期', '访问量'],
                     rows: [
-                        {'type': 'Java', 'count': 1393},
-                        {'type': 'Javascript', 'count': 3530},
-                        {'type': 'SpringBoot', 'count': 2923},
-                        {'type': 'MySQL', 'count': 1723},
-                        {'type': 'Linux', 'count': 3792},
-                        {'type': 'Vue', 'count': 4593}
+                        {'日期': '2019-11-01', '访问量': 39},
+                        {'日期': '2019-11-02', '访问量': 150},
+                        {'日期': '2019-11-03', '访问量': 53},
+                        {'日期': '2019-11-04', '访问量': 23},
+                        {'日期': '2019-11-05', '访问量': 192},
+                        {'日期': '2019-11-06', '访问量': 84}
                     ]
                 },
                 novelChartData: {
@@ -414,37 +412,43 @@
                 articleList: [
                     {
                         id: 1,
-                        tags: 'Java,SpringBoot',
+                        viewNum: 234,
                         title: '用ElementUI实现多级菜单遇到的问题及解决方案',
                         createdTime: 1572617564577
                     },
                     {
                         id: 2,
-                        tags: 'Linux',
+                        viewNum: 234,
                         title: '前端消息去重思路及具体实现',
                         createdTime: 1572617564577
                     },
                     {
                         id: 3,
-                        tags: 'MySQL,Java',
+                        viewNum: 234,
                         title: 'SpringBoot中对配置文件明文密码进行加密',
                         createdTime: 1572617564577
                     },
                     {
                         id: 4,
-                        tags: 'Vue,Html',
+                        viewNum: 234,
                         title: 'Vue中使用AES算法对请求响应加解密',
                         createdTime: 1572617564577
                     },
                     {
                         id: 5,
-                        tags: 'Vue,Java',
+                        viewNum: 234,
                         title: 'Java根据IP离线获取国家、省市区和经纬度',
                         createdTime: 1572617564577
                     },
                     {
                         id: 6,
-                        tags: 'Vue,Java',
+                        viewNum: 234,
+                        title: 'Eureka分区在SpringBoot项目和非SpringBoot项目的配置和使用,Eureka分区在SpringBoot项目和非SpringBoot项目的配置和使用',
+                        createdTime: 1572617564577
+                    },
+                    {
+                        id: 6,
+                        viewNum: 234,
                         title: 'Eureka分区在SpringBoot项目和非SpringBoot项目的配置和使用,Eureka分区在SpringBoot项目和非SpringBoot项目的配置和使用',
                         createdTime: 1572617564577
                     }
@@ -518,6 +522,9 @@
         methods: {
             changeNovelChart(index) {
                 this.novelChartDateActive = index;
+            },
+            changeWebChart(index) {
+                this.webChartDateActive = index;
             }
         }
     };
@@ -559,24 +566,8 @@
         color: #e74e19;
       }
     }
-  }
 
-  /*文章*/
-  .article-content {
-    .el-tag {
-      margin-right: 5px;
-    }
-
-    .el-tag:last-child {
-      margin-right: 0;
-    }
-  }
-
-  /*小说*/
-  .novel-content {
-    margin-top: -5px;
-
-    .novel-tags {
+    .tags {
       list-style: none;
       padding: 0;
       margin: 0;
@@ -618,6 +609,11 @@
         color: #1677d9;
       }
     }
+  }
+
+  /*小说*/
+  .novel-content {
+    margin-top: -5px;
   }
 
   .bat-title {
