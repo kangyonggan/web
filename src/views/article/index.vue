@@ -31,6 +31,7 @@
           <el-input
             placeholder="支持模糊搜索"
             size="medium"
+            clearable
             v-model="params.title"
           />
         </el-col>
@@ -56,7 +57,7 @@
       </el-card>
     </el-col>
 
-    <el-row>
+    <el-col>
       <el-table
         :data="articleList"
         :header-cell-style="headerCellStyle"
@@ -108,10 +109,10 @@
       <el-row style="background: #fff;padding: 20px 0;">
         <el-pagination
           layout="sizes, prev, pager, next, jumper, ->, total, slot"
-          :total="1000">
-        </el-pagination>
+          :total="1000"
+        />
       </el-row>
-    </el-row>
+    </el-col>
   </div>
 </template>
 
