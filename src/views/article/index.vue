@@ -199,12 +199,12 @@
     }
   }
 
-  /deep/ th.el-table_1_column_1 {
-    padding-left: 20px;
+  /deep/ th div {
+    padding-left: 0 !important;
   }
 
-  /deep/ th.el-table_1_column_2 div {
-    padding-left: 0;
+  /deep/ th:first-child {
+    padding-left: 32px !important;
   }
 
   /deep/ .el-table__body {
