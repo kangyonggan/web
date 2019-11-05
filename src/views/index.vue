@@ -240,7 +240,7 @@
           style="height: 390px;"
         >
           <div>
-            <span class="title">大宝一周岁</span>
+            <span class="title">大宝百天照</span>
             <router-link
               class="more"
               to="/album"
@@ -260,10 +260,13 @@
             height="292px"
           >
             <el-carousel-item
-              v-for="item in photoList"
-              :key="item.url"
+              v-for="(item, index) in photoList"
+              :key="index"
             >
-              <img :src="item.url">
+              <img
+                :src="item"
+                style="max-width: 389px;max-height: 292px;"
+              >
             </el-carousel-item>
           </el-carousel>
         </el-card>
@@ -274,6 +277,7 @@
         <el-card
           class="box-card"
           style="height: 390px;"
+          v-loading="loadingVideoList"
         >
           <div>
             <span class="title">生活随拍</span>
@@ -290,68 +294,34 @@
             </router-link>
           </div>
           <ul class="video-list">
-            <li>
+            <li
+              v-for="video in videoList"
+              :key="video.id"
+            >
               <dl>
                 <dd>
-                  <img src="../assets/images/test/video1.png">
+                  <router-link :to="'video/' + video.id">
+                    <img :src="video.cover">
+                  </router-link>
                 </dd>
                 <dt>
-                  <div class="summary">
-                    这是我去年在路边捡一个女娃,后来我把他卖了200块钱.
-                  </div>
+                  <router-link
+                    class="summary"
+                    :to="'video/' + video.id"
+                  >
+                    {{ video.title }}
+                  </router-link>
                   <div>
                     <el-tag
                       size="mini"
                       type="danger"
                     >
-                      千岛湖
+                      {{ video.tags }}
                     </el-tag>
                     <em class="date">
-                      2019年11月01日
+                      {{ util.formatTimestamp(video.createdTime, 'yyyy年MM月dd日') }}
                     </em>
                   </div>
-                </dt>
-              </dl>
-            </li>
-            <li>
-              <dl>
-                <dd>
-                  <img src="../assets/images/test/video2.png">
-                </dd>
-                <dt>
-                  <div class="summary">
-                    有一天我出去玩,又把她以300块钱买了回来.
-                  </div>
-                  <el-tag
-                    size="mini"
-                    type="danger"
-                  >
-                    太湖
-                  </el-tag>
-                  <em class="date">
-                    2019年11月01日
-                  </em>
-                </dt>
-              </dl>
-            </li>
-            <li>
-              <dl>
-                <dd>
-                  <img src="../assets/images/test/video1.png">
-                </dd>
-                <dt>
-                  <div class="summary">
-                    再后来,我又以400块钱卖了,请问我赚了多少钱.
-                  </div>
-                  <el-tag
-                    size="mini"
-                    type="danger"
-                  >
-                    黄山
-                  </el-tag>
-                  <em class="date">
-                    2019年11月01日
-                  </em>
                 </dt>
               </dl>
             </li>
@@ -366,12 +336,12 @@
     import Vue from 'vue';
     import Pie from 'v-charts/lib/pie';
     import Line from 'v-charts/lib/line';
-    import img1 from '../assets/images/test/1.jpg';
-    import img2 from '../assets/images/test/2.jpg';
-    import img3 from '../assets/images/test/3.jpg';
-    import img4 from '../assets/images/test/4.jpg';
-    import img5 from '../assets/images/test/5.jpg';
-    import img6 from '../assets/images/test/6.jpg';
+    import img1 from '../assets/images/100/1.jpeg';
+    import img2 from '../assets/images/100/2.jpeg';
+    import img3 from '../assets/images/100/3.jpeg';
+    import img4 from '../assets/images/100/4.jpeg';
+    import img5 from '../assets/images/100/5.jpeg';
+    import img6 from '../assets/images/100/6.jpeg';
 
     Vue.component(Pie.name, Pie);
     Vue.component(Line.name, Line);
@@ -401,12 +371,7 @@
                 loadingNovelChartData: false,
                 novelChartData: {
                     columns: ['category', 'count'],
-                    rows: [
-                        {'category': '玄幻修真', 'count': 2393},
-                        {'category': '都市言情', 'count': 3530},
-                        {'category': '历史军事', 'count': 2923},
-                        {'category': '悬疑灵异', 'count': 2723}
-                    ]
+                    rows: []
                 },
                 articleList: [],
                 loadingArticleList: false,
@@ -415,26 +380,9 @@
                 loadingNovelList: false,
                 newNovelList: [],
                 loadingNewNovelList: false,
-                photoList: [
-                    {
-                        url: img1
-                    },
-                    {
-                        url: img2
-                    },
-                    {
-                        url: img3
-                    },
-                    {
-                        url: img4
-                    },
-                    {
-                        url: img5
-                    },
-                    {
-                        url: img6
-                    }
-                ]
+                videoList: [],
+                loadingVideoList: false,
+                photoList: [img1, img2, img3, img4, img5, img6]
             };
         },
         methods: {
@@ -501,6 +449,16 @@
                 }).finally(() => {
                     this.loadingNewNovelList = false;
                 });
+            },
+            loadVideoList() {
+                this.loadingVideoList = true;
+                this.axios.get('video?pageSize=3').then(data => {
+                    this.videoList = data.pageInfo.list;
+                }).catch(res => {
+                    this.error(res.respMsg);
+                }).finally(() => {
+                    this.loadingVideoList = false;
+                });
             }
         },
         mounted() {
@@ -512,6 +470,8 @@
             this.loadChartData(1);
             // 加载小说
             this.loadNovelList();
+            // 加载视频
+            this.loadVideoList();
         }
     };
 </script>
@@ -627,11 +587,14 @@
         dl {
           width: 342px;
           height: 90px;
-          margin: 6px;
+          margin: 5px;
+          padding-bottom: 5px;
+          border-bottom: 1px dashed #d5d5d5;
 
           dd {
             float: left;
             width: 160px;
+            height: 90px;
             margin: 0;
 
             img {
@@ -639,6 +602,8 @@
               outline: none;
               border-radius: 3px;
               cursor: pointer;
+              width: 100%;
+              height: 100%;
             }
           }
 
@@ -649,8 +614,12 @@
             color: #333;
 
             .summary {
-              height: 70px;
+              display: block;
+              height: 60px;
               line-height: 1.5;
+              text-decoration: none;
+              padding-top: 5px;
+              color: #595959;
             }
 
             .date {
@@ -660,6 +629,10 @@
             }
           }
         }
+      }
+
+      li:last-child dl {
+        border-bottom: 0;
       }
 
     }
