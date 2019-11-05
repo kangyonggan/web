@@ -72,7 +72,7 @@
             prop="createdTime"
             label="发布日期"
             align="center"
-            width="170"
+            width="190"
             sortable
           >
             <template slot-scope="scope">

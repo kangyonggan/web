@@ -69,6 +69,11 @@
                     }
                 ]
             };
+        },
+        mounted() {
+            this.axios.post('accessLog', {type: 0}).catch(res => {
+                this.error(res.respMsg);
+            });
         }
     };
 </script>

@@ -46,7 +46,7 @@
             />
             <el-table-column
               label="发布日期"
-              width="140"
+              width="160"
               align="right"
             >
               <template slot-scope="scope">
@@ -64,6 +64,7 @@
         <el-card
           class="box-card"
           style="height: 461px;"
+          v-loading="loadingChartData"
         >
           <span class="title">流量走势</span>
           <div style="margin-top: 10px;">
@@ -72,7 +73,7 @@
                 v-for="(item, index) in chartDates"
                 :key="index"
                 :class="{active: index === chartTagActive}"
-                @click="changeChartTag(index)"
+                @click="loadChartData(index)"
               >
                 {{ item }}
               </li>
@@ -381,7 +382,7 @@
                     fontWeight: '100'
                 },
                 chartDates: ['近一周', '近一月', '近三月', '近六月', '近一年'],
-                chartTagActive: 0,
+                chartTagActive: 1,
                 chartSettings: {
                     labelMap: {
                         'webCount': '网站访问量',
@@ -389,16 +390,10 @@
                         'novelCount': '小说访问量'
                     }
                 },
+                loadingChartData: false,
                 chartData: {
                     columns: ['date', 'webCount', 'articleCount', 'novelCount'],
-                    rows: [
-                        {'date': '2019-11-01', 'webCount': 39, 'articleCount': 34, 'novelCount': 65},
-                        {'date': '2019-11-02', 'webCount': 150, 'articleCount': 45, 'novelCount': 64},
-                        {'date': '2019-11-03', 'webCount': 53, 'articleCount': 23, 'novelCount': 35},
-                        {'date': '2019-11-04', 'webCount': 23, 'articleCount': 56, 'novelCount': 79},
-                        {'date': '2019-11-05', 'webCount': 192, 'articleCount': 145, 'novelCount': 43},
-                        {'date': '2019-11-06', 'webCount': 84, 'articleCount': 65, 'novelCount': 23},
-                    ]
+                    rows: []
                 },
                 novelChartData: {
                     columns: ['category', 'count'],
@@ -488,12 +483,21 @@
                     this.loadingArticleList = false;
                 });
             },
-            changeChartTag(index) {
+            loadChartData(index) {
                 this.chartTagActive = index;
+                this.loadingChartData = true;
+                this.axios.get('accessLog?tag=' + index).then(data => {
+                    this.chartData.rows = data.accessLogs;
+                }).catch(res => {
+                   this.error(res.respMsg);
+                }).finally(() => {
+                  this.loadingChartData = false;
+                });
             }
         },
         mounted() {
             this.loadArticleList();
+            this.loadChartData(1);
         }
     };
 </script>
