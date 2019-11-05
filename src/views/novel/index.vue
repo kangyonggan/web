@@ -2,7 +2,7 @@
   <div class="content">
     <base-search :active-tab="1" />
 
-    <el-col v-loading="loading">
+    <el-col>
       <el-col class="search-novel">
         <el-card class="box-card">
           <el-row class="title">
@@ -60,7 +60,7 @@
                 <el-button
                   type="primary"
                   icon="el-icon-search"
-                  @click="jump(1)"
+                  @click="$refs.table.jump(1)"
                 >
                   搜索
                 </el-button>
@@ -76,178 +76,110 @@
         </el-card>
       </el-col>
 
-      <el-col>
-        <el-table
-          ref="table"
-          :data="pageInfo.list"
-          :header-cell-style="headerCellStyle"
-          cell-class-name="body-cell"
-          @sort-change="sortChange"
-          :default-sort="params"
+      <base-table
+        ref="table"
+        url="/novel"
+        :params="params"
+      >
+        <el-table-column
+          prop="name"
+          label="名称"
+          sortable
         >
-          <el-table-column
-            prop="name"
-            label="名称"
-            sortable
-          >
-            <template slot-scope="scope">
-              <router-link :to="'/novel/' + scope.row.id">
-                {{ scope.row.name }}
-              </router-link>
-            </template>
-          </el-table-column>
-          <el-table-column
-            label="作者"
-            prop="author"
-            sortable
-          />
-          <el-table-column
-            label="分类"
-            prop="category"
-            sortable
-          >
-            <template slot-scope="scope">
-              <el-tag size="mini">
-                {{ getCategory(scope.row.category) }}
-              </el-tag>
-            </template>
-          </el-table-column>
-          <el-table-column
-            label="总章节数"
-            prop="count"
-            align="center"
-            sortable
-          />
-          <el-table-column
-            label="站长推荐"
-            prop="hold"
-            align="center"
-            sortable
-          >
-            <template slot-scope="scope">
-              <i
-                class="el-icon-check"
-                style="color: #f68136;font-size: 20px;"
-                v-show="scope.row.hold"
-              />
-            </template>
-          </el-table-column>
-          <el-table-column
-            label="最新章节"
-            prop="lastSectionTitle"
-            sortable
-          >
-            <template slot-scope="scope">
-              <router-link :to="'/novel/' + scope.row.id + '/' + scope.row.lastSectionId">
-                {{ scope.row.lastSectionTitle }}
-              </router-link>
-            </template>
-          </el-table-column>
-          <el-table-column
-            prop="updatedTime"
-            label="最后更新时间"
-            sortable
-          >
-            <template slot-scope="scope">
-              <i
-                class="el-icon-time"
-                v-show="scope.row.updatedTime"
-              />
-              <span
-                v-show="scope.row.updatedTime"
-                style="margin-left: 5px"
-              >{{ util.formatTimestamp(scope.row.updatedTime) }}</span>
-            </template>
-          </el-table-column>
-        </el-table>
-
-        <el-row style="background: #fff;padding: 20px 0;">
-          <el-pagination
-            layout="sizes, prev, pager, next, jumper, ->, total, slot"
-            :total="pageInfo.total"
-            :page-size="params.pageSize * 1"
-            :current-page="params.pageNum * 1"
-            @size-change="sizeChange"
-            @current-change="jump"
-          />
-        </el-row>
-      </el-col>
+          <template slot-scope="scope">
+            <router-link :to="'/novel/' + scope.row.id">
+              {{ scope.row.name }}
+            </router-link>
+          </template>
+        </el-table-column>
+        <el-table-column
+          label="作者"
+          prop="author"
+          sortable
+        />
+        <el-table-column
+          label="分类"
+          prop="category"
+          sortable
+        >
+          <template slot-scope="scope">
+            <el-tag size="mini">
+              {{ getCategory(scope.row.category) }}
+            </el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column
+          label="总章节数"
+          prop="count"
+          sortable
+        />
+        <el-table-column
+          label="站长推荐"
+          prop="hold"
+          sortable
+        >
+          <template slot-scope="scope">
+            <i
+              class="el-icon-check"
+              style="color: #f68136;font-size: 20px;"
+              v-show="scope.row.hold"
+            />
+          </template>
+        </el-table-column>
+        <el-table-column
+          label="最新章节"
+          prop="lastSectionTitle"
+          sortable
+        >
+          <template slot-scope="scope">
+            <router-link :to="'/novel/' + scope.row.id + '/' + scope.row.lastSectionId">
+              {{ scope.row.lastSectionTitle }}
+            </router-link>
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="updatedTime"
+          label="最后更新时间"
+          sortable
+        >
+          <template slot-scope="scope">
+            <i
+              class="el-icon-time"
+              v-show="scope.row.updatedTime"
+            />
+            <span
+              v-show="scope.row.updatedTime"
+              style="margin-left: 5px"
+            >{{ util.formatTimestamp(scope.row.updatedTime) }}</span>
+          </template>
+        </el-table-column>
+      </base-table>
     </el-col>
   </div>
 </template>
 
 <script>
-    import qs from 'qs';
-
     export default {
         data() {
             return {
-                params: {
-                    pageNum: 1,
-                    pageSize: 10,
-                    hold: ''
-                },
-                headerCellStyle: {
-                    background: '#f5f6f8',
-                    color: 'rgb(20, 36, 53)'
-                },
-                loading: false,
-                pageInfo: {
-                    total: 0
-                },
+                params: {},
                 categories: []
             };
         },
         methods: {
             reset() {
-                this.params = {
-                    pageNum: 1,
-                    pageSize: 10,
-                    hold: ''
-                };
+                Object.keys(this.params).forEach(key => {
+                    this.params[key] = undefined;
+                });
+                this.params.hold = '';
                 this.$refs.table.clearSort();
-                this.jump(1);
-            },
-            jump(pageNum) {
-                if (!pageNum) {
-                    pageNum = 1;
-                }
-                this.params.pageNum = pageNum;
-
-                let query = this.params;
-                if (!this.params.createdTime) {
-                    query.createdTime = undefined;
-                }
-                this.$router.push({
-                    path: 'novel',
-                    query: query
-                });
-            },
-            loadData() {
-                this.loading = true;
-                this.axios.get('novel?' + qs.stringify(this.params)).then(data => {
-                    this.pageInfo = data.pageInfo;
-                }).catch(res => {
-                    this.error(res.respMsg);
-                }).finally(() => {
-                    this.loading = false;
-                });
-            },
-            sizeChange(pageSize) {
-                this.params.pageSize = pageSize;
-
-                this.jump();
-            },
-            sortChange(column) {
-                this.params.order = column.order;
-                this.params.prop = column.prop;
-                this.jump();
+                this.$refs.table.jump(1);
             },
             loadCategories() {
                 this.axios.get('dict?type=NOVEL_CATEGORY').then(data => {
                     this.categories = data.dicts;
                 }).catch(res => {
-                   this.error(res.respMsg);
+                    this.error(res.respMsg);
                 });
             },
             getCategory(category) {
@@ -260,13 +192,14 @@
             }
         },
         mounted() {
-            this.params = Object.assign({}, this.$route.query);
+            Object.keys(this.$route.query).forEach(key => {
+                this.params[key] = this.$route.query[key];
+            });
             this.loadCategories();
-            this.loadData();
+            this.$refs.table.reload();
         },
         beforeRouteUpdate(to, from, next) {
-            this.params = Object.assign({}, to.query);
-            this.loadData();
+            this.$refs.table.reload();
             next();
         }
     };
@@ -287,35 +220,6 @@
     .el-input, .el-select {
       width: 400px;
       margin-right: 50px;
-    }
-  }
-
-  /deep/ th div {
-    padding-left: 20px !important;
-  }
-
-  /deep/ th:first-child {
-    padding-left: 10px !important;
-  }
-
-  /deep/ .el-table__body {
-    padding: 0 20px;
-    table-layout: auto;
-  }
-
-  table {
-    .body-cell div {
-      a {
-        color: #333;
-        text-decoration: none;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-      }
-
-      a:hover {
-        color: #e74e19;
-      }
     }
   }
 </style>

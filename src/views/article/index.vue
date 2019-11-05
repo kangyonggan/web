@@ -2,7 +2,7 @@
   <div class="content">
     <base-search />
 
-    <el-col v-loading="loading">
+    <el-col>
       <el-col class="search-article">
         <el-card class="box-card">
           <el-row class="title">
@@ -33,7 +33,7 @@
                 <el-button
                   type="primary"
                   icon="el-icon-search"
-                  @click="jump(1)"
+                  @click="$refs.table.jump(1)"
                 >
                   搜索
                 </el-button>
@@ -49,135 +49,71 @@
         </el-card>
       </el-col>
 
-      <el-col>
-        <el-table
-          ref="table"
-          :data="pageInfo.list"
-          :header-cell-style="headerCellStyle"
-          cell-class-name="body-cell"
-          @sort-change="sortChange"
-          :default-sort="params"
+      <base-table
+        ref="table"
+        url="/article"
+        :params="params"
+      >
+        <el-table-column
+          prop="title"
+          label="文章标题"
+          sortable
         >
-          <el-table-column
-            prop="title"
-            label="文章标题"
-            sortable
-          >
-            <template slot-scope="scope">
-              <router-link :to="'/article/' + scope.row.id">
-                {{ scope.row.title }}
-              </router-link>
-            </template>
-          </el-table-column>
-          <el-table-column
-            label="访问量"
-            width="90"
-            prop="viewNum"
-            sortable
-          />
-          <el-table-column
-            prop="createdTime"
-            label="发布日期"
-            align="center"
-            width="190"
-            sortable
-          >
-            <template slot-scope="scope">
-              <i class="el-icon-time" />
-              <span
-                style="margin-left: 5px"
-              >{{ util.formatTimestamp(scope.row.createdTime) }}</span>
-            </template>
-          </el-table-column>
-        </el-table>
-
-        <el-row style="background: #fff;padding: 20px 0;">
-          <el-pagination
-            layout="sizes, prev, pager, next, jumper, ->, total, slot"
-            :total="pageInfo.total"
-            :page-size="params.pageSize * 1"
-            :current-page="params.pageNum * 1"
-            @size-change="sizeChange"
-            @current-change="jump"
-          />
-        </el-row>
-      </el-col>
+          <template slot-scope="scope">
+            <router-link :to="'/article/' + scope.row.id">
+              {{ scope.row.title }}
+            </router-link>
+          </template>
+        </el-table-column>
+        <el-table-column
+          label="访问量"
+          width="90"
+          prop="viewNum"
+          sortable
+        />
+        <el-table-column
+          prop="createdTime"
+          label="发布日期"
+          width="190"
+          sortable
+        >
+          <template slot-scope="scope">
+            <i class="el-icon-time" />
+            <span
+              style="margin-left: 5px"
+            >{{ util.formatTimestamp(scope.row.createdTime) }}</span>
+          </template>
+        </el-table-column>
+      </base-table>
     </el-col>
   </div>
 </template>
 
 <script>
-    import qs from 'qs';
-
     export default {
         data() {
             return {
-                params: {
-                    pageNum: 1,
-                    pageSize: 10
-                },
-                headerCellStyle: {
-                    background: '#f5f6f8',
-                    color: 'rgb(20, 36, 53)'
-                },
-                loading: false,
-                pageInfo: {
-                    total: 0
-                }
+                params: {}
             };
         },
         methods: {
             reset() {
-                this.params = {
-                    pageNum: 1,
-                    pageSize: 10
-                };
+                Object.keys(this.params).forEach(key => {
+                    this.params[key] = undefined;
+                });
+                this.params.hold = '';
                 this.$refs.table.clearSort();
-                this.jump(1);
+                this.$refs.table.jump(1);
             },
-            jump(pageNum) {
-                if (!pageNum) {
-                    pageNum = 1;
-                }
-                this.params.pageNum = pageNum;
-
-                let query = this.params;
-                if (!this.params.createdTime) {
-                    query.createdTime = undefined;
-                }
-                this.$router.push({
-                    path: 'article',
-                    query: query
-                });
-            },
-            loadData() {
-                this.loading = true;
-                this.axios.get('article?' + qs.stringify(this.params)).then(data => {
-                    this.pageInfo = data.pageInfo;
-                }).catch(res => {
-                    this.error(res.respMsg);
-                }).finally(() => {
-                    this.loading = false;
-                });
-            },
-            sizeChange(pageSize) {
-                this.params.pageSize = pageSize;
-
-                this.jump();
-            },
-            sortChange(column) {
-                this.params.order = column.order;
-                this.params.prop = column.prop;
-                this.jump();
-            }
         },
         mounted() {
-            this.params = Object.assign({}, this.$route.query);
-            this.loadData();
+            Object.keys(this.$route.query).forEach(key => {
+                this.params[key] = this.$route.query[key];
+            });
+            this.$refs.table.reload();
         },
         beforeRouteUpdate(to, from, next) {
-            this.params = Object.assign({}, to.query);
-            this.loadData();
+            this.$refs.table.reload();
             next();
         }
     };
@@ -198,35 +134,6 @@
     .el-input {
       width: 460px;
       margin-right: 50px;
-    }
-  }
-
-  /deep/ th div {
-    padding-left: 0 !important;
-  }
-
-  /deep/ th:first-child {
-    padding-left: 32px !important;
-  }
-
-  /deep/ .el-table__body {
-    padding: 0 20px;
-    table-layout: auto;
-  }
-
-  table {
-    .body-cell div {
-      a {
-        color: #333;
-        text-decoration: none;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-      }
-
-      a:hover {
-        color: #e74e19;
-      }
     }
   }
 </style>

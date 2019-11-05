@@ -32,6 +32,10 @@ const routers = [
                 component: (resolve) => require(['./views/novel/index.vue'], resolve)
             },
             {
+                path: 'novel/:id',
+                component: (resolve) => require(['./views/novel/list.vue'], resolve)
+            },
+            {
                 path: '*',
                 meta: {
                     title: '404'
