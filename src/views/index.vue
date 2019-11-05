@@ -105,7 +105,7 @@
             <span class="title">站长推荐</span>
             <router-link
               class="more"
-              to="/novel"
+              to="/novel?hold=1"
             >
               <el-tooltip
                 content="更多"
@@ -161,7 +161,7 @@
             <span class="title">最近更新</span>
             <router-link
               class="more"
-              to="/novel"
+              to="/novel?order=descending&prop=updatedTime"
             >
               <el-tooltip
                 content="更多"
@@ -433,7 +433,7 @@
             },
             loadNovelList() {
                 this.loadingNovelList = true;
-                this.axios.get('novel?pageSize=7&prop=id&order=ascending').then(data => {
+                this.axios.get('novel?hole=1&pageSize=7&prop=hold&order=descending').then(data => {
                     this.novelList = data.pageInfo.list;
                 }).catch(res => {
                     this.error(res.respMsg);
@@ -442,7 +442,7 @@
                 });
 
                 this.loadingNewNovelList = true;
-                this.axios.get('novel?pageSize=7&prop=id&order=descending').then(data => {
+                this.axios.get('novel?pageSize=7&prop=updatedTime&order=descending').then(data => {
                     this.newNovelList = data.pageInfo.list;
                 }).catch(res => {
                     this.error(res.respMsg);
