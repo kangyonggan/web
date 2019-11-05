@@ -9,35 +9,43 @@
             全部文章
           </el-row>
 
-          <el-col style="margin-top: 15px;">
-            <div class="search-label">
-              标题：
-            </div>
-            <el-input
-              placeholder="支持模糊搜索"
-              size="medium"
-              clearable
-              v-model="params.title"
-            />
-          </el-col>
+          <el-form
+            :inline="true"
+            :model="params"
+            size="medium"
+            label-width="90px"
+            label-suffix="："
+            style="margin-top: 25px;"
+          >
+            <el-form-item label="标题">
+              <el-input
+                v-model="params.title"
+                placeholder="请输入标题,支持模糊搜索"
+                clearable
+              />
+            </el-form-item>
+            <el-form-item label="发布日期">
+              <base-daterange v-model="params.createdTime" />
+            </el-form-item>
 
-          <el-col style="margin-top: 15px;">
-            <div class="search-label">
-              日期：
-            </div>
-            <base-daterange
-              size="medium"
-              v-model="params.createdTime"
-            />
-            <el-button
-              size="medium"
-              type="primary"
-              style="margin-left: 20px;"
-              @click="jump(1)"
-            >
-              搜索
-            </el-button>
-          </el-col>
+            <el-col>
+              <el-form-item style="margin-left: 35px;margin-top: 10px;">
+                <el-button
+                  type="primary"
+                  icon="el-icon-search"
+                  @click="jump(1)"
+                >
+                  搜索
+                </el-button>
+                <el-button
+                  @click="reset"
+                  icon="el-icon-refresh"
+                >
+                  重置
+                </el-button>
+              </el-form-item>
+            </el-col>
+          </el-form>
 
           <div style="clear: both" />
         </el-card>
@@ -45,6 +53,7 @@
 
       <el-col>
         <el-table
+          ref="table"
           :data="pageInfo.list"
           :header-cell-style="headerCellStyle"
           cell-class-name="body-cell"
@@ -120,6 +129,14 @@
             };
         },
         methods: {
+            reset() {
+                this.params = {
+                    pageNum: 1,
+                    pageSize: 10
+                };
+                this.$refs.table.clearSort();
+                this.jump(1);
+            },
             jump(pageNum) {
                 if (!pageNum) {
                     pageNum = 1;
@@ -177,25 +194,12 @@
     .title {
       color: #000;
       font-size: 24px;
-    }
-
-    .search-label {
-      font-weight: 600;
-      font-size: 14px;
-      float: left;
-      line-height: 32px;
-    }
-
-    .el-date-editor {
-      float: left;
-      margin-left: 15px;
-      width: 462px;
+      margin-left: 35px;
     }
 
     .el-input {
-      width: 552px;
-      float: left;
-      margin-left: 15px;
+      width: 460px;
+      margin-right: 50px;
     }
   }
 
