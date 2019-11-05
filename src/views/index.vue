@@ -102,7 +102,7 @@
           style="height: 461px;"
         >
           <div>
-            <span class="title">读者收藏榜</span>
+            <span class="title">站长推荐</span>
             <router-link
               class="more"
               to="/novel"
@@ -117,6 +117,7 @@
           </div>
 
           <el-table
+            v-loading="loadingNovelList"
             :data="novelList"
             :header-cell-style="headerCellStyle"
             cell-class-name="body-cell"
@@ -127,7 +128,7 @@
             >
               <template slot-scope="scope">
                 <el-tag size="mini">
-                  {{ scope.row.category }}
+                  {{ getCategory(scope.row.category) }}
                 </el-tag>
               </template>
             </el-table-column>
@@ -157,7 +158,7 @@
           style="height: 461px;"
         >
           <div>
-            <span class="title">人气排行榜</span>
+            <span class="title">最近更新</span>
             <router-link
               class="more"
               to="/novel"
@@ -172,7 +173,8 @@
           </div>
 
           <el-table
-            :data="novelList"
+            v-loading="loadingNewNovelList"
+            :data="newNovelList"
             :header-cell-style="headerCellStyle"
             cell-class-name="body-cell"
           >
@@ -182,7 +184,7 @@
             >
               <template slot-scope="scope">
                 <el-tag size="mini">
-                  {{ scope.row.category }}
+                  {{ getCategory(scope.row.category) }}
                 </el-tag>
               </template>
             </el-table-column>
@@ -406,50 +408,11 @@
                 },
                 articleList: [],
                 loadingArticleList: false,
-                novelList: [
-                    {
-                        id: 1,
-                        name: '逆天邪神',
-                        author: '火星引力',
-                        category: '玄幻修真'
-                    },
-                    {
-                        id: 1,
-                        name: '逆天邪神',
-                        author: '火星引力',
-                        category: '都市言情'
-                    },
-                    {
-                        id: 1,
-                        name: '逆天邪神',
-                        author: '火星引力',
-                        category: '玄幻修真'
-                    },
-                    {
-                        id: 1,
-                        name: '逆天邪神',
-                        author: '火星引力',
-                        category: '都市言情'
-                    },
-                    {
-                        id: 1,
-                        name: '逆天邪神',
-                        author: '火星引力',
-                        category: '玄幻修真'
-                    },
-                    {
-                        id: 1,
-                        name: '逆天邪神',
-                        author: '火星引力',
-                        category: '玄幻修真'
-                    },
-                    {
-                        id: 1,
-                        name: '逆天邪神',
-                        author: '火星引力',
-                        category: '玄幻修真'
-                    }
-                ],
+                categories: [],
+                novelList: [],
+                loadingNovelList: false,
+                newNovelList: [],
+                loadingNewNovelList: false,
                 photoList: [
                     {
                         url: img1
@@ -473,6 +436,14 @@
             };
         },
         methods: {
+            getCategory(category) {
+                for (let i = 0; i < this.categories.length; i++) {
+                    if (this.categories[i].code === category) {
+                        return this.categories[i].value;
+                    }
+                }
+                return category;
+            },
             loadArticleList() {
                 this.loadingArticleList = true;
                 this.axios.get('article?pageSize=7').then(data => {
@@ -489,15 +460,47 @@
                 this.axios.get('accessLog?tag=' + index).then(data => {
                     this.chartData.rows = data.accessLogs;
                 }).catch(res => {
-                   this.error(res.respMsg);
+                    this.error(res.respMsg);
                 }).finally(() => {
-                  this.loadingChartData = false;
+                    this.loadingChartData = false;
+                });
+            },
+            loadDictData() {
+                this.axios.get('dict?type=NOVEL_CATEGORY').then(data => {
+                    this.categories = data.dicts;
+                }).catch(res => {
+                    this.error(res.respMsg);
+                });
+            },
+            loadNovelList() {
+                this.loadingNovelList = true;
+                this.axios.get('novel?pageSize=7&prop=id&order=ascending').then(data => {
+                    this.novelList = data.pageInfo.list;
+                }).catch(res => {
+                    this.error(res.respMsg);
+                }).finally(() => {
+                    this.loadingNovelList = false;
+                });
+
+                this.loadingNewNovelList = true;
+                this.axios.get('novel?pageSize=7&prop=id&order=descending').then(data => {
+                    this.newNovelList = data.pageInfo.list;
+                }).catch(res => {
+                    this.error(res.respMsg);
+                }).finally(() => {
+                    this.loadingNewNovelList = false;
                 });
             }
         },
         mounted() {
+            // 加载字典
+            this.loadDictData();
+            // 加载文章
             this.loadArticleList();
+            // 加载图表
             this.loadChartData(1);
+            // 加载小说
+            this.loadNovelList();
         }
     };
 </script>
