@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import util from './libs/util';
 
 Vue.use(VueRouter);
 
@@ -14,6 +15,9 @@ const routers = [
             },
             {
                 path: 'article',
+                meta: {
+                    title: '文章'
+                },
                 component: (resolve) => require(['./views/article/index.vue'], resolve)
             },
             {
@@ -22,6 +26,9 @@ const routers = [
             },
             {
                 path: '*',
+                meta: {
+                    title: '404'
+                },
                 component: (resolve) => require(['./views/404.vue'], resolve)
             }
         ]
@@ -34,6 +41,7 @@ const router = new VueRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
+    util.title(to.meta.title);
     next();
 });
 

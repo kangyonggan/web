@@ -42,6 +42,7 @@
             this.loading = true;
             this.axios.get('article/' + this.$route.params.id).then(data => {
                 this.article = data.article;
+                this.util.title(this.article.title);
             }).catch(res => {
                 this.error(res.respMsg);
             }).finally(() => {

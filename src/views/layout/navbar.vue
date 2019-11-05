@@ -13,7 +13,10 @@
           v-for="nav in navList"
           :key="nav.code"
         >
-          <router-link :to="nav.code">
+          <router-link
+            :to="nav.code"
+            :class="isActive(nav.code) ? 'active' : ''"
+          >
             {{ nav.value }}
           </router-link>
         </li>
@@ -34,6 +37,7 @@
     export default {
         data() {
             return {
+                currentUrl: '/',
                 navList: [
                     {
                         code: '/',
@@ -70,10 +74,25 @@
                 ]
             };
         },
+        methods: {
+            isActive: function (url) {
+                if (url === '/') {
+                    return this.currentUrl === '/';
+                }
+                return this.currentUrl.startsWith(url);
+            }
+        },
         mounted() {
+            this.currentUrl = this.$route.path;
+
             this.axios.post('accessLog', {type: 0}).catch(res => {
                 this.error(res.respMsg);
             });
+        },
+        watch: {
+            '$route'(newRoute) {
+                this.currentUrl = newRoute.path;
+            }
         }
     };
 </script>
@@ -112,7 +131,7 @@
           padding: 12px;
         }
 
-        a.router-link-exact-active {
+        a.active {
           border-bottom: 2px solid #f68136;
         }
       }
