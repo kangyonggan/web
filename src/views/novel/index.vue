@@ -1,12 +1,12 @@
 <template>
   <div class="content">
-    <base-search />
+    <base-search :active-tab="1" />
 
     <el-col v-loading="loading">
-      <el-col class="search-article">
+      <el-col class="search-novel">
         <el-card class="box-card">
           <el-row class="title">
-            全部文章
+            全部小说
           </el-row>
 
           <el-form
@@ -17,15 +17,42 @@
             label-suffix="："
             style="margin-top: 25px;"
           >
-            <el-form-item label="标题">
+            <el-form-item label="名称">
               <el-input
-                v-model="params.title"
-                placeholder="请输入标题,支持模糊搜索"
+                v-model="params.name"
+                placeholder="请输入小说名称,支持模糊搜索"
                 clearable
               />
             </el-form-item>
-            <el-form-item label="发布日期">
-              <base-daterange v-model="params.createdTime" />
+            <el-form-item label="作者">
+              <el-input
+                v-model="params.author"
+                placeholder="请输入作者名称,支持模糊搜索"
+                clearable
+              />
+            </el-form-item>
+            <el-form-item label="分类">
+              <el-select
+                v-model="params.category"
+                placeholder="请选择小说分类"
+                clearable
+              >
+                <el-option
+                  v-for="item in categories"
+                  :key="item.code"
+                  :value="item.code"
+                  :label="item.value"
+                >
+                  {{ item.value }}
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="站长推荐">
+              <el-checkbox
+                v-model="params.hold"
+                true-label="1"
+                false-label=""
+              />
             </el-form-item>
 
             <el-col>
@@ -59,34 +86,77 @@
           :default-sort="params"
         >
           <el-table-column
-            prop="title"
-            label="文章标题"
+            prop="name"
+            label="名称"
             sortable
           >
             <template slot-scope="scope">
-              <router-link :to="'/article/' + scope.row.id">
-                {{ scope.row.title }}
+              <router-link :to="'/novel/' + scope.row.id">
+                {{ scope.row.name }}
               </router-link>
             </template>
           </el-table-column>
           <el-table-column
-            label="访问量"
-            width="90"
-            prop="viewNum"
+            label="作者"
+            prop="author"
             sortable
           />
           <el-table-column
-            prop="createdTime"
-            label="发布日期"
-            align="center"
-            width="190"
+            label="分类"
+            prop="category"
             sortable
           >
             <template slot-scope="scope">
-              <i class="el-icon-time" />
+              <el-tag size="mini">
+                {{ getCategory(scope.row.category) }}
+              </el-tag>
+            </template>
+          </el-table-column>
+          <el-table-column
+            label="总章节数"
+            prop="count"
+            align="center"
+            sortable
+          />
+          <el-table-column
+            label="站长推荐"
+            prop="hold"
+            align="center"
+            sortable
+          >
+            <template slot-scope="scope">
+              <i
+                class="el-icon-check"
+                style="color: #f68136;font-size: 20px;"
+                v-show="scope.row.hold"
+              />
+            </template>
+          </el-table-column>
+          <el-table-column
+            label="最新章节"
+            prop="lastSectionTitle"
+            sortable
+          >
+            <template slot-scope="scope">
+              <router-link :to="'/novel/' + scope.row.id + '/' + scope.row.lastSectionId">
+                {{ scope.row.lastSectionTitle }}
+              </router-link>
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="updatedTime"
+            label="最后更新时间"
+            sortable
+          >
+            <template slot-scope="scope">
+              <i
+                class="el-icon-time"
+                v-show="scope.row.updatedTime"
+              />
               <span
+                v-show="scope.row.updatedTime"
                 style="margin-left: 5px"
-              >{{ util.formatTimestamp(scope.row.createdTime) }}</span>
+              >{{ util.formatTimestamp(scope.row.updatedTime) }}</span>
             </template>
           </el-table-column>
         </el-table>
@@ -114,7 +184,8 @@
             return {
                 params: {
                     pageNum: 1,
-                    pageSize: 10
+                    pageSize: 10,
+                    hold: ''
                 },
                 headerCellStyle: {
                     background: '#f5f6f8',
@@ -123,14 +194,16 @@
                 loading: false,
                 pageInfo: {
                     total: 0
-                }
+                },
+                categories: []
             };
         },
         methods: {
             reset() {
                 this.params = {
                     pageNum: 1,
-                    pageSize: 10
+                    pageSize: 10,
+                    hold: ''
                 };
                 this.$refs.table.clearSort();
                 this.jump(1);
@@ -146,13 +219,13 @@
                     query.createdTime = undefined;
                 }
                 this.$router.push({
-                    path: 'article',
+                    path: 'novel',
                     query: query
                 });
             },
             loadData() {
                 this.loading = true;
-                this.axios.get('article?' + qs.stringify(this.params)).then(data => {
+                this.axios.get('novel?' + qs.stringify(this.params)).then(data => {
                     this.pageInfo = data.pageInfo;
                 }).catch(res => {
                     this.error(res.respMsg);
@@ -169,10 +242,26 @@
                 this.params.order = column.order;
                 this.params.prop = column.prop;
                 this.jump();
+            },
+            loadCategories() {
+                this.axios.get('dict?type=NOVEL_CATEGORY').then(data => {
+                    this.categories = data.dicts;
+                }).catch(res => {
+                   this.error(res.respMsg);
+                });
+            },
+            getCategory(category) {
+                for (let i = 0; i < this.categories.length; i++) {
+                    if (this.categories[i].code === category) {
+                        return this.categories[i].value;
+                    }
+                }
+                return category;
             }
         },
         mounted() {
             this.params = Object.assign({}, this.$route.query);
+            this.loadCategories();
             this.loadData();
         },
         beforeRouteUpdate(to, from, next) {
@@ -188,25 +277,25 @@
     padding: 0 20px;
   }
 
-  .search-article {
+  .search-novel {
     .title {
       color: #000;
       font-size: 24px;
       margin-left: 35px;
     }
 
-    .el-input {
-      width: 460px;
+    .el-input, .el-select {
+      width: 400px;
       margin-right: 50px;
     }
   }
 
   /deep/ th div {
-    padding-left: 0 !important;
+    padding-left: 20px !important;
   }
 
   /deep/ th:first-child {
-    padding-left: 32px !important;
+    padding-left: 10px !important;
   }
 
   /deep/ .el-table__body {
