@@ -212,6 +212,7 @@
         <el-card
           class="box-card"
           style="height: 461px;"
+          v-loading="loadingNovelChartData"
         >
           <span class="title">小说分类</span>
           <ve-pie
@@ -397,6 +398,7 @@
                     columns: ['date', 'webCount', 'articleCount', 'novelCount'],
                     rows: []
                 },
+                loadingNovelChartData: false,
                 novelChartData: {
                     columns: ['category', 'count'],
                     rows: [
@@ -463,6 +465,15 @@
                     this.error(res.respMsg);
                 }).finally(() => {
                     this.loadingChartData = false;
+                });
+
+                this.loadingNovelChartData = true;
+                this.axios.get('novel/category').then(data => {
+                    this.novelChartData.rows = data.novels;
+                }).catch(res => {
+                    this.error(res.respMsg);
+                }).finally(() => {
+                    this.loadingNovelChartData = false;
                 });
             },
             loadDictData() {
