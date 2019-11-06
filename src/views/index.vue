@@ -138,15 +138,6 @@
               width="90"
             />
             <el-table-column
-              label="推荐指数"
-              prop="hold"
-              width="150"
-            >
-              <template slot-scope="scope">
-                <base-rate :num="scope.row.hold" />
-              </template>
-            </el-table-column>
-            <el-table-column
               label="最新章节"
               prop="lastSectionTitle"
             >
@@ -154,6 +145,16 @@
                 <router-link :to="'/novel/' + scope.row.id + '/' + scope.row.lastSectionId">
                   {{ scope.row.lastSectionTitle }}
                 </router-link>
+              </template>
+            </el-table-column>
+            <el-table-column
+              label="推荐指数"
+              prop="hold"
+              width="120"
+              align="center"
+            >
+              <template slot-scope="scope">
+                <base-rate :num="scope.row.hold" />
               </template>
             </el-table-column>
           </el-table>
@@ -212,8 +213,9 @@
               </template>
             </el-table-column>
             <el-table-column
-              label="更新时间"
+              label="最后更新时间"
               prop="updatedTime"
+              width="160"
               align="center"
             >
               <template slot-scope="scope">
