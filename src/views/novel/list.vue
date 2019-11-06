@@ -12,6 +12,18 @@
         <div class="right">
           <div class="name">
             {{ novel.name }}
+
+            <el-button
+              style="float: right"
+              type="primary"
+              size="mini"
+              icon="el-icon-sold-out"
+              @click="pullNovel"
+              v-loading="loadingPull"
+              round
+            >
+              更新
+            </el-button>
           </div>
 
           <div class="info">
@@ -48,22 +60,117 @@
           </div>
         </div>
       </el-card>
+
+      <el-card
+        v-loading="loadingLastList"
+        class="section-list"
+        style="height: 180px;"
+      >
+        <div class="name">
+          最新九章
+        </div>
+        <ul v-if="lastList.length">
+          <li
+            v-for="section in lastList"
+            :key="section.id"
+          >
+            <router-link :to="'/novel/' + novel.id + '/' + section.id">
+              {{ section.title }}
+            </router-link>
+          </li>
+        </ul>
+        <div
+          v-else
+          class="empty"
+        >
+          暂无章节
+        </div>
+      </el-card>
+
+      <el-card
+        v-loading="loadingAllList"
+        class="section-list"
+      >
+        <div class="name">
+          全部章节
+          <el-tooltip
+            v-show="params.order === 'ascending'"
+            content="变为倒叙"
+            placement="top"
+          >
+            <i
+              class="el-icon-sort"
+              @click="sort"
+            >
+              正序
+            </i>
+          </el-tooltip>
+          <el-tooltip
+            v-show="params.order === 'descending'"
+            content="变为正序"
+            placement="top"
+          >
+            <i
+              class="el-icon-sort"
+              @click="sort"
+            >
+              倒叙
+            </i>
+          </el-tooltip>
+        </div>
+        <ul v-if="pageInfo.list.length">
+          <li
+            v-for="section in pageInfo.list"
+            :key="section.id"
+          >
+            <router-link :to="'/novel/' + novel.id + '/' + section.id">
+              {{ section.title }}
+            </router-link>
+          </li>
+        </ul>
+        <div
+          v-else
+          class="empty"
+        >
+          暂无章节
+        </div>
+        <el-col v-if="pageInfo.list.length">
+          <el-pagination
+            layout="prev, pager, next, jumper, ->, total, slot"
+            :total="pageInfo.total"
+            :page-size="90"
+            :current-page="params.pageNum * 1"
+            @current-change="jump"
+          />
+        </el-col>
+      </el-card>
     </el-col>
   </div>
 </template>
 
 <script>
+    import qs from 'qs';
+
     export default {
         data() {
             return {
+                params: {
+                    pageNum: 1,
+                    order: 'ascending'
+                },
                 loading: false,
                 novel: {},
                 lastSection: undefined,
-                novelSource: {}
+                novelSource: {},
+                loadingLastList: false,
+                lastList: [],
+                loadingAllList: false,
+                pageInfo: {},
+                loadingPull: false
             };
         },
         methods: {
-            loadData() {
+            loadNovel() {
                 this.loading = true;
                 this.axios.get('novel/' + this.$route.params.id).then(data => {
                     this.novel = data.novel;
@@ -74,10 +181,70 @@
                 }).finally(() => {
                     this.loading = false;
                 });
+            },
+            loadLastList() {
+                this.loadingLastList = true;
+                this.axios.get('novel/' + this.$route.params.id + '/sections?pageSize=9&prop=id&order=descending').then(data => {
+                    this.lastList = data.pageInfo.list;
+                }).catch(res => {
+                    this.error(res.respMsg);
+                }).finally(() => {
+                    this.loadingLastList = false;
+                });
+            },
+            loadAllList() {
+                this.loadingAllList = true;
+                this.axios.get('novel/' + this.$route.params.id + '/sections?pageSize=90&prop=id&' + qs.stringify(this.params)).then(data => {
+                    this.pageInfo = data.pageInfo;
+                }).catch(res => {
+                    this.error(res.respMsg);
+                }).finally(() => {
+                    this.loadingAllList = false;
+                });
+            },
+            pullNovel() {
+                this.loadingPull = true;
+                this.axios.put('novel/' + this.novel.id + '/pull').then(() => {
+                    this.success('已加入更新队列，请稍后刷新！');
+                }).catch(res => {
+                    this.error(res.respMsg);
+                }).finally(() => {
+                    this.loadingPull = false;
+                });
+            },
+            sort() {
+                if ('ascending' === this.params.order) {
+                    this.params.order = 'descending';
+                } else {
+                    this.params.order = 'ascending';
+                }
+
+                this.jump(1);
+            },
+            jump(pageNum) {
+                if (!pageNum) {
+                    pageNum = 1;
+                }
+                this.params.pageNum = pageNum;
+
+                this.$router.push({
+                    path: '/novel/' + this.novel.id,
+                    query: this.params
+                });
             }
         },
         mounted() {
-            this.loadData();
+            Object.keys(this.$route.query).forEach(key => {
+                this.params[key] = this.$route.query[key];
+            });
+            console.log(this.params);
+            this.loadNovel();
+            this.loadLastList();
+            this.loadAllList();
+        },
+        beforeRouteUpdate(to, from, next) {
+            this.loadAllList();
+            next();
         }
     };
 </script>
@@ -121,7 +288,6 @@
       }
 
       .summary {
-        text-indent: 30px;
         border-top: 1px solid #d5d5d5;
         padding-top: 10px;
         font-size: 13px;
@@ -129,6 +295,66 @@
         height: 57px;
         overflow: hidden;
       }
+    }
+  }
+
+  .section-list {
+    margin-top: 20px;
+    position: relative;
+
+    .name {
+      padding-bottom: 15px;
+      color: #000;
+      font-weight: 500;
+      font-size: 18px;
+      text-align: center;
+      border-bottom: 2px solid #1677d9;
+    }
+
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 10px 0 0;
+
+      li {
+        float: left;
+        width: 33%;
+        border-bottom: 1px dashed #d5d5d5;
+
+        a {
+          line-height: 32px;
+          margin-left: 10px;
+          font-size: 14px;
+        }
+      }
+    }
+
+    .empty {
+      line-height: 118px;
+      text-align: center;
+      color: #999;
+      font-size: 14px;
+    }
+
+    .el-icon-sort {
+      position: absolute;
+      right: 20px;
+      top: 25px;
+      cursor: pointer;
+      font-size: 14px;
+      outline: none;
+    }
+
+    .el-icon-sort:hover {
+      color: #e74e19;
+    }
+
+    .el-icon-sort::before {
+      font-size: 18px;
+    }
+
+    .el-pagination {
+      margin: 20px 0;
     }
   }
 </style>
