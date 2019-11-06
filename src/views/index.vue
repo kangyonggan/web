@@ -42,18 +42,18 @@
               label="访问量"
               prop="viewNum"
               width="60"
-              align="right"
             />
             <el-table-column
               label="发布日期"
               width="160"
-              align="right"
+              align="center"
             >
               <template slot-scope="scope">
                 <i class="el-icon-time" />
                 <span
                   style="margin-left: 5px"
-                >{{ util.formatTimestamp(scope.row.createdTime, 'yyyy-MM-dd HH:mm') }}</span>
+                >
+                  {{ util.formatTimestamp(scope.row.createdTime, 'yyyy-MM-dd HH:mm') }}</span>
               </template>
             </el-table-column>
           </el-table>
@@ -105,7 +105,7 @@
             <span class="title">站长推荐</span>
             <router-link
               class="more"
-              to="/novel?hold=1"
+              to="/novel?order=descending&prop=hold"
             >
               <el-tooltip
                 content="更多"
@@ -138,10 +138,14 @@
               width="90"
             />
             <el-table-column
-              label="总章节数"
-              prop="count"
-              width="90"
-            />
+              label="推荐指数"
+              prop="hold"
+              width="150"
+            >
+              <template slot-scope="scope">
+                <base-rate :num="scope.row.hold" />
+              </template>
+            </el-table-column>
             <el-table-column
               label="最新章节"
               prop="lastSectionTitle"
@@ -198,11 +202,6 @@
               width="90"
             />
             <el-table-column
-              label="总章节数"
-              prop="count"
-              width="90"
-            />
-            <el-table-column
               label="最新章节"
               prop="lastSectionTitle"
             >
@@ -210,6 +209,19 @@
                 <router-link :to="'/novel/' + scope.row.id + '/' + scope.row.lastSectionId">
                   {{ scope.row.lastSectionTitle }}
                 </router-link>
+              </template>
+            </el-table-column>
+            <el-table-column
+              label="更新时间"
+              prop="updatedTime"
+              align="center"
+            >
+              <template slot-scope="scope">
+                <i class="el-icon-time" />
+                <span
+                  style="margin-left: 5px"
+                >
+                  {{ util.formatTimestamp(scope.row.updatedTime, 'yyyy-MM-dd HH:mm') }}</span>
               </template>
             </el-table-column>
           </el-table>
@@ -394,7 +406,7 @@
             },
             loadNovelList() {
                 this.loadingNovelList = true;
-                this.axios.get('novel?hole=1&pageSize=7&prop=hold&order=descending').then(data => {
+                this.axios.get('novel?pageSize=7&prop=hold&order=descending').then(data => {
                     this.novelList = data.pageInfo.list;
                 }).catch(res => {
                     this.error(res.respMsg);

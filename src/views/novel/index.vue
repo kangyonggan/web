@@ -31,14 +31,6 @@
                 clearable
               />
             </el-form-item>
-            <el-form-item label="站长推荐">
-              <el-checkbox
-                v-model="params.hold"
-                :checked="$route.query.hold === '1'"
-                true-label="1"
-                false-label=""
-              />
-            </el-form-item>
 
             <el-col>
               <el-form-item style="margin-left: 35px;margin-top: 10px;">
@@ -91,17 +83,13 @@
           sortable
         />
         <el-table-column
-          label="站长推荐"
+          label="推荐指数"
           prop="hold"
-          width="120"
+          width="150"
           sortable
         >
           <template slot-scope="scope">
-            <i
-              class="el-icon-check"
-              style="color: #f68136;font-size: 20px;"
-              v-show="scope.row.hold"
-            />
+            <base-rate :num="scope.row.hold" />
           </template>
         </el-table-column>
         <el-table-column
@@ -118,6 +106,7 @@
         <el-table-column
           prop="updatedTime"
           label="最后更新时间"
+          align="center"
           width="190"
           sortable
         >
@@ -149,7 +138,6 @@
                 Object.keys(this.params).forEach(key => {
                     this.params[key] = undefined;
                 });
-                this.params.hold = '0';
                 this.$refs.table.clearSort();
                 this.$refs.table.jump(1);
             }

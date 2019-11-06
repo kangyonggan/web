@@ -74,6 +74,7 @@
         <el-table-column
           prop="createdTime"
           label="发布日期"
+          align="center"
           width="200"
           sortable
         >
