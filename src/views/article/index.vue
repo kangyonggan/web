@@ -74,7 +74,7 @@
         <el-table-column
           prop="createdTime"
           label="发布日期"
-          width="190"
+          width="200"
           sortable
         >
           <template slot-scope="scope">
