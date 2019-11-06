@@ -10,42 +10,42 @@
       </el-col>
 
       <base-table
-          ref="table"
-          :url="'/novel/' + this.$route.params.id + '/sections'"
-          :jump-url="'/novel/' + this.$route.params.id"
-          :params="params"
+        ref="table"
+        :url="'/novel/' + this.$route.params.id + '/sections'"
+        :jump-url="'/novel/' + this.$route.params.id"
+        :params="params"
+      >
+        <el-table-column
+          width="120"
+          label="序号"
         >
-          <el-table-column
-            width="120"
-            label="序号"
-          >
-            <template slot-scope="scope">
-              {{ getIndex(scope) }}
-            </template>
-          </el-table-column>
-          <el-table-column
-            prop="title"
-            label="标题"
-            sortable
-          >
-            <template slot-scope="scope">
-              <router-link :to="'/novel/' + novel.id + '/' + scope.row.id">
-                {{ scope.row.title }}
-              </router-link>
-            </template>
-          </el-table-column>
-          <el-table-column
-            prop="updatedTime"
-            label="更新时间"
-            width="210"
-            sortable
-          >
-            <template slot-scope="scope">
-              <i class="el-icon-time" />
-              <span style="margin-left: 5px">{{ util.formatTimestamp(scope.row.updatedTime) }}</span>
-            </template>
-          </el-table-column>
-        </base-table>
+          <template slot-scope="scope">
+            {{ getIndex(scope) }}
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="title"
+          label="标题"
+          sortable
+        >
+          <template slot-scope="scope">
+            <router-link :to="'/novel/' + novel.id + '/' + scope.row.id">
+              {{ scope.row.title }}
+            </router-link>
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="updatedTime"
+          label="更新时间"
+          width="210"
+          sortable
+        >
+          <template slot-scope="scope">
+            <i class="el-icon-time" />
+            <span style="margin-left: 5px">{{ util.formatTimestamp(scope.row.updatedTime) }}</span>
+          </template>
+        </el-table-column>
+      </base-table>
     </el-col>
   </div>
 </template>

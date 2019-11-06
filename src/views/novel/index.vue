@@ -171,7 +171,7 @@
                 Object.keys(this.params).forEach(key => {
                     this.params[key] = undefined;
                 });
-                this.params.hold = '';
+                this.params.hold = '0';
                 this.$refs.table.clearSort();
                 this.$refs.table.jump(1);
             },
