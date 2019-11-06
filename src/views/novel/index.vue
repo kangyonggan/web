@@ -31,22 +31,6 @@
                 clearable
               />
             </el-form-item>
-            <el-form-item label="分类">
-              <el-select
-                v-model="params.category"
-                placeholder="请选择小说分类"
-                clearable
-              >
-                <el-option
-                  v-for="item in categories"
-                  :key="item.code"
-                  :value="item.code"
-                  :label="item.value"
-                >
-                  {{ item.value }}
-                </el-option>
-              </el-select>
-            </el-form-item>
             <el-form-item label="站长推荐">
               <el-checkbox
                 v-model="params.hold"
@@ -85,6 +69,7 @@
         <el-table-column
           prop="name"
           label="名称"
+          width="180"
           sortable
         >
           <template slot-scope="scope">
@@ -96,20 +81,9 @@
         <el-table-column
           label="作者"
           prop="author"
+          width="170"
           sortable
         />
-        <el-table-column
-          label="分类"
-          prop="category"
-          width="120"
-          sortable
-        >
-          <template slot-scope="scope">
-            <el-tag size="mini">
-              {{ getCategory(scope.row.category) }}
-            </el-tag>
-          </template>
-        </el-table-column>
         <el-table-column
           label="总章节数"
           prop="count"
@@ -133,7 +107,6 @@
         <el-table-column
           label="最新章节"
           prop="lastSectionTitle"
-          width="350"
           sortable
         >
           <template slot-scope="scope">
@@ -168,8 +141,7 @@
     export default {
         data() {
             return {
-                params: {},
-                categories: []
+                params: {}
             };
         },
         methods: {
@@ -180,28 +152,12 @@
                 this.params.hold = '0';
                 this.$refs.table.clearSort();
                 this.$refs.table.jump(1);
-            },
-            loadCategories() {
-                this.axios.get('dict?type=NOVEL_CATEGORY').then(data => {
-                    this.categories = data.dicts;
-                }).catch(res => {
-                    this.error(res.respMsg);
-                });
-            },
-            getCategory(category) {
-                for (let i = 0; i < this.categories.length; i++) {
-                    if (this.categories[i].code === category) {
-                        return this.categories[i].value;
-                    }
-                }
-                return category;
             }
         },
         mounted() {
             Object.keys(this.$route.query).forEach(key => {
                 this.params[key] = this.$route.query[key];
             });
-            this.loadCategories();
             this.$refs.table.reload();
         },
         beforeRouteUpdate(to, from, next) {

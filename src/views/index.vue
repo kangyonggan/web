@@ -96,7 +96,7 @@
       <img src="@/assets/images/bar2.jpg">
     </el-col>
     <el-col class="novel-content">
-      <el-col style="width: 400px;">
+      <el-col style="width: 610px;">
         <el-card
           class="box-card"
           style="height: 461px;"
@@ -123,18 +123,8 @@
             cell-class-name="body-cell"
           >
             <el-table-column
-              label="分类"
-              width="88"
-            >
-              <template slot-scope="scope">
-                <el-tag size="mini">
-                  {{ getCategory(scope.row.category) }}
-                </el-tag>
-              </template>
-            </el-table-column>
-            <el-table-column
               label="书名"
-              width="180"
+              width="100"
             >
               <template slot-scope="scope">
                 <router-link :to="'/novel/' + scope.row.id">
@@ -145,14 +135,28 @@
             <el-table-column
               prop="author"
               label="作者"
-              align="right"
               width="90"
             />
+            <el-table-column
+              label="总章节数"
+              prop="count"
+              width="90"
+            />
+            <el-table-column
+              label="最新章节"
+              prop="lastSectionTitle"
+            >
+              <template slot-scope="scope">
+                <router-link :to="'/novel/' + scope.row.id + '/' + scope.row.lastSectionId">
+                  {{ scope.row.lastSectionTitle }}
+                </router-link>
+              </template>
+            </el-table-column>
           </el-table>
         </el-card>
       </el-col>
 
-      <el-col style="width: 400px;margin: 0 20px;">
+      <el-col style="width: 610px;float: right;">
         <el-card
           class="box-card"
           style="height: 461px;"
@@ -179,18 +183,8 @@
             cell-class-name="body-cell"
           >
             <el-table-column
-              label="分类"
-              width="88"
-            >
-              <template slot-scope="scope">
-                <el-tag size="mini">
-                  {{ getCategory(scope.row.category) }}
-                </el-tag>
-              </template>
-            </el-table-column>
-            <el-table-column
               label="书名"
-              width="180"
+              width="100"
             >
               <template slot-scope="scope">
                 <router-link :to="'/novel/' + scope.row.id">
@@ -201,25 +195,24 @@
             <el-table-column
               prop="author"
               label="作者"
-              align="right"
               width="90"
             />
+            <el-table-column
+              label="总章节数"
+              prop="count"
+              width="90"
+            />
+            <el-table-column
+              label="最新章节"
+              prop="lastSectionTitle"
+            >
+              <template slot-scope="scope">
+                <router-link :to="'/novel/' + scope.row.id + '/' + scope.row.lastSectionId">
+                  {{ scope.row.lastSectionTitle }}
+                </router-link>
+              </template>
+            </el-table-column>
           </el-table>
-        </el-card>
-      </el-col>
-
-      <el-col style="width: 400px;">
-        <el-card
-          class="box-card"
-          style="height: 461px;"
-          v-loading="loadingNovelChartData"
-        >
-          <span class="title">小说分类</span>
-          <ve-pie
-            style="margin-top: 10px;"
-            :settings="{roseType: 'radius'}"
-            :data="novelChartData"
-          />
         </el-card>
       </el-col>
     </el-col>
@@ -334,7 +327,6 @@
 
 <script>
     import Vue from 'vue';
-    import Pie from 'v-charts/lib/pie';
     import Line from 'v-charts/lib/line';
     import img1 from '../assets/images/100/1.jpeg';
     import img2 from '../assets/images/100/2.jpeg';
@@ -343,7 +335,6 @@
     import img5 from '../assets/images/100/5.jpeg';
     import img6 from '../assets/images/100/6.jpeg';
 
-    Vue.component(Pie.name, Pie);
     Vue.component(Line.name, Line);
 
     export default {
@@ -368,14 +359,8 @@
                     columns: ['date', 'webCount', 'articleCount', 'novelCount'],
                     rows: []
                 },
-                loadingNovelChartData: false,
-                novelChartData: {
-                    columns: ['category', 'count'],
-                    rows: []
-                },
                 articleList: [],
                 loadingArticleList: false,
-                categories: [],
                 novelList: [],
                 loadingNovelList: false,
                 newNovelList: [],
@@ -386,14 +371,6 @@
             };
         },
         methods: {
-            getCategory(category) {
-                for (let i = 0; i < this.categories.length; i++) {
-                    if (this.categories[i].code === category) {
-                        return this.categories[i].value;
-                    }
-                }
-                return category;
-            },
             loadArticleList() {
                 this.loadingArticleList = true;
                 this.axios.get('article?pageSize=7').then(data => {
@@ -413,22 +390,6 @@
                     this.error(res.respMsg);
                 }).finally(() => {
                     this.loadingChartData = false;
-                });
-
-                this.loadingNovelChartData = true;
-                this.axios.get('novel/category').then(data => {
-                    this.novelChartData.rows = data.novels;
-                }).catch(res => {
-                    this.error(res.respMsg);
-                }).finally(() => {
-                    this.loadingNovelChartData = false;
-                });
-            },
-            loadDictData() {
-                this.axios.get('dict?type=NOVEL_CATEGORY').then(data => {
-                    this.categories = data.dicts;
-                }).catch(res => {
-                    this.error(res.respMsg);
                 });
             },
             loadNovelList() {
@@ -462,8 +423,6 @@
             }
         },
         mounted() {
-            // 加载字典
-            this.loadDictData();
             // 加载文章
             this.loadArticleList();
             // 加载图表
