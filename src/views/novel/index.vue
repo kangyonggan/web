@@ -100,6 +100,7 @@
         <el-table-column
           label="分类"
           prop="category"
+          width="120"
           sortable
         >
           <template slot-scope="scope">
@@ -111,11 +112,13 @@
         <el-table-column
           label="总章节数"
           prop="count"
+          width="120"
           sortable
         />
         <el-table-column
           label="站长推荐"
           prop="hold"
+          width="120"
           sortable
         >
           <template slot-scope="scope">
@@ -129,6 +132,7 @@
         <el-table-column
           label="最新章节"
           prop="lastSectionTitle"
+          width="350"
           sortable
         >
           <template slot-scope="scope">
@@ -140,7 +144,7 @@
         <el-table-column
           prop="updatedTime"
           label="最后更新时间"
-          width="200"
+          width="190"
           sortable
         >
           <template slot-scope="scope">
