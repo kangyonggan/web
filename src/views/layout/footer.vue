@@ -29,9 +29,18 @@
       </ul>
 
       <div class="author-info">
-        开发有风险，入坑需谨慎 中国开发监督管理委员会核准走路自带音响网上开发委托业务
+        开发有风险，入坑需谨慎。
+        中国开发监督管理委员会核准
+        <router-link to="/about">
+          康永敢
+        </router-link>
+        网上开发委托业务
         <br>
-        ©2015-{{ year }} 走路自带音响 版权所有 皖ICP备18009089号.
+        ©2015-{{ year }}
+        <router-link to="/about">
+          康永敢
+        </router-link>
+        版权所有 皖ICP备18009089号.
       </div>
 
       <div class="links-img" />
@@ -93,6 +102,11 @@
       float: left;
       margin-left: 90px;
       margin-top: 23px;
+
+      a {
+        color: #8c8c8c;
+        font-size: 13px;
+      }
     }
 
     .links-img {
