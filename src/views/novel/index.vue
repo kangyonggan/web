@@ -140,7 +140,7 @@
         <el-table-column
           prop="updatedTime"
           label="最后更新时间"
-          width="190"
+          width="200"
           sortable
         >
           <template slot-scope="scope">
