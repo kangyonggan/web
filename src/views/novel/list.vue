@@ -186,6 +186,7 @@
                     this.novel = data.novel;
                     this.lastSection = data.lastSection;
                     this.novelSource = data.novelSource;
+                    this.util.title(this.novel.name);
                 }).catch(res => {
                     this.error(res.respMsg);
                 }).finally(() => {
