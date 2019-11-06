@@ -6,7 +6,7 @@
       <el-col class="search-novel">
         <el-card class="box-card">
           <el-row class="title">
-            全部小说
+            全部书籍
           </el-row>
 
           <el-form
@@ -17,10 +17,10 @@
             label-suffix="："
             style="margin-top: 25px;"
           >
-            <el-form-item label="名称">
+            <el-form-item label="书名">
               <el-input
                 v-model="params.name"
-                placeholder="请输入小说名称,支持模糊搜索"
+                placeholder="请输入书籍名称,支持模糊搜索"
                 clearable
               />
             </el-form-item>
@@ -60,7 +60,7 @@
       >
         <el-table-column
           prop="name"
-          label="名称"
+          label="书名"
           width="180"
           sortable
         >

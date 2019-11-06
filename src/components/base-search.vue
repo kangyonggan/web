@@ -126,7 +126,7 @@
                     text: '文 章',
                     url: 'article/search'
                 }, {
-                    text: '小 说',
+                    text: '书 籍',
                     url: 'novel/search'
                 }],
                 imgLeft: 25,
@@ -149,7 +149,7 @@
             if (this.currIndex === 0) {
                 this.placeholder = '请输入需要查找的文章标题，支持模糊搜索';
             } else if (this.currIndex === 1) {
-                this.placeholder = '请输入需要查找的小说名称或作者，支持模糊搜索';
+                this.placeholder = '请输入需要查找的书籍名称或作者，支持模糊搜索';
             }
 
             let that = this;
@@ -194,7 +194,7 @@
                 if (currIndex === 0) {
                     this.placeholder = '请输入需要查找的文章标题，支持模糊搜索';
                 } else if (currIndex === 1) {
-                    this.placeholder = '请输入需要查找的小说名称或作者，支持模糊搜索';
+                    this.placeholder = '请输入需要查找的书籍名称或作者，支持模糊搜索';
                 }
                 this.imgLeft = 25 + currIndex * 80;
                 e.target.setAttribute('class', 'active');
@@ -216,7 +216,7 @@
                         path: '/article/' + this.keyId
                     });
                 } else {
-                    // 搜索小说
+                    // 搜索书籍
                     this.$router.push({
                         path: '/novel/' + this.keyId,
                     });
@@ -249,7 +249,7 @@
                             this.isSearching = false;
                         });
                     } else {
-                        // 搜索小说
+                        // 搜索书籍
                         this.axios.get('novel/search?key=' + e.target.value).then(data => {
                             this.resultList = data.list;
                             this.isSearching = false;

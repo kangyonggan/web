@@ -87,12 +87,12 @@
       </el-col>
     </el-col>
 
-    <!--小说-->
+    <!--书籍-->
     <el-col
       :span="24"
       style="margin-top: 20px;position: relative;"
     >
-      <span class="bat-title">小说</span>
+      <span class="bat-title">书籍</span>
       <img src="@/assets/images/bar2.jpg">
     </el-col>
     <el-col class="novel-content">
@@ -363,7 +363,7 @@
                     labelMap: {
                         'webCount': '网站访问量',
                         'articleCount': '文章访问量',
-                        'novelCount': '小说访问量'
+                        'novelCount': '书籍访问量'
                     }
                 },
                 loadingChartData: false,
@@ -439,7 +439,7 @@
             this.loadArticleList();
             // 加载图表
             this.loadChartData(1);
-            // 加载小说
+            // 加载书籍
             this.loadNovelList();
             // 加载视频
             this.loadVideoList();
@@ -522,7 +522,7 @@
     }
   }
 
-  /*小说*/
+  /*书籍*/
   .novel-content {
     margin-top: -5px;
   }

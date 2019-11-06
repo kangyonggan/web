@@ -27,7 +27,7 @@ const routers = [
             {
                 path: 'novel',
                 meta: {
-                    title: '小说'
+                    title: '书籍'
                 },
                 component: (resolve) => require(['./views/novel/index.vue'], resolve)
             },

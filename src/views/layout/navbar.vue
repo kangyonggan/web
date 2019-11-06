@@ -49,7 +49,7 @@
                     },
                     {
                         code: '/novel',
-                        value: '小说'
+                        value: '书籍'
                     },
                     {
                         code: '/album',
