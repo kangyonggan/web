@@ -116,15 +116,9 @@
       }
 
       a {
-        color: #333;
-        text-decoration: none;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
-      }
-
-      a:hover {
-        color: #e74e19;
       }
     }
   }

@@ -169,7 +169,7 @@
                 if (index === -1) {
                     return text;
                 }
-                return text.substring(0, index) + '<span style="color: #2d8cf0">' + text.substring(index, index + this.key.length) + '</span>' + text.substring(index + this.key.length);
+                return text.substring(0, index) + '<span style="color: #1677d9">' + text.substring(index, index + this.key.length) + '</span>' + text.substring(index + this.key.length);
             },
             /**
              * 点击Tab页
@@ -332,7 +332,7 @@
     }
 
     li.active {
-      color: #2d8cf0;
+      color: #1677d9;
     }
   }
 
@@ -431,7 +431,7 @@
 
         li.active {
           background: #f5f5f5;
-          color: #2d8cf0;
+          color: #1677d9;
         }
       }
 

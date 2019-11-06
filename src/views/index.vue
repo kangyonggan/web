@@ -500,16 +500,10 @@
 
     .body-cell div {
       a {
-        color: #333;
-        text-decoration: none;
         line-height: 21px;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
-      }
-
-      a:hover {
-        color: #e74e19;
       }
     }
 
@@ -620,6 +614,10 @@
               text-decoration: none;
               padding-top: 5px;
               color: #595959;
+            }
+
+            .summary:hover {
+              color: #e74e19;
             }
 
             .date {

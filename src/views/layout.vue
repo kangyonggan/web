@@ -54,6 +54,12 @@
   }
 
   a {
+    color: #333;
+    text-decoration: none;
     outline: none;
+  }
+
+  a:hover {
+    color: #e74e19;
   }
 </style>
