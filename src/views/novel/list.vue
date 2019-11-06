@@ -68,6 +68,17 @@
       >
         <div class="name">
           最新九章
+          <el-tooltip
+            content="刷新查看最新章节"
+            placement="top"
+          >
+            <i
+              class="el-icon-refresh"
+              @click="refresh"
+            >
+              刷新
+            </i>
+          </el-tooltip>
         </div>
         <ul v-if="lastList.length">
           <li
@@ -118,7 +129,7 @@
             </i>
           </el-tooltip>
         </div>
-        <ul v-if="pageInfo.list.length">
+        <ul v-if="pageInfo.total">
           <li
             v-for="section in pageInfo.list"
             :key="section.id"
@@ -134,7 +145,7 @@
         >
           暂无章节
         </div>
-        <el-col v-if="pageInfo.list.length">
+        <el-col v-if="pageInfo.total">
           <el-pagination
             layout="prev, pager, next, jumper, ->, total, slot"
             :total="pageInfo.total"
@@ -221,6 +232,9 @@
 
                 this.jump(1);
             },
+            refresh() {
+                window.location.reload();
+            },
             jump(pageNum) {
                 if (!pageNum) {
                     pageNum = 1;
@@ -237,12 +251,13 @@
             Object.keys(this.$route.query).forEach(key => {
                 this.params[key] = this.$route.query[key];
             });
-            console.log(this.params);
             this.loadNovel();
             this.loadLastList();
             this.loadAllList();
         },
         beforeRouteUpdate(to, from, next) {
+            this.loadNovel();
+            this.loadLastList();
             this.loadAllList();
             next();
         }
@@ -300,7 +315,6 @@
 
   .section-list {
     margin-top: 20px;
-    position: relative;
 
     .name {
       padding-bottom: 15px;
@@ -336,20 +350,18 @@
       font-size: 14px;
     }
 
-    .el-icon-sort {
-      position: absolute;
-      right: 20px;
-      top: 25px;
+    .el-tooltip {
+      float: right;
       cursor: pointer;
       font-size: 14px;
       outline: none;
     }
 
-    .el-icon-sort:hover {
+    .el-tooltip:hover {
       color: #e74e19;
     }
 
-    .el-icon-sort::before {
+    .el-tooltip::before {
       font-size: 18px;
     }
 
