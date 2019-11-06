@@ -50,6 +50,7 @@
             <el-form-item label="站长推荐">
               <el-checkbox
                 v-model="params.hold"
+                :checked="$route.query.hold === '1'"
                 true-label="1"
                 false-label=""
               />
