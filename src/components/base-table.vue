@@ -16,8 +16,8 @@
       <el-pagination
         layout="sizes, prev, pager, next, jumper, ->, total, slot"
         :total="pageInfo.total"
-        :page-size="params.pageSize * 1"
-        :current-page="currentPage"
+        :page-size="pageInfo.pageSize"
+        :current-page="pageInfo.pageNum"
         @size-change="sizeChange"
         @current-change="jump"
       />
@@ -47,10 +47,7 @@
         data() {
             return {
                 loading: false,
-                currentPage: 1,
-                pageInfo: {
-                    total: 0
-                }
+                pageInfo: {}
             };
         },
         methods: {
@@ -72,7 +69,6 @@
                 this.loading = true;
                 this.axios.get(this.url + '?' + qs.stringify(this.params)).then(data => {
                     this.pageInfo = data.pageInfo;
-                    this.currentPage = this.params.pageNum * 1;
                 }).catch(res => {
                     this.error(res.respMsg);
                 }).finally(() => {

@@ -149,8 +149,8 @@
           <el-pagination
             layout="prev, pager, next, jumper, ->, total, slot"
             :total="pageInfo.total"
-            :page-size="90"
-            :current-page="params.pageNum * 1"
+            :page-size="pageInfo.pageSize"
+            :current-page="pageInfo.pageNum"
             @current-change="jump"
           />
         </el-col>
@@ -166,7 +166,6 @@
         data() {
             return {
                 params: {
-                    pageNum: 1,
                     order: 'ascending'
                 },
                 loading: false,
