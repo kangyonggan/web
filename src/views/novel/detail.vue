@@ -47,10 +47,36 @@
                 }).finally(() => {
                     this.loading = false;
                 });
+            },
+            keydown(e) {
+                if (e.keyCode === 39) {
+                    // 下一章
+                    if (!this.nextSection || !this.nextSection.id) {
+                        this.warning('没有下一章了');
+                        return;
+                    }
+                    this.$router.push({
+                       path: '/novel/' + this.section.novelId + '/' + this.nextSection.id
+                    });
+                } else if (e.keyCode === 37) {
+                    // 上一章
+                    if (!this.prevSection || !this.prevSection.id) {
+                        this.warning('没有上一章了');
+                        return;
+                    }
+                    this.$router.push({
+                        path: '/novel/' + this.section.novelId + '/' + this.prevSection.id
+                    });
+                }
             }
         },
         mounted() {
             this.loadSection(this.$route.params.novelId, this.$route.params.id);
+
+            document.onkeydown = this.keydown;
+        },
+        destroyed() {
+            document.onkeydown = null;
         },
         beforeRouteUpdate(to, from, next) {
             this.loadSection(to.params.novelId, to.params.id);
