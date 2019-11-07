@@ -104,7 +104,7 @@
                 });
                 this.$refs.table.clearSort();
                 this.$refs.table.jump(1);
-            },
+            }
         },
         mounted() {
             Object.keys(this.$route.query).forEach(key => {
