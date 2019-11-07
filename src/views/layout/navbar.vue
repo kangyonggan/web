@@ -60,14 +60,6 @@
                         value: '视频'
                     },
                     {
-                        code: '/tools',
-                        value: '工具'
-                    },
-                    {
-                        code: '/game',
-                        value: '游戏'
-                    },
-                    {
                         code: '/about',
                         value: '关于'
                     }

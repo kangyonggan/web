@@ -53,6 +53,7 @@
 <style scoped lang="scss">
   /deep/ .el-card__body {
     padding: 10px;
+    min-height: 150px;
   }
 
   ul {

@@ -1,5 +1,18 @@
 <template>
   <div class="content">
+    <div
+      class="photos"
+      id="photos"
+    >
+      <img
+        v-for="(photo, index) in photos"
+        :key="index"
+        :src="photo"
+        @click="showImg(index)"
+        @mouseenter="clearInterval()"
+        @mouseleave="startInterval()"
+      >
+    </div>
     <el-card v-loading="loading">
       <ul>
         <li
@@ -29,12 +42,53 @@
 </template>
 
 <script>
+    import img1 from '../../assets/images/photos/1.jpeg';
+    import img2 from '../../assets/images/photos/2.jpeg';
+    import img3 from '../../assets/images/photos/3.jpeg';
+    import img4 from '../../assets/images/photos/4.jpeg';
+    import img5 from '../../assets/images/photos/5.jpeg';
+    import img6 from '../../assets/images/photos/6.jpeg';
+    import img7 from '../../assets/images/photos/7.jpeg';
+    import img8 from '../../assets/images/photos/8.jpeg';
+
     export default {
         data() {
             return {
                 loading: false,
-                albums: []
+                albums: [],
+                index: 1,
+                interval: null,
+                photos: [img1, img2, img3, img4, img5, img6, img7, img8]
             };
+        },
+        methods: {
+            showImg: function (index) {
+                this.index = index;
+                // 获取图片数组
+                let photos = document.getElementById('photos');
+                let images = photos.getElementsByTagName('img');
+                let offset = (images.length - index) % images.length;
+                // 计算每张图片按Y轴旋转的角度
+                let deg = Math.floor(360 / images.length);
+                for (let i = 0; i < images.length; i++) {
+                    images[i].style = 'transform: rotateX(-15deg) rotateY(' + deg * (i + offset) + 'deg) translateZ(380px);';
+                }
+            },
+            clearInterval: function () {
+                clearInterval(this.interval);
+            },
+            startInterval: function () {
+                this.clearInterval();
+                let that = this;
+                this.interval = setInterval(function () {
+                    that.index += 1;
+                    if (that.index >= that.photos.length) {
+                        that.index = 0;
+                    }
+
+                    that.showImg(that.index);
+                }, 2000);
+            }
         },
         mounted() {
             this.loading = true;
@@ -45,6 +99,11 @@
             }).finally(() => {
                 this.loading = false;
             });
+            this.showImg(this.index);
+            this.startInterval();
+        },
+        destroyed() {
+            this.clearInterval();
         }
     };
 </script>
@@ -52,7 +111,28 @@
 <style scoped lang="scss">
   /deep/ .el-card__body {
     padding: 15px 8px;
+    min-height: 150px;
   }
+
+  .photos {
+    margin: 60px auto 260px auto;
+    height: 204px;
+    width: 300px;
+    position: relative;
+    transform-style: preserve-3d;
+    perspective: 800px;
+
+    img {
+      height: 180px;
+      position: absolute;
+      cursor: pointer;
+      box-shadow: 1px -1px 6px #666;
+      border-radius: 4px;
+      transition: transform 1s;
+    }
+
+  }
+
   ul {
     list-style: none;
     padding: 0;

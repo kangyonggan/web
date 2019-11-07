@@ -52,6 +52,7 @@
 <style scoped lang="scss">
   /deep/ .el-card__body {
     padding: 15px 8px;
+    min-height: 150px;
   }
   ul {
     list-style: none;

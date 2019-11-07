@@ -342,12 +342,14 @@
 <script>
     import Vue from 'vue';
     import Line from 'v-charts/lib/line';
-    import img1 from '../assets/images/100/1.jpeg';
-    import img2 from '../assets/images/100/2.jpeg';
-    import img3 from '../assets/images/100/3.jpeg';
-    import img4 from '../assets/images/100/4.jpeg';
-    import img5 from '../assets/images/100/5.jpeg';
-    import img6 from '../assets/images/100/6.jpeg';
+    import img1 from '../assets/images/photos/1.jpeg';
+    import img2 from '../assets/images/photos/2.jpeg';
+    import img3 from '../assets/images/photos/3.jpeg';
+    import img4 from '../assets/images/photos/4.jpeg';
+    import img5 from '../assets/images/photos/5.jpeg';
+    import img6 from '../assets/images/photos/6.jpeg';
+    import img7 from '../assets/images/photos/7.jpeg';
+    import img8 from '../assets/images/photos/8.jpeg';
 
     Vue.component(Line.name, Line);
 
@@ -381,7 +383,7 @@
                 loadingNewNovelList: false,
                 videoList: [],
                 loadingVideoList: false,
-                photoList: [img1, img2, img3, img4, img5, img6]
+                photoList: [img1, img2, img3, img4, img5, img6, img7, img8]
             };
         },
         methods: {
