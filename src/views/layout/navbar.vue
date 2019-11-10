@@ -25,6 +25,7 @@
       <el-button
         class="login-btn"
         type="primary"
+        @click="login"
         round
       >
         登录
@@ -72,6 +73,9 @@
                     return this.currentUrl === '/';
                 }
                 return this.currentUrl.startsWith(url);
+            },
+            login() {
+                window.open('http://kangyonggan.com:8888');
             }
         },
         mounted() {
