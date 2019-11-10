@@ -34,7 +34,7 @@
     };
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
   .video {
     background: #fff;
     width: 1024px;
