@@ -45,7 +45,7 @@
             />
             <el-table-column
               label="发布日期"
-              width="160"
+              width="170"
               align="center"
             >
               <template slot-scope="scope">
@@ -215,7 +215,7 @@
             <el-table-column
               label="最后更新时间"
               prop="updatedTime"
-              width="160"
+              width="170"
               align="center"
             >
               <template slot-scope="scope">

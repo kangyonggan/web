@@ -14,7 +14,7 @@
       >
     </div>
     <el-card v-loading="loading">
-      <ul>
+      <ul v-show="albums.length">
         <li
           v-for="album in albums"
           :key="album.id"
@@ -36,6 +36,12 @@
           </dl>
         </li>
       </ul>
+      <div
+        v-show="!albums.length"
+        class="empty"
+      >
+        暂无相册
+      </div>
       <div style="clear: both" />
     </el-card>
   </div>
@@ -131,6 +137,12 @@
       transition: transform 1s;
     }
 
+  }
+
+  .empty {
+    text-align: center;
+    margin-top: 80px;
+    color: #999;
   }
 
   ul {
