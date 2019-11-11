@@ -367,12 +367,13 @@
                     labelMap: {
                         'webCount': '网站访问量',
                         'articleCount': '文章访问量',
-                        'novelCount': '书籍访问量'
+                        'novelCount': '书籍访问量',
+                        'ckCount': 'CK访问量'
                     }
                 },
                 loadingChartData: false,
                 chartData: {
-                    columns: ['date', 'webCount', 'articleCount', 'novelCount'],
+                    columns: ['date', 'webCount', 'articleCount', 'novelCount', 'ckCount'],
                     rows: []
                 },
                 articleList: [],
