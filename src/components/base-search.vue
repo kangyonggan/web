@@ -169,7 +169,7 @@
                 if (index === -1) {
                     return text;
                 }
-                return text.substring(0, index) + '<span style="color: #1677d9">' + text.substring(index, index + this.key.length) + '</span>' + text.substring(index + this.key.length);
+                return text.substring(0, index) + '<span style="color: #e74e19">' + text.substring(index, index + this.key.length) + '</span>' + text.substring(index + this.key.length);
             },
             /**
              * 点击Tab页
