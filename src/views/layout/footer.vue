@@ -15,8 +15,8 @@
         <li>
           <a
             target="_blank"
-            href="https://fund.htsec.com/"
-          >基金评价系统
+            href="http://ckssss.com/"
+          >生生世世
           </a>
         </li>
         <li>
@@ -24,6 +24,13 @@
             target="_blank"
             href="https://houbb.github.io/"
           >侯宾宾
+          </a>
+        </li>
+        <li>
+          <a
+            target="_blank"
+            href="https://fund.htsec.com/"
+          >基金评价系统
           </a>
         </li>
       </ul>
