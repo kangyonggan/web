@@ -5,10 +5,10 @@
       id="photos"
     >
       <img
-        v-for="(photo, index) in photos"
-        :key="index"
+        v-for="(photo, idx) in photos"
+        :key="idx"
         :src="photo"
-        @click="showImg(index)"
+        @click="showImg(idx)"
         @mouseenter="clearInterval()"
         @mouseleave="startInterval()"
       >

@@ -19,16 +19,11 @@
           <div>
             电子邮箱：java@kangyonggan.com
           </div>
-          <div style="margin-top: 20px;">
-            <div style="float: left;">
-              公共号：
-            </div>
-            <img
-              src="https://tva1.sinaimg.cn/large/006y8mN6gy1g8t2se9gwoj31oc0m8djz.jpg"
-              style="width: 400px;float: left"
-            >
-          </div>
-          <div style="height: 1px;clear: both;"></div>
+          <img
+            src="https://tva1.sinaimg.cn/large/006y8mN6gy1g8t2se9gwoj31oc0m8djz.jpg"
+            style="width: 500px; margin-top: 30px;"
+          >
+          <div style="height: 1px;clear: both;" />
           <base-reward />
         </el-tab-pane>
         <el-tab-pane label="友链合作">
