@@ -431,7 +431,7 @@
 
         li.active {
           background: #f5f5f5;
-          color: #1677d9;
+          color: #e74e19;
         }
       }
 
