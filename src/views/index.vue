@@ -368,12 +368,13 @@
                         'webCount': '网站访问量',
                         'articleCount': '文章访问量',
                         'novelCount': '书籍访问量',
-                        'ckCount': 'CK访问量'
+                        'ckCount': 'CK查询次数',
+                        'loginCount': '登录次数'
                     }
                 },
                 loadingChartData: false,
                 chartData: {
-                    columns: ['date', 'webCount', 'articleCount', 'novelCount', 'ckCount'],
+                    columns: ['date', 'webCount', 'articleCount', 'novelCount', 'ckCount', 'loginCount'],
                     rows: []
                 },
                 articleList: [],
