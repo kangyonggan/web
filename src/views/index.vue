@@ -200,7 +200,7 @@
             <el-table-column
               prop="author"
               label="作者"
-              width="90"
+              width="100"
             />
             <el-table-column
               label="最新章节"
@@ -215,7 +215,7 @@
             <el-table-column
               label="最后更新时间"
               prop="updatedTime"
-              width="170"
+              width="175"
               align="center"
             >
               <template slot-scope="scope">
