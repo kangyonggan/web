@@ -215,7 +215,7 @@
             <el-table-column
               label="最后更新时间"
               prop="updatedTime"
-              width="175"
+              width="170"
               align="center"
             >
               <template slot-scope="scope">
