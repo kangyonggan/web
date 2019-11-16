@@ -67,6 +67,7 @@
 
 <style scoped lang="scss">
   .footer {
+    min-width: 1240px;
     height: 87px;
     background: #fff;
     border-top: 1px solid #f5f5f5;
