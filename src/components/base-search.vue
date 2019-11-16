@@ -368,9 +368,9 @@
         z-index: 1;
         position: absolute;
         top: 13px;
-        left: 63px;
+        left: 66px;
         font-size: 13px;
-        color: #acacac;
+        color: #ccc;
         cursor: text;
         user-select: none;
         -moz-user-select: none;
