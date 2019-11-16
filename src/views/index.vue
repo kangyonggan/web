@@ -49,10 +49,8 @@
               align="center"
             >
               <template slot-scope="scope">
-                <i class="el-icon-time" />
-                <span
-                  style="margin-left: 5px"
-                >
+                <span>
+                  <i class="el-icon-time" />
                   {{ util.formatTimestamp(scope.row.createdTime, 'yyyy-MM-dd HH:mm') }}</span>
               </template>
             </el-table-column>
@@ -201,7 +199,14 @@
               prop="author"
               label="作者"
               width="100"
-            />
+            >
+              <template slot-scope="scope">
+                <span
+                  style="overflow: hidden;white-space: nowrap;"
+                >
+                  {{ scope.row.author }}</span>
+              </template>
+            </el-table-column>
             <el-table-column
               label="最新章节"
               prop="lastSectionTitle"
@@ -219,11 +224,10 @@
               align="center"
             >
               <template slot-scope="scope">
-                <i class="el-icon-time" />
-                <span
-                  style="margin-left: 5px"
-                >
-                  {{ util.formatTimestamp(scope.row.updatedTime, 'yyyy-MM-dd HH:mm') }}</span>
+                <span style="overflow: hidden;white-space: nowrap;">
+                  <i class="el-icon-time" />
+                  {{ util.formatTimestamp(scope.row.updatedTime, 'yyyy-MM-dd HH:mm') }}
+                </span>
               </template>
             </el-table-column>
           </el-table>
