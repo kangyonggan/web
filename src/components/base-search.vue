@@ -27,15 +27,13 @@
             name="key"
             v-model="key"
             autocomplete="off"
-            :placeholder="placeholder"
             @keyup.enter="goDetail"
             @input="search"
             @keydown="keydown"
             @click="clickInput"
           >
           <label
-            v-show="showSecondPlaceholder"
-            class="placeholder"
+            :class="'placeholder ' + (pushRight ? 'placeholder-right' : '')"
             for="key"
           >
             {{ placeholder }}
@@ -99,9 +97,9 @@
             let args = arguments;
             let val = args[0].target.value;
             if (val && val.length && val.length < 45) {
-                this.showSecondPlaceholder = true;
+                this.pushRight = true;
             } else {
-                this.showSecondPlaceholder = false;
+                this.pushRight = false;
             }
             if (timer) {
                 clearTimeout(timer);
@@ -138,7 +136,7 @@
                 isSearching: false,
                 showTips: false,
                 cursorIndex: -1,
-                showSecondPlaceholder: false
+                pushRight: false
             };
         },
         mounted: function () {
@@ -370,7 +368,7 @@
         z-index: 1;
         position: absolute;
         top: 13px;
-        right: 10px;
+        left: 63px;
         font-size: 13px;
         color: #acacac;
         cursor: text;
@@ -378,6 +376,11 @@
         -moz-user-select: none;
         -ms-user-select: none;
         -webkit-user-select: none;
+      }
+
+      .placeholder-right {
+        right: 10px;
+        left: auto;
       }
 
       .tips {
@@ -441,18 +444,14 @@
       }
 
       input {
+        position: absolute;
+        left: 60px;
+        top: 5px;
         outline: none;
         width: 888px;
-        height: 41px;
+        height: 33px;
         border: none;
-        float: left;
         color: #595959;
-        padding-top: 2px;
-      }
-
-      input::-webkit-input-placeholder {
-        font-size: 13px;
-        color: #acacac;
       }
     }
   }
