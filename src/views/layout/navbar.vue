@@ -75,7 +75,7 @@
                 return this.currentUrl.startsWith(url);
             },
             login() {
-                window.open('http://kangyonggan.com:8888');
+                window.open('http://kangyonggan.com:8888/index');
             }
         },
         mounted() {
