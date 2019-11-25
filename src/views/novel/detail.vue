@@ -42,6 +42,7 @@
                     this.nextSection = data.nextSection;
                     this.section = data.section;
                     this.util.title(this.section.title);
+                    window.scrollTo(0, 0);
                 }).catch(res => {
                     this.error(res.respMsg);
                 }).finally(() => {
