@@ -3,15 +3,6 @@ import axios from 'axios';
 import VueAxios from 'vue-axios';
 import qs from 'qs';
 
-// 根据环境设置基础请求地址
-if (process.env.NODE_ENV === 'production') {
-    axios.defaults.baseURL = '/api/';
-} else if (process.env.NODE_ENV === 'development') {
-    axios.defaults.baseURL = 'http://localhost:8080/';
-} else if (process.env.NODE_ENV === 'hd') {
-    axios.defaults.baseURL = 'https://kangyonggan.com/api/';
-}
-
 // 10s超时
 axios.defaults.timeout = 10000;
 

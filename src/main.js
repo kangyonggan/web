@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import '@/libs/common';
 import '@/libs/util';
+import '@/libs/env';
 import '@/libs/http';
 import router from './router';
 import app from './views/app.vue';

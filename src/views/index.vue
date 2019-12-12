@@ -165,72 +165,12 @@
           style="height: 461px;"
         >
           <div>
-            <span class="title">最近更新</span>
-            <router-link
-              class="more"
-              to="/novel?order=descending&prop=updatedTime"
-            >
-              <el-tooltip
-                content="更多"
-                placement="top"
-              >
-                <i class="el-icon-more" />
-              </el-tooltip>
-            </router-link>
+            <span class="title">系统监控</span>
           </div>
-
-          <el-table
-            v-loading="loadingNewNovelList"
-            :data="newNovelList"
-            :header-cell-style="headerCellStyle"
-            cell-class-name="body-cell"
-          >
-            <el-table-column
-              label="书名"
-              width="100"
-            >
-              <template slot-scope="scope">
-                <router-link :to="'/novel/' + scope.row.id">
-                  {{ scope.row.name }}
-                </router-link>
-              </template>
-            </el-table-column>
-            <el-table-column
-              prop="author"
-              label="作者"
-              width="100"
-            >
-              <template slot-scope="scope">
-                <span
-                  style="overflow: hidden;white-space: nowrap;"
-                >
-                  {{ scope.row.author }}</span>
-              </template>
-            </el-table-column>
-            <el-table-column
-              label="最新章节"
-              prop="lastSectionTitle"
-            >
-              <template slot-scope="scope">
-                <router-link :to="'/novel/' + scope.row.id + '/' + scope.row.lastSectionId">
-                  {{ scope.row.lastSectionTitle }}
-                </router-link>
-              </template>
-            </el-table-column>
-            <el-table-column
-              label="最后更新时间"
-              prop="updatedTime"
-              width="170"
-              align="center"
-            >
-              <template slot-scope="scope">
-                <span style="overflow: hidden;white-space: nowrap;">
-                  <i class="el-icon-time" />
-                  {{ util.formatTimestamp(scope.row.updatedTime, 'yyyy-MM-dd HH:mm') }}
-                </span>
-              </template>
-            </el-table-column>
-          </el-table>
+          <ve-gauge
+            :data="monitorChartData"
+            :settings="monitorChartSettings">
+          </ve-gauge>
         </el-card>
       </el-col>
     </el-col>
@@ -346,6 +286,7 @@
 <script>
     import Vue from 'vue';
     import Line from 'v-charts/lib/line';
+    import Gauge from 'v-charts/lib/gauge';
     import img1 from '../assets/images/photos/1.jpeg';
     import img2 from '../assets/images/photos/2.jpeg';
     import img3 from '../assets/images/photos/3.jpeg';
@@ -356,10 +297,234 @@
     import img8 from '../assets/images/photos/8.jpeg';
 
     Vue.component(Line.name, Line);
+    Vue.component(Gauge.name, Gauge);
 
     export default {
         data() {
+            this.monitorChartSettings = {
+                dataName: {
+                    'CPU': 'CPU',
+                    '内存': '内存',
+                    '磁盘': '磁盘'
+                },
+                seriesMap: {
+                    'CPU': {
+                        center: ['52%', '70%'],
+                        radius: '65%',
+                        min: 0,
+                        max: 100,
+                        splitNumber: 10,
+                        axisLine: {
+                            lineStyle: {
+                                color: [[0.2, 'lime'], [0.7, '#1e90ff'], [1, '#ff4500']],
+                                width: 3
+                            }
+                        },
+                        axisLabel: {
+                            textStyle: {
+                                color: '#595959'
+                            },
+                            formatter: function (v) {
+                                if (v === 20) {
+                                    return '良好';
+                                } else if (v === 70) {
+                                    return '高危';
+                                }
+
+                                return v;
+                            }
+                        },
+                        axisTick: {
+                            length: 15,
+                            lineStyle: {
+                                color: 'auto'
+                            }
+                        },
+                        splitLine: {
+                            length: 25,
+                            lineStyle: {
+                                width: 3,
+                                color: 'auto'
+                            }
+                        },
+                        title: {
+                            offsetCenter: [0, '-30%'],
+                            textStyle: {
+                                fontWeight: 'bolder',
+                                fontSize: 20,
+                                color: '#333'
+                            }
+                        },
+                        detail: {
+                            offsetCenter: [0, '60%'],
+                            textStyle: {
+                                color: '#333'
+                            },
+                            formatter: function (v) {
+                                if (!v) {
+                                    return '0%';
+                                }
+                                return v.toFixed(2) + '%';
+                            }
+                        },
+                        tooltip: {
+                            formatter: function (e) {
+                                if (!e.value) {
+                                    return e.name + '：0%';
+                                }
+                                return e.name + '：' + e.value.toFixed(2) + '%';
+                            }
+                        }
+                    },
+                    '内存': {
+                        center: ['20%', '30%'],
+                        radius: '53%',
+                        min: 0,
+                        max: 100,
+                        endAngle: 45,
+                        splitNumber: 10,
+                        axisLine: {
+                            lineStyle: {
+                                color: [[0.3, 'lime'], [0.8, '#1e90ff'], [1, '#ff4500']],
+                                width: 2
+                            }
+                        },
+                        axisLabel: {
+                            textStyle: {
+                                fonsSize: 10,
+                                color: '#595959'
+                            },
+                            formatter: function (v) {
+                                if (v === 30) {
+                                    return '良好';
+                                } else if (v === 80) {
+                                    return '高危';
+                                }
+
+                                return v;
+                            }
+                        },
+                        axisTick: {
+                            length: 12,
+                            lineStyle: {
+                                color: 'auto'
+                            }
+                        },
+                        splitLine: {
+                            length: 20,
+                            lineStyle: {
+                                width: 3,
+                                color: 'auto'
+                            }
+                        },
+                        title: {
+                            offsetCenter: [0, '-30%'],
+                            textStyle: {
+                                fontWeight: 'bolder',
+                                color: '#333'
+                            }
+                        },
+                        detail: {
+                            offsetCenter: [25, '27%'],
+                            textStyle: {
+                                color: '#333'
+                            },
+                            formatter: function (v) {
+                                if (!v) {
+                                    return '0%';
+                                }
+                                return v.toFixed(2) + '%';
+                            }
+                        },
+                        tooltip: {
+                            formatter: function (e) {
+                                if (!e.value) {
+                                    return e.name + '：0%';
+                                }
+                                return e.name + '：' + e.value.toFixed(2) + '%';
+                            }
+                        }
+                    },
+                    '磁盘': {
+                        center: ['80%', '30%'],
+                        radius: '53%',
+                        min: 0,
+                        max: 100,
+                        startAngle: 135,
+                        splitNumber: 10,
+                        axisLine: {
+                            lineStyle: {
+                                color: [[0.4, 'lime'], [0.9, '#1e90ff'], [1, '#ff4500']],
+                                width: 2
+                            }
+                        },
+                        axisLabel: {
+                            textStyle: {
+                                fonsSize: 10,
+                                color: '#595959'
+                            },
+                            formatter: function (v) {
+                                if (v === 40) {
+                                    return '良好';
+                                } else if (v === 90) {
+                                    return '高危';
+                                }
+
+                                return v;
+                            }
+                        },
+                        axisTick: {
+                            length: 12,
+                            lineStyle: {
+                                color: 'auto'
+                            }
+                        },
+                        splitLine: {
+                            length: 20,
+                            lineStyle: {
+                                width: 3,
+                                color: 'auto'
+                            }
+                        },
+                        title: {
+                            offsetCenter: [0, '-30%'],
+                            textStyle: {
+                                fontWeight: 'bolder',
+                                color: '#333'
+                            }
+                        },
+                        detail: {
+                            offsetCenter: ['-10%', '27%'],
+                            textStyle: {
+                                color: '#333'
+                            },
+                            formatter: function (v) {
+                                if (!v) {
+                                    return '0%';
+                                }
+                                return v.toFixed(2) + '%';
+                            }
+                        },
+                        tooltip: {
+                            formatter: function (e) {
+                                if (!e.value) {
+                                    return e.name + '：0%';
+                                }
+                                return e.name + '：' + e.value.toFixed(2) + '%';
+                            }
+                        }
+                    }
+                }
+            };
             return {
+                monitorChartData: {
+                    columns: ['type', 'value'],
+                    rows: [
+                        {type: 'CPU', value: 0},
+                        {type: '内存', value: 0},
+                        {type: '磁盘', value: 0},
+                    ]
+                },
                 headerCellStyle: {
                     fontSize: '13px',
                     color: 'rgb(135, 150, 169)',
@@ -386,11 +551,10 @@
                 loadingArticleList: false,
                 novelList: [],
                 loadingNovelList: false,
-                newNovelList: [],
-                loadingNewNovelList: false,
                 videoList: [],
                 loadingVideoList: false,
-                photoList: [img1, img2, img3, img4, img5, img6, img7, img8]
+                photoList: [img1, img2, img3, img4, img5, img6, img7, img8],
+                socket: ''
             };
         },
         methods: {
@@ -424,15 +588,6 @@
                 }).finally(() => {
                     this.loadingNovelList = false;
                 });
-
-                this.loadingNewNovelList = true;
-                this.axios.get('novel?pageSize=7&prop=updatedTime&order=descending').then(data => {
-                    this.newNovelList = data.pageInfo.list;
-                }).catch(res => {
-                    this.error(res.respMsg);
-                }).finally(() => {
-                    this.loadingNewNovelList = false;
-                });
             },
             loadVideoList() {
                 this.loadingVideoList = true;
@@ -443,6 +598,19 @@
                 }).finally(() => {
                     this.loadingVideoList = false;
                 });
+            },
+            initSocket() {
+                let url = this.env.socketUrl + 'monitor';
+                this.socket = new WebSocket(url);
+
+                // 获得消息事件
+                let that = this;
+                this.socket.onmessage = function (e) {
+                    let msg = JSON.parse(e.data);
+                    that.monitorChartData.rows[0].value = msg.cpuUsage * 100;
+                    that.monitorChartData.rows[1].value = msg.memoryUsage * 100;
+                    that.monitorChartData.rows[2].value = msg.spaceUsage * 100;
+                };
             }
         },
         mounted() {
@@ -454,6 +622,8 @@
             this.loadNovelList();
             // 加载视频
             this.loadVideoList();
+            // socket
+            this.initSocket();
         }
     };
 </script>
