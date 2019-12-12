@@ -591,7 +591,7 @@
             },
             loadVideoList() {
                 this.loadingVideoList = true;
-                this.axios.get('video?pageSize=3').then(data => {
+                this.axios.get('video?pageSize=3&prop=hold&order=descending').then(data => {
                     this.videoList = data.pageInfo.list;
                 }).catch(res => {
                     this.error(res.respMsg);
