@@ -6,6 +6,26 @@ Vue.use(VueRouter);
 
 const routers = [
     {
+        path: '/oauth2',
+        component: (resolve) => require(['./views/oauth2/layout.vue'], resolve),
+        children: [
+            {
+                path: 'authorize',
+                meta: {
+                    title: '康永敢授权登录'
+                },
+                component: (resolve) => require(['./views/oauth2/authorize.vue'], resolve)
+            },
+            {
+                path: '*',
+                meta: {
+                    title: '404'
+                },
+                component: (resolve) => require(['./views/oauth2/404.vue'], resolve)
+            }
+        ]
+    },
+    {
         path: '/',
         component: (resolve) => require(['./views/layout.vue'], resolve),
         children: [
