@@ -12,7 +12,7 @@ const routers = [
             {
                 path: 'authorize',
                 meta: {
-                    title: '康永敢授权登录'
+                    title: '授权登录'
                 },
                 component: (resolve) => require(['./views/oauth2/authorize.vue'], resolve)
             },
