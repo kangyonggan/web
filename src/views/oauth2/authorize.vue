@@ -99,7 +99,7 @@
 
                     this.loading = true;
                     this.axios.post('oauth2/login', this.params).then((data) => {
-                        window.location.href = data.callbackUrl + '?code=' + data.authCode;
+                        window.location.href = data.callbackUrl + '?code=' + data.code;
                     }).catch(res => {
                         this.error(res.respMsg);
                     }).finally(() => {
