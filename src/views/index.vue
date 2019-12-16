@@ -169,8 +169,8 @@
           </div>
           <ve-gauge
             :data="monitorChartData"
-            :settings="monitorChartSettings">
-          </ve-gauge>
+            :settings="monitorChartSettings"
+          />
         </el-card>
       </el-col>
     </el-col>
