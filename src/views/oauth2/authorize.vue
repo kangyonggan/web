@@ -98,7 +98,7 @@
                     }
 
                     this.loading = true;
-                    this.axios.post('oauth2Login', this.params).then((data) => {
+                    this.axios.post('oauth2/login', this.params).then((data) => {
                         window.location.href = data.callbackUrl + '?code=' + data.authCode;
                     }).catch(res => {
                         this.error(res.respMsg);
@@ -110,7 +110,7 @@
         },
         mounted() {
             Object.assign(this.params, this.$route.query);
-            this.axios.get('appInfo?clientId=' + this.params.clientId).then(data => {
+            this.axios.get('oauth2/appInfo?clientId=' + this.params.clientId).then(data => {
                 this.appInfo = data.appInfo || {};
             }).catch(res => {
                 this.error(res.respMsg);
