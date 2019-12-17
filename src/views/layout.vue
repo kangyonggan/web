@@ -26,7 +26,7 @@
     };
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
   .layout {
     height: 100%;
     background: #f5f6f8;
@@ -48,18 +48,18 @@
   }
 
   /*common*/
-  .content {
+  /deep/ .content {
     width: 1240px;
     margin: 0 auto;
   }
 
-  a {
+  /deep/ a {
     color: #333;
     text-decoration: none;
     outline: none;
   }
 
-  a:hover {
+  /deep/ a:hover {
     color: #e74e19;
   }
 </style>

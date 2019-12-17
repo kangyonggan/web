@@ -35,9 +35,9 @@
         v-else
         class="user-info"
       >
-        <span @click="login">
+        <span @click="admin">
           <i class="el-icon-monitor"></i>
-          工作台
+          后台
         </span>
         <span @click="logout">
           <i class="el-icon-switch-button"></i>
@@ -89,14 +89,19 @@
                 return this.currentUrl.startsWith(url);
             },
             login() {
-                window.location.pathname = '/admin';
+                this.$router.push({
+                   path: '/oauth2/login?redirectUrl=' + this.$route.fullPath
+                });
+            },
+            admin() {
+              window.location.pathname = '/admin';
             },
             logout() {
                 this.axios.get('logout').finally(() => {
                     localStorage.removeItem('token');
                     this.$store.commit('setUser', {});
                     this.$router.push({
-                        path: '/'
+                        path: this.$route.fullPath || '/'
                     });
                 });
             }

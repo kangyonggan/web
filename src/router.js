@@ -10,6 +10,13 @@ const routers = [
         component: (resolve) => require(['./views/oauth2/layout.vue'], resolve),
         children: [
             {
+                path: 'login',
+                meta: {
+                    title: '登录'
+                },
+                component: (resolve) => require(['./views/oauth2/login.vue'], resolve)
+            },
+            {
                 path: 'authorize',
                 meta: {
                     title: '授权登录'
@@ -17,11 +24,18 @@ const routers = [
                 component: (resolve) => require(['./views/oauth2/authorize.vue'], resolve)
             },
             {
-                path: '*',
+                path: 'join',
                 meta: {
-                    title: '404'
+                    title: '注册'
                 },
-                component: (resolve) => require(['./views/oauth2/404.vue'], resolve)
+                component: (resolve) => require(['./views/oauth2/join.vue'], resolve)
+            },
+            {
+                path: 'password/reset',
+                meta: {
+                    title: '找回密码'
+                },
+                component: (resolve) => require(['./views/oauth2/password-reset.vue'], resolve)
             }
         ]
     },

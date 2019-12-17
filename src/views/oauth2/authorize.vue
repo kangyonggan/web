@@ -62,7 +62,7 @@
 
       <div class="new-account">
         没有康永敢账号？
-        <router-link to="/join">
+        <router-link to="/oauth2/join">
           创建一个账号
         </router-link>
         。
