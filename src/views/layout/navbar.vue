@@ -23,6 +23,7 @@
       </ul>
 
       <el-button
+        v-if="!$store.getters.getUser.name"
         class="login-btn"
         type="primary"
         @click="login"
@@ -30,6 +31,19 @@
       >
         登录
       </el-button>
+      <div
+        v-else
+        class="user-info"
+      >
+        <span @click="login">
+          <i class="el-icon-monitor"></i>
+          工作台
+        </span>
+        <span @click="logout">
+          <i class="el-icon-switch-button"></i>
+          注销
+        </span>
+      </div>
     </div>
   </div>
 </template>
@@ -76,6 +90,15 @@
             },
             login() {
                 window.location.pathname = '/admin';
+            },
+            logout() {
+                this.axios.get('logout').finally(() => {
+                    localStorage.removeItem('token');
+                    this.$store.commit('setUser', {});
+                    this.$router.push({
+                        path: '/'
+                    });
+                });
             }
         },
         mounted() {
@@ -140,6 +163,18 @@
       width: 88px;
       float: right;
       background: #1677d9;
+    }
+
+    .user-info {
+      height: 80px;
+      line-height: 80px;
+      float: right;
+      font-size: 14px;
+      cursor: pointer;
+
+      span {
+        margin-left: 20px;
+      }
     }
   }
 </style>
