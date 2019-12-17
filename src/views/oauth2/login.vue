@@ -140,7 +140,7 @@
     background: #fff;
     border: 1px solid #d8dee2;
     border-radius: 5px;
-    margin: 20px auto;
+    margin: 60px auto 0 auto;
   }
 
   .title {
