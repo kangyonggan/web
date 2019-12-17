@@ -199,6 +199,7 @@
 
     .create-tips {
       float: right;
+      margin-right: 10px;
 
       a {
         color: #0366d6;

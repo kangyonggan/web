@@ -150,7 +150,7 @@
 
 <style scoped lang="scss">
   .oauth2-panel {
-    max-width: 500px;
+    max-width: 600px;
     background: #fff;
     border: 1px solid #d8dee2;
     border-radius: 5px;
