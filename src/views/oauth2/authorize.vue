@@ -2,7 +2,7 @@
   <div class="auth-content">
     <div class="auth-form">
       <div class="app-logo">
-        <img :src="appInfo.icon">
+        <img :src="axios.defaults.baseURL + appInfo.icon">
       </div>
       <div style="margin-top: 10px;color: #595959;">
         使用 <b>康永敢</b>
