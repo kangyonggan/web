@@ -43,7 +43,7 @@
         </el-form-item>
         <el-form-item>
           <el-button
-            size="small"
+            size="medium"
             type="success"
             v-loading="loading"
             @click="submit"
