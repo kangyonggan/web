@@ -179,13 +179,14 @@
       }
 
       button {
+        margin-top: 10px;
         width: 100%;
       }
     }
 
     .new-account {
       clear: both;
-      margin-top: 40px;
+      margin-top: 20px;
       height: 53px;
       line-height: 53px;
       text-align: center;
