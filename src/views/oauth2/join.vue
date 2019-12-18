@@ -70,7 +70,7 @@
 
       <div class="new-account">
         已有康永敢账号？
-        <router-link :to="'/oauth2/login?redirectUrl=' + $route.path">
+        <router-link to="/oauth2/login">
           马上去登录
         </router-link>
         。

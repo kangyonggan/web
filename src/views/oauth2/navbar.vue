@@ -10,12 +10,27 @@
         class="links"
         v-show="$route.path !== '/oauth2/authorize'"
       >
-        <router-link :to="'/oauth2/login?redirectUrl=' + $route.path">
-          登录
-        </router-link>
-        <router-link :to="'/oauth2/join?redirectUrl=' + $route.path">
-          注册
-        </router-link>
+        <div v-if="!$store.getters.getUser.name">
+          <router-link to="/oauth2/login">
+            登录
+          </router-link>
+          <router-link :to="'/oauth2/join?redirectUrl=' + $route.path">
+            注册
+          </router-link>
+        </div>
+        <div
+          v-else
+          class="user-info"
+        >
+          <span @click="admin">
+            <i class="el-icon-monitor" />
+            后台
+          </span>
+          <span @click="logout">
+            <i class="el-icon-switch-button" />
+            注销
+          </span>
+        </div>
       </div>
 
       <div
@@ -25,7 +40,7 @@
         <router-link to="/oauth2/manage">
           授权管理
         </router-link>
-        <router-link to="/oauth2/docs">
+        <router-link to="/oauth2/wiki">
           申请接入
         </router-link>
       </div>
@@ -36,10 +51,21 @@
 <script>
     export default {
         data() {
-            return {
-            };
+            return {};
         },
         methods: {
+            admin() {
+                window.location.pathname = '/admin';
+            },
+            logout() {
+                this.axios.get('logout').finally(() => {
+                    localStorage.removeItem('token');
+                    this.$store.commit('setUser', {});
+                    this.$router.push({
+                        path: this.$route.fullPath || '/'
+                    });
+                });
+            }
         },
         mounted() {
             this.axios.post('accessLog', {type: 0}).catch(res => {
@@ -56,10 +82,10 @@
     background: #fff;
     border-bottom: 1px solid #f5f5f5;
 
-      img {
-        float: left;
-        height: 46px;
-      }
+    img {
+      float: left;
+      height: 46px;
+    }
 
     .title {
       float: left;
@@ -87,6 +113,15 @@
 
       a:first-child {
         border-left: 0;
+      }
+    }
+
+    .user-info {
+      font-size: 14px;
+      cursor: pointer;
+
+      span {
+        margin-left: 20px;
       }
     }
   }
