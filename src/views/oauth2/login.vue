@@ -77,28 +77,19 @@
           。
         </div>
       </div>
-
-      <el-dialog
-        title="纯前端验证"
-        :visible.sync="dialogVisible"
-        width="360px"
-        destroy-on-close
-      >
-        <div id="jigsaw">
-          <div id="captcha" />
-        </div>
-      </el-dialog>
     </div>
+
+    <base-auth-code
+      ref="authCode"
+      @success="login"
+    />
   </div>
 </template>
 
 <script>
-    import '../../libs/jigsaw.min';
-
     export default {
         data() {
             return {
-                dialogVisible: false,
                 appInfo: {},
                 loading: false,
                 params: {},
@@ -118,29 +109,22 @@
                     if (!valid) {
                         return;
                     }
-                    this.dialogVisible = true;
-                    this.$nextTick(function () {
-                        let that = this;
-                        window.jigsaw.init({
-                            el: document.getElementById('jigsaw'),
-                            onSuccess: function () {
-                                that.dialogVisible = false;
-                                that.loading = true;
-                                that.axios.post('login', that.params).then((data) => {
-                                    that.$store.commit('setUser', data.user);
-                                    localStorage.setItem('menus', JSON.stringify(data.menus));
-                                    let redirectUrl = that.$route.query.redirectUrl || '/';
-                                    that.$router.push({
-                                        path: redirectUrl
-                                    });
-                                }).catch(res => {
-                                    that.error(res.respMsg);
-                                }).finally(() => {
-                                    that.loading = false;
-                                });
-                            }
-                        });
+                    this.$refs.authCode.show();
+                });
+            },
+            login() {
+                this.loading = true;
+                this.axios.post('login', this.params).then((data) => {
+                    this.$store.commit('setUser', data.user);
+                    localStorage.setItem('menus', JSON.stringify(data.menus));
+                    let redirectUrl = this.$route.query.redirectUrl || '/';
+                    this.$router.push({
+                        path: redirectUrl
                     });
+                }).catch(res => {
+                    this.error(res.respMsg);
+                }).finally(() => {
+                    this.loading = false;
                 });
             },
             qqLogin() {
@@ -203,6 +187,7 @@
     text-align: center;
     border-top: 1px solid #d8dee2;
     font-size: 14px;
+    color: #595959;
 
     .third-links {
       width: 50%;

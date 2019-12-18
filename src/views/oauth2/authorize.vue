@@ -1,12 +1,5 @@
 <template>
   <div class="auth-content">
-    <router-link to="/">
-      <img
-        src="../../assets/images/avatar.png"
-        class="logo"
-      >
-    </router-link>
-
     <div class="auth-form">
       <div class="app-logo">
         <img :src="appInfo.icon">
@@ -37,7 +30,7 @@
           label="密码"
           prop="password"
         >
-          <router-link to="/password/reset">
+          <router-link to="/oauth2/password/reset">
             忘记密码？
           </router-link>
           <el-input
@@ -68,6 +61,11 @@
         。
       </div>
     </div>
+
+    <base-auth-code
+      ref="authCode"
+      @success="success"
+    />
   </div>
 </template>
 
@@ -97,14 +95,17 @@
                         return;
                     }
 
-                    this.loading = true;
-                    this.axios.post('oauth2/login', this.params).then((data) => {
-                        window.location.href = data.callbackUrl + '?code=' + data.code;
-                    }).catch(res => {
-                        this.error(res.respMsg);
-                    }).finally(() => {
-                        this.loading = false;
-                    });
+                    this.$refs.authCode.show();
+                });
+            },
+            success() {
+                this.loading = true;
+                this.axios.post('oauth2/login', this.params).then((data) => {
+                    window.location.href = data.callbackUrl + '?code=' + data.code;
+                }).catch(res => {
+                    this.error(res.respMsg);
+                }).finally(() => {
+                    this.loading = false;
                 });
             }
         },
@@ -122,8 +123,7 @@
 <style scoped lang="scss">
   .auth-content {
     text-align: center;
-    height: 100vh;
-    background: #f9f9f9;
+    margin: 25px auto 0 auto;
   }
 
   .logo {
@@ -134,8 +134,7 @@
   }
 
   .auth-form {
-    width: 308px;
-    height: 420px;
+    max-width: 500px;
     background: #fff;
     border: 1px solid #d8dee2;
     border-radius: 5px;
@@ -159,34 +158,28 @@
 
     .line {
       height: 10px;
-      width: 266px;
+      width: 80%;
       margin: 0 auto;
       border-bottom: 1px solid #e1e4e8 !important;
     }
 
     .el-form {
-      width: 266px;
+      width: 80%;
       margin: 10px auto 0 auto;
 
       .el-form-item {
-        margin-bottom: 12px;
-
-        /deep/ label {
-          line-height: 34px;
-        }
-
         a {
           float: right;
           color: #0366d6;
           text-decoration: none;
           font-size: 12px;
-          line-height: 34px;
+          line-height: 24px;
+          margin-top: 10px;
         }
       }
 
       button {
-        margin-top: 8px;
-        width: 266px;
+        width: 100%;
       }
     }
 
@@ -196,9 +189,9 @@
       height: 53px;
       line-height: 53px;
       text-align: center;
-      border: 1px solid #d8dee2;
-      border-radius: 5px;
+      border-top: 1px solid #d8dee2;
       font-size: 14px;
+      color: #595959;
 
       a {
         color: #0366d6;

@@ -77,26 +77,17 @@
       </div>
     </div>
 
-    <el-dialog
-      title="纯前端验证"
-      :visible.sync="dialogVisible"
-      width="360px"
-      destroy-on-close
-    >
-      <div id="jigsaw">
-        <div id="captcha" />
-      </div>
-    </el-dialog>
+    <base-auth-code
+      ref="authCode"
+      @success="success"
+    />
   </div>
 </template>
 
 <script>
-    import '../../libs/jigsaw.min';
-
     export default {
         data() {
             return {
-                dialogVisible: false,
                 appInfo: {},
                 loading: false,
                 params: {},
@@ -146,26 +137,19 @@
                         return;
                     }
 
-                    this.dialogVisible = true;
-                    this.$nextTick(function () {
-                        let that = this;
-                        window.jigsaw.init({
-                            el: document.getElementById('jigsaw'),
-                            onSuccess: function () {
-                                that.dialogVisible = false;
-                                that.loading = true;
-                                that.axios.post('join', that.params).then(() => {
-                                    that.$router.push({
-                                        path: that.$route.query.redirectUrl || '/'
-                                    });
-                                }).catch(res => {
-                                    that.error(res.respMsg);
-                                }).finally(() => {
-                                    that.loading = false;
-                                });
-                            }
-                        });
+                    this.$refs.authCode.show();
+                });
+            },
+            success() {
+                this.loading = true;
+                this.axios.post('join', this.params).then(() => {
+                    this.$router.push({
+                        path: this.$route.query.redirectUrl || '/'
                     });
+                }).catch(res => {
+                    this.error(res.respMsg);
+                }).finally(() => {
+                    this.loading = false;
                 });
             }
         }
@@ -218,6 +202,7 @@
     text-align: center;
     border-top: 1px solid #d8dee2;
     font-size: 14px;
+    color: #595959;
 
     a {
       color: #0366d6;

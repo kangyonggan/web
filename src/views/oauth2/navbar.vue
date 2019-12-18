@@ -6,12 +6,27 @@
       </router-link>
       <span class="title">康永敢</span>
 
-      <div class="links">
+      <div
+        class="links"
+        v-show="$route.path !== '/oauth2/authorize'"
+      >
         <router-link :to="'/oauth2/login?redirectUrl=' + $route.path">
           登录
         </router-link>
         <router-link :to="'/oauth2/join?redirectUrl=' + $route.path">
           注册
+        </router-link>
+      </div>
+
+      <div
+        class="links"
+        v-show="$route.path === '/oauth2/authorize'"
+      >
+        <router-link to="/oauth2/manage">
+          授权管理
+        </router-link>
+        <router-link to="/oauth2/docs">
+          申请接入
         </router-link>
       </div>
     </div>
