@@ -36,11 +36,11 @@
         class="user-info"
       >
         <span @click="admin">
-          <i class="el-icon-monitor"></i>
+          <i class="el-icon-monitor" />
           后台
         </span>
         <span @click="logout">
-          <i class="el-icon-switch-button"></i>
+          <i class="el-icon-switch-button" />
           注销
         </span>
       </div>
