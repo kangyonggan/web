@@ -128,7 +128,10 @@
                     this.loading = true;
                     this.axios.put('resetPwd', this.params).then(() => {
                         this.$router.push({
-                            path: '/oauth2/login'
+                            path: '/oauth2/success',
+                            query: {
+                                type: 'resetPwd'
+                            }
                         });
                     }).catch(res => {
                         this.error(res.respMsg);

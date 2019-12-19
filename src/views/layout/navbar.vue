@@ -37,7 +37,7 @@
       >
         <span @click="admin">
           <i class="el-icon-monitor" />
-          后台
+          开放平台
         </span>
         <span @click="logout">
           <i class="el-icon-switch-button" />
@@ -144,10 +144,10 @@
 
       li {
         float: left;
-        width: 75px;
         height: 80px;
         line-height: 80px;
         text-align: center;
+        margin-right: 20px;
 
         a {
           color: #333;

@@ -2,7 +2,7 @@
   <div>
     <div class="oauth2-panel">
       <div class="title">
-        注册账号
+        注册平台账号
       </div>
       <el-form
         class="form"
@@ -69,7 +69,7 @@
       </el-form>
 
       <div class="new-account">
-        已有康永敢账号？
+        已有康永敢平台账号？
         <router-link to="/oauth2/login">
           马上去登录
         </router-link>
@@ -144,7 +144,10 @@
                 this.loading = true;
                 this.axios.post('join', this.params).then(() => {
                     this.$router.push({
-                        path: this.$route.query.redirectUrl || '/'
+                        path: '/oauth2/success',
+                        query: {
+                            type: 'join'
+                        }
                     });
                 }).catch(res => {
                     this.error(res.respMsg);

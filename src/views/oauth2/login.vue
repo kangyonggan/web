@@ -50,7 +50,7 @@
 
       <div class="new-account">
         <div class="create-tips">
-          没有康永敢账号？
+          没有康永敢平台账号？
           <router-link :to="'/oauth2/join?redirectUrl=' + $route.path">
             创建一个账号
           </router-link>

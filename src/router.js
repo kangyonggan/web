@@ -36,6 +36,20 @@ const routers = [
                     title: '找回密码'
                 },
                 component: (resolve) => require(['./views/oauth2/password-reset.vue'], resolve)
+            },
+            {
+                path: 'wiki',
+                meta: {
+                    title: '接入手册'
+                },
+                component: (resolve) => require(['./views/oauth2/wiki.vue'], resolve)
+            },
+            {
+                path: 'success',
+                meta: {
+                    title: '成功'
+                },
+                component: (resolve) => require(['./views/oauth2/success.vue'], resolve)
             }
         ]
     },
