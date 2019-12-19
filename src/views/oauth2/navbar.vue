@@ -14,7 +14,7 @@
           <router-link :to="'/oauth2/join?redirectUrl=' + $route.path">
             注册
           </router-link>
-          <router-link to="/oauth2/wiki">
+          <router-link to="/wiki">
             接入
           </router-link>
         </div>

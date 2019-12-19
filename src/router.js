@@ -6,6 +6,13 @@ Vue.use(VueRouter);
 
 const routers = [
     {
+        path: '/wiki',
+        meta: {
+            title: '接入手册'
+        },
+        component: (resolve) => require(['./views/oauth2/wiki.vue'], resolve)
+    },
+    {
         path: '/oauth2',
         component: (resolve) => require(['./views/oauth2/layout.vue'], resolve),
         children: [
@@ -36,13 +43,6 @@ const routers = [
                     title: '找回密码'
                 },
                 component: (resolve) => require(['./views/oauth2/password-reset.vue'], resolve)
-            },
-            {
-                path: 'wiki',
-                meta: {
-                    title: '接入手册'
-                },
-                component: (resolve) => require(['./views/oauth2/wiki.vue'], resolve)
             },
             {
                 path: 'success',
