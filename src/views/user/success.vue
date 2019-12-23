@@ -4,7 +4,7 @@
       v-if="type === 'join'"
       class="msg"
     >
-      您已成为康永敢平台用户，{{ count }}秒后将自动前往平台。
+      您已成为康永敢网站的用户，{{ count }}秒后将自动前往控制台。
     </div>
     <div
       v-else-if="type === 'resetPwd'"
@@ -41,7 +41,7 @@
                     return;
                 }
                 this.$router.push({
-                    path: this.type === 'resetPwd' ? 'oauth2/login' : '/'
+                    path: this.type === 'resetPwd' ? 'user/login' : '/'
                 });
             }
         },

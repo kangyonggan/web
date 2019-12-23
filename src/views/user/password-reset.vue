@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="oauth2-panel">
+    <div class="user-panel">
       <div class="title">
         找回密码
       </div>
@@ -67,7 +67,7 @@
       <div class="new-account">
         <div class="create-tips">
           没有康永敢账号？
-          <router-link :to="'/oauth2/join?redirectUrl=' + $route.path">
+          <router-link :to="'/user/join?redirectUrl=' + $route.path">
             创建一个账号
           </router-link>
           。
@@ -128,7 +128,7 @@
                     this.loading = true;
                     this.axios.put('resetPwd', this.params).then(() => {
                         this.$router.push({
-                            path: '/oauth2/success',
+                            path: '/user/success',
                             query: {
                                 type: 'resetPwd'
                             }
@@ -167,7 +167,7 @@
 </script>
 
 <style scoped lang="scss">
-  .oauth2-panel {
+  .user-panel {
     max-width: 500px;
     background: #fff;
     border: 1px solid #d8dee2;

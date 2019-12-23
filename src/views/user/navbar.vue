@@ -4,18 +4,15 @@
       <router-link to="/">
         <img src="../../assets/images/avatar.png">
       </router-link>
-      <span class="title">康永敢开放平台</span>
+      <span class="title">康永敢</span>
 
       <div class="links">
         <div v-if="!$store.getters.getUser.name">
-          <router-link to="/oauth2/login">
+          <router-link to="/user/login">
             登录
           </router-link>
-          <router-link :to="'/oauth2/join?redirectUrl=' + $route.path">
+          <router-link :to="'/user/join?redirectUrl=' + $route.path">
             注册
-          </router-link>
-          <router-link to="/wiki">
-            接入
           </router-link>
         </div>
         <div
@@ -24,7 +21,7 @@
         >
           <span @click="admin">
             <i class="el-icon-monitor" />
-            开放平台
+            控制台
           </span>
           <span @click="logout">
             <i class="el-icon-switch-button" />

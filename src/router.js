@@ -6,50 +6,36 @@ Vue.use(VueRouter);
 
 const routers = [
     {
-        path: '/wiki',
-        meta: {
-            title: '接入手册'
-        },
-        component: (resolve) => require(['./views/oauth2/wiki.vue'], resolve)
-    },
-    {
-        path: '/oauth2',
-        component: (resolve) => require(['./views/oauth2/layout.vue'], resolve),
+        path: '/user',
+        component: (resolve) => require(['./views/user/layout.vue'], resolve),
         children: [
             {
                 path: 'login',
                 meta: {
                     title: '登录'
                 },
-                component: (resolve) => require(['./views/oauth2/login.vue'], resolve)
-            },
-            {
-                path: 'auth',
-                meta: {
-                    title: '授权登录'
-                },
-                component: (resolve) => require(['./views/oauth2/auth.vue'], resolve)
+                component: (resolve) => require(['./views/user/login.vue'], resolve)
             },
             {
                 path: 'join',
                 meta: {
                     title: '注册'
                 },
-                component: (resolve) => require(['./views/oauth2/join.vue'], resolve)
+                component: (resolve) => require(['./views/user/join.vue'], resolve)
             },
             {
                 path: 'password/reset',
                 meta: {
                     title: '找回密码'
                 },
-                component: (resolve) => require(['./views/oauth2/password-reset.vue'], resolve)
+                component: (resolve) => require(['./views/user/password-reset.vue'], resolve)
             },
             {
                 path: 'success',
                 meta: {
                     title: '成功'
                 },
-                component: (resolve) => require(['./views/oauth2/success.vue'], resolve)
+                component: (resolve) => require(['./views/user/success.vue'], resolve)
             }
         ]
     },

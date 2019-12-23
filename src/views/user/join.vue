@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div class="oauth2-panel">
+    <div class="user-panel">
       <div class="title">
-        用户登录
+        注册账号
       </div>
       <el-form
         class="form"
@@ -25,13 +25,33 @@
           label="密码"
           prop="password"
         >
-          <router-link to="/oauth2/password/reset">
-            忘记密码？
-          </router-link>
           <el-input
             type="password"
             v-model="params.password"
             placeholder="请输入密码"
+            @keyup.enter.native="submit"
+            clearable
+          />
+        </el-form-item>
+        <el-form-item
+          label="确认密码"
+          prop="rePassword"
+        >
+          <el-input
+            type="password"
+            v-model="params.rePassword"
+            placeholder="请再次输入密码"
+            @keyup.enter.native="submit"
+            clearable
+          />
+        </el-form-item>
+        <el-form-item
+          label="姓名"
+          prop="name"
+        >
+          <el-input
+            v-model="params.name"
+            placeholder="请输入姓名"
             @keyup.enter.native="submit"
             clearable
           />
@@ -43,25 +63,23 @@
             v-loading="loading"
             @click="submit"
           >
-            登录
+            注册
           </el-button>
         </el-form-item>
       </el-form>
 
       <div class="new-account">
-        <div class="create-tips">
-          没有康永敢平台账号？
-          <router-link :to="'/oauth2/join?redirectUrl=' + $route.path">
-            创建一个账号
-          </router-link>
-          。
-        </div>
+        已有康永敢网站的账号？
+        <router-link to="/user/login">
+          马上去登录
+        </router-link>
+        。
       </div>
     </div>
 
     <base-auth-code
       ref="authCode"
-      @success="login"
+      @success="success"
     />
   </div>
 </template>
@@ -75,31 +93,61 @@
                 params: {},
                 rules: {
                     account: [
-                        {required: true, message: '账号为必填项'}
+                        {required: true, message: '账号为必填项'},
+                        {pattern: /^[a-zA-Z][a-zA-Z0-9]{4,19}$/, message: '账号必须是5至20位字母和数字组成，且以字母开头'},
+                        {validator: this.validateAccount}
                     ],
                     password: [
-                        {required: true, message: '密码为必填项'}
+                        {required: true, message: '密码为必填项'},
+                        {pattern: /^[a-zA-Z0-9]{5,20}$/, message: '密码必须是5至20位字母和数字组成'}
+                    ],
+                    rePassword: [
+                        {required: true, message: '确认密码为必填项'},
+                        {validator: this.validateRePassword}
+                    ],
+                    name: [
+                        {required: true, message: '姓名为必填项'},
+                        {max: 20, message: '姓名最多为20位'},
                     ]
                 }
             };
         },
         methods: {
+            validateAccount: function (rule, value, callback) {
+                if (!value) {
+                    callback();
+                    return;
+                }
+
+                this.axios.get('validate/account?account=' + value).then(() => {
+                    callback();
+                }).catch(res => {
+                    callback(new Error(res.respMsg));
+                });
+            },
+            validateRePassword: function (rule, value, callback) {
+                if (this.params.password !== value) {
+                    callback(new Error('两次密码不一致'));
+                }
+                callback();
+            },
             submit: function () {
                 this.$refs.form.validate((valid) => {
                     if (!valid) {
                         return;
                     }
+
                     this.$refs.authCode.show();
                 });
             },
-            login() {
+            success() {
                 this.loading = true;
-                this.axios.post('login', this.params).then((data) => {
-                    this.$store.commit('setUser', data.user);
-                    localStorage.setItem('menus', JSON.stringify(data.menus));
-                    let redirectUrl = this.$route.query.redirectUrl || '/';
+                this.axios.post('join', this.params).then(() => {
                     this.$router.push({
-                        path: redirectUrl
+                        path: '/user/success',
+                        query: {
+                            type: 'join'
+                        }
                     });
                 }).catch(res => {
                     this.error(res.respMsg);
@@ -112,12 +160,12 @@
 </script>
 
 <style scoped lang="scss">
-  .oauth2-panel {
-    max-width: 500px;
+  .user-panel {
+    max-width: 600px;
     background: #fff;
     border: 1px solid #d8dee2;
     border-radius: 5px;
-    margin: 60px auto 0 auto;
+    margin: 20px auto;
   }
 
   .title {
@@ -159,11 +207,9 @@
     font-size: 14px;
     color: #595959;
 
-    .create-tips {
-      a {
-        color: #0366d6;
-        text-decoration: none;
-      }
+    a {
+      color: #0366d6;
+      text-decoration: none;
     }
   }
 </style>

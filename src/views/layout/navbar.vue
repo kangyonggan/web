@@ -37,7 +37,7 @@
       >
         <span @click="admin">
           <i class="el-icon-monitor" />
-          开放平台
+          控制台
         </span>
         <span @click="logout">
           <i class="el-icon-switch-button" />
@@ -90,7 +90,7 @@
             },
             login() {
                 this.$router.push({
-                   path: '/oauth2/login?redirectUrl=' + this.$route.fullPath
+                   path: '/user/login?redirectUrl=' + this.$route.fullPath
                 });
             },
             admin() {
