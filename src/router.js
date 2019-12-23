@@ -24,11 +24,11 @@ const routers = [
                 component: (resolve) => require(['./views/oauth2/login.vue'], resolve)
             },
             {
-                path: 'authorize',
+                path: 'auth',
                 meta: {
                     title: '授权登录'
                 },
-                component: (resolve) => require(['./views/oauth2/authorize.vue'], resolve)
+                component: (resolve) => require(['./views/oauth2/auth.vue'], resolve)
             },
             {
                 path: 'join',

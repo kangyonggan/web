@@ -2,7 +2,10 @@
   <div class="auth-content">
     <div class="auth-form">
       <div class="app-logo">
-        <img :src="axios.defaults.baseURL + appInfo.icon">
+        <img
+          :src="axios.defaults.baseURL + appInfo.icon"
+          v-if="appInfo.icon"
+        >
       </div>
       <div style="margin-top: 10px;color: #595959;">
         使用 <b>康永敢</b>
@@ -101,7 +104,7 @@
             success() {
                 this.loading = true;
                 this.axios.post('oauth2/login', this.params).then((data) => {
-                    window.location.href = data.callbackUrl + '?code=' + data.code;
+                    window.location.href = data.redirectUrl + '?code=' + data.code + '&state=' + this.params.state;
                 }).catch(res => {
                     this.error(res.respMsg);
                 }).finally(() => {
@@ -110,7 +113,10 @@
             }
         },
         mounted() {
-            Object.assign(this.params, this.$route.query);
+            this.params.clientId = this.$route.query.client_id;
+            this.params.responseType = this.$route.query.response_type;
+            this.params.scope = this.$route.query.scope;
+            this.params.state = this.$route.query.state;
             this.axios.get('oauth2/appInfo?clientId=' + this.params.clientId).then(data => {
                 this.appInfo = data.appInfo || {};
             }).catch(res => {
