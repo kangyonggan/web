@@ -161,7 +161,7 @@
 
 <style scoped lang="scss">
   .user-panel {
-    max-width: 600px;
+    max-width: 500px;
     background: #fff;
     border: 1px solid #d8dee2;
     border-radius: 5px;

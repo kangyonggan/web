@@ -2,9 +2,8 @@
   <div class="navbar">
     <div class="content">
       <router-link to="/">
-        <img src="../../assets/images/avatar.png">
+        <img src="../../assets/images/logo.png">
       </router-link>
-      <span class="title">康永敢</span>
 
       <div class="links">
         <div v-if="!$store.getters.getUser.name">
@@ -70,16 +69,6 @@
     img {
       float: left;
       height: 46px;
-    }
-
-    .title {
-      float: left;
-      margin-left: 10px;
-      display: inline-block;
-      color: #333;
-      text-decoration: none;
-      line-height: 48px;
-      font-size: 22px;
     }
 
     .links {
