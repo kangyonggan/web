@@ -12,7 +12,7 @@
             :rules="rules"
             :inline="true"
             :model="params"
-            label-width="100px"
+            label-width="95px"
             label-suffix="："
             style="margin-top: 25px;"
           >
@@ -449,7 +449,9 @@
                 isFromStationIndeterminate: false,
                 toStationAll: [],
                 toStationCheckAll: false,
-                isToStationIndeterminate: false
+                isToStationIndeterminate: false,
+                header: {},
+                headerY: 0
             };
         },
         methods: {
@@ -599,6 +601,7 @@
                             this.toStationAll = data.toStationAll;
 
                             this.filterList();
+                            this.headerY = this.getTop(this.header);
                         }).catch(res => {
                             this.error(res.respMsg);
                         }).finally(() => {
@@ -606,9 +609,29 @@
                         });
                     }
                 });
+            },
+            handleScroll() {
+                if (this.headerY <= window.pageYOffset - 33) {
+                    this.header.classList.add('fixed-header');
+                } else {
+                    this.header.classList.remove('fixed-header');
+                }
+            },
+            getTop(e) {
+                let offset = e.offsetTop;
+                if (e.offsetParent != null) offset += this.getTop(e.offsetParent);
+                return offset;
             }
         },
+        beforeDestroy() {
+            this.util.off(window, 'scroll', this.handleScroll);
+        },
         mounted() {
+            this.util.on(window, 'scroll', this.handleScroll);
+            this.$nextTick(function () {
+                this.header = document.getElementsByClassName('el-table__header-wrapper')[0];
+            });
+
             Object.keys(this.$route.query).forEach(key => {
                 this.params[key] = this.$route.query[key];
                 if (key === 'fromStationNo' && this.params[key]) {
@@ -663,8 +686,12 @@
     font-size: 12px;
     font-weight: bold;
 
-    .el-table__header {
-      /*width: 1240px !important;*/
+    .fixed-header {
+      position: fixed;
+      top: 0;
+      z-index: 9999;
+      width: 1238px;
+      border: 1px solid #d5d5d5;
     }
 
     th {
