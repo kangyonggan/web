@@ -77,6 +77,10 @@
                     {
                         code: '/about',
                         value: '关于'
+                    },
+                    {
+                        code: '/ticket',
+                        value: '12309'
                     }
                 ]
             };

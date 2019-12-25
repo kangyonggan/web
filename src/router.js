@@ -103,6 +103,13 @@ const routers = [
                 component: (resolve) => require(['./views/about.vue'], resolve)
             },
             {
+                path: 'ticket',
+                meta: {
+                    title: '12309'
+                },
+                component: (resolve) => require(['./views/ticket/list.vue'], resolve)
+            },
+            {
                 path: '*',
                 meta: {
                     title: '404'

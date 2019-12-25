@@ -5,19 +5,23 @@
   >
     <el-table
       ref="table"
-      :data="pageInfo.list"
+      :border="border"
+      :data="list"
       @sort-change="sortChange"
       :default-sort="params"
     >
       <slot />
     </el-table>
 
-    <el-row style="background: #fff;padding: 20px 0;">
+    <el-row
+      style="background: #fff;padding: 20px 0;"
+      v-if="pagination"
+    >
       <el-pagination
         layout="sizes, prev, pager, next, jumper, ->, total, slot"
-        :total="pageInfo.total"
-        :page-size="pageInfo.pageSize"
-        :current-page="pageInfo.pageNum"
+        :total="total"
+        :page-size="params.pageSize"
+        :current-page="params.pageNum"
         @size-change="sizeChange"
         @current-change="jump"
       />
@@ -42,12 +46,23 @@
             params: {
                 required: true,
                 type: Object
+            },
+            pagination: {
+                required: false,
+                type: Boolean,
+                default: true
+            },
+            border: {
+                required: false,
+                type: Boolean,
+                default: false
             }
         },
         data() {
             return {
                 loading: false,
-                pageInfo: {}
+                list: [],
+                total: 0
             };
         },
         methods: {
@@ -68,7 +83,12 @@
             reload() {
                 this.loading = true;
                 this.axios.get(this.url + '?' + qs.stringify(this.params)).then(data => {
-                    this.pageInfo = data.pageInfo;
+                    if (this.pagination) {
+                        this.list = data.pageInfo.list;
+                        this.total = data.pageInfo.total;
+                    } else {
+                        this.list = data.list;
+                    }
                 }).catch(res => {
                     this.error(res.respMsg);
                 }).finally(() => {
