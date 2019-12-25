@@ -232,9 +232,13 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column>
+        <el-table-column
+          width="100"
+          sortable
+          prop="startTime"
+        >
           <template slot="header">
-            <span>
+            <span style="float: left;margin-left: 18px;">
               <span>出发时间</span>
               <br>
               <span>到达时间</span>
@@ -700,6 +704,7 @@
 
       .cell {
         text-align: center;
+        padding: 0;
       }
     }
 
