@@ -178,6 +178,13 @@
               </el-form-item>
             </el-row>
           </el-form>
+
+          <div
+            class="infos"
+            v-show="list.length"
+          >
+            {{ stationMap[params.fromStationNo] }}-->{{ stationMap[params.toStationNo] }}（{{ params.date }}）共计 <strong>{{ list.length }}</strong> 个车次
+          </div>
         </el-card>
       </el-col>
       <el-table
@@ -668,6 +675,8 @@
   }
 
   .search-ticket {
+    position: relative;
+
     .title {
       color: #000;
       font-size: 24px;
@@ -725,5 +734,11 @@
     }
   }
 
+  .infos {
+    position: absolute;
+    right: 20px;
+    bottom: 10px;
+    font-size: 13px;
+  }
 
 </style>
