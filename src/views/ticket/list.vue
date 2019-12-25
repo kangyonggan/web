@@ -3,10 +3,6 @@
     <el-col>
       <el-col class="search-ticket">
         <el-card class="box-card">
-          <el-row class="title">
-            12309余票查询
-          </el-row>
-
           <el-form
             ref="form"
             :rules="rules"
@@ -14,7 +10,6 @@
             :model="params"
             label-width="95px"
             label-suffix="："
-            style="margin-top: 25px;"
           >
             <el-row>
               <el-form-item
@@ -61,20 +56,8 @@
                   />
                 </el-select>
               </el-form-item>
-              <el-form-item
-                label="出发日期"
-                size="small"
-                prop="date"
-              >
-                <el-date-picker
-                  :editable="false"
-                  v-model="params.date"
-                  value-format="yyyy-MM-dd"
-                  placeholder="请选择出发日期"
-                />
-              </el-form-item>
 
-              <el-form-item style="float: right">
+              <el-form-item style="margin-left: 20px;">
                 <el-button
                   type="primary"
                   icon="el-icon-search"
@@ -94,7 +77,48 @@
               </el-form-item>
             </el-row>
 
-            <el-row v-show="trainTypeAll.length">
+            <el-row>
+              <el-form-item
+                label="出发日期"
+                size="small"
+                prop="date"
+              >
+                <el-date-picker
+                  :editable="false"
+                  v-model="params.date"
+                  value-format="yyyy-MM-dd"
+                  placeholder="请选择出发日期"
+                />
+              </el-form-item>
+
+              <el-form-item
+                label="出发时间"
+              >
+                <el-select
+                  @change="handleChangeStartTime"
+                  size="small"
+                  v-model="tags.startTime"
+                  placeholder="请选择出发时间"
+                >
+                  <el-option
+                    v-for="item in startTimeList"
+                    :key="item"
+                    :label="item"
+                    :value="item"
+                  />
+                </el-select>
+              </el-form-item>
+            </el-row>
+
+            <div
+              v-show="trainTypeAll.length"
+              style="height: 1px;background: #f5f5f5"
+            />
+
+            <el-row
+              v-show="trainTypeAll.length"
+              style="margin-top: 10px;"
+            >
               <el-form-item
                 label="车次类型"
                 style="margin-bottom: 0;"
@@ -183,7 +207,8 @@
             class="infos"
             v-show="list.length"
           >
-            {{ stationMap[params.fromStationNo] }}-->{{ stationMap[params.toStationNo] }}（{{ params.date }}）共计 <strong>{{ list.length }}</strong> 个车次
+            {{ stationMap[params.fromStationNo] }}-->{{ stationMap[params.toStationNo] }}（{{ params.date }}）共计 <strong>{{
+              list.length }}</strong> 个车次
           </div>
         </el-card>
       </el-col>
@@ -445,8 +470,10 @@
                     fromStations: [],
                     fromStationsHahChange: false,
                     toStations: [],
-                    toStationsHahChange: false
+                    toStationsHahChange: false,
+                    startTime: '00:00--24:00'
                 },
+                startTimeList: ['00:00--24:00', '00:00-06:00', '06:00-12:00', '12:00--18:00', '18:00--24:00'],
                 stationMap: {},
                 fromStations: [],
                 loadingFromStations: false,
@@ -528,9 +555,17 @@
                     if (this.tags.toStations.length && !this.tags.toStations.includes(toStationTelecode)) {
                         continue;
                     }
+                    let arr = this.tags.startTime.split('--');
+                    if (item.startTime < arr[0] || item.startTime > arr[1]) {
+                        continue;
+                    }
 
                     this.list.push(item);
                 }
+            },
+            handleChangeStartTime(val) {
+                this.tags.startTime = val;
+                this.filterList();
             },
             handleCheckedTrainTypes(value) {
                 let checkedCount = value.length;
@@ -676,12 +711,6 @@
 
   .search-ticket {
     position: relative;
-
-    .title {
-      color: #000;
-      font-size: 24px;
-      margin-left: 35px;
-    }
   }
 
   /deep/ .el-form {
