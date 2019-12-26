@@ -3,18 +3,13 @@
     <el-col>
       <el-col class="search-ticket">
         <el-card class="box-card">
-          <el-row class="title">
-            12309余票查询
-          </el-row>
-
           <el-form
             ref="form"
             :rules="rules"
             :inline="true"
             :model="params"
-            label-width="100px"
+            label-width="95px"
             label-suffix="："
-            style="margin-top: 25px;"
           >
             <el-row>
               <el-form-item
@@ -23,6 +18,7 @@
                 prop="fromStationNo"
               >
                 <el-select
+                  style="width: 220px;"
                   v-model="params.fromStationNo"
                   placeholder="简拼/全拼/汉字"
                   filterable
@@ -61,20 +57,8 @@
                   />
                 </el-select>
               </el-form-item>
-              <el-form-item
-                label="出发日期"
-                size="small"
-                prop="date"
-              >
-                <el-date-picker
-                  :editable="false"
-                  v-model="params.date"
-                  value-format="yyyy-MM-dd"
-                  placeholder="请选择出发日期"
-                />
-              </el-form-item>
 
-              <el-form-item style="float: right">
+              <el-form-item style="margin-left: 20px;">
                 <el-button
                   type="primary"
                   icon="el-icon-search"
@@ -94,7 +78,48 @@
               </el-form-item>
             </el-row>
 
-            <el-row v-show="trainTypeAll.length">
+            <el-row>
+              <el-form-item
+                label="出发日期"
+                size="small"
+                prop="date"
+              >
+                <el-date-picker
+                  :editable="false"
+                  v-model="params.date"
+                  value-format="yyyy-MM-dd"
+                  placeholder="请选择出发日期"
+                />
+              </el-form-item>
+
+              <el-form-item
+                label="出发时间"
+              >
+                <el-select
+                  @change="handleChangeStartTime"
+                  size="small"
+                  v-model="tags.startTime"
+                  placeholder="请选择出发时间"
+                >
+                  <el-option
+                    v-for="item in startTimeList"
+                    :key="item"
+                    :label="item"
+                    :value="item"
+                  />
+                </el-select>
+              </el-form-item>
+            </el-row>
+
+            <div
+              v-show="trainTypeAll.length"
+              style="height: 1px;background: #f5f5f5"
+            />
+
+            <el-row
+              v-show="trainTypeAll.length"
+              style="margin-top: 10px;"
+            >
               <el-form-item
                 label="车次类型"
                 style="margin-bottom: 0;"
@@ -178,6 +203,14 @@
               </el-form-item>
             </el-row>
           </el-form>
+
+          <div
+            class="infos"
+            v-show="list.length"
+          >
+            {{ stationMap[params.fromStationNo] }}-->{{ stationMap[params.toStationNo] }}（{{ params.date }}）共计 <strong>{{
+            list.length }}</strong> 个车次
+          </div>
         </el-card>
       </el-col>
       <el-table
@@ -232,9 +265,13 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column>
+        <el-table-column
+          width="100"
+          sortable
+          prop="startTime"
+        >
           <template slot="header">
-            <span>
+            <span style="float: left;margin-left: 18px;">
               <span>出发时间</span>
               <br>
               <span>到达时间</span>
@@ -434,8 +471,10 @@
                     fromStations: [],
                     fromStationsHahChange: false,
                     toStations: [],
-                    toStationsHahChange: false
+                    toStationsHahChange: false,
+                    startTime: '00:00--24:00'
                 },
+                startTimeList: ['00:00--24:00', '00:00-06:00', '06:00-12:00', '12:00--18:00', '18:00--24:00'],
                 stationMap: {},
                 fromStations: [],
                 loadingFromStations: false,
@@ -449,7 +488,9 @@
                 isFromStationIndeterminate: false,
                 toStationAll: [],
                 toStationCheckAll: false,
-                isToStationIndeterminate: false
+                isToStationIndeterminate: false,
+                header: {},
+                headerY: 0
             };
         },
         methods: {
@@ -515,9 +556,17 @@
                     if (this.tags.toStations.length && !this.tags.toStations.includes(toStationTelecode)) {
                         continue;
                     }
+                    let arr = this.tags.startTime.split('--');
+                    if (item.startTime < arr[0] || item.startTime > arr[1]) {
+                        continue;
+                    }
 
                     this.list.push(item);
                 }
+            },
+            handleChangeStartTime(val) {
+                this.tags.startTime = val;
+                this.filterList();
             },
             handleCheckedTrainTypes(value) {
                 let checkedCount = value.length;
@@ -599,6 +648,7 @@
                             this.toStationAll = data.toStationAll;
 
                             this.filterList();
+                            this.headerY = this.getTop(this.header);
                         }).catch(res => {
                             this.error(res.respMsg);
                         }).finally(() => {
@@ -606,9 +656,29 @@
                         });
                     }
                 });
+            },
+            handleScroll() {
+                if (this.headerY <= window.pageYOffset - 33) {
+                    this.header.classList.add('fixed-header');
+                } else {
+                    this.header.classList.remove('fixed-header');
+                }
+            },
+            getTop(e) {
+                let offset = e.offsetTop;
+                if (e.offsetParent != null) offset += this.getTop(e.offsetParent);
+                return offset;
             }
         },
+        beforeDestroy() {
+            this.util.off(window, 'scroll', this.handleScroll);
+        },
         mounted() {
+            this.util.on(window, 'scroll', this.handleScroll);
+            this.$nextTick(function () {
+                this.header = document.getElementsByClassName('el-table__header-wrapper')[0];
+            });
+
             Object.keys(this.$route.query).forEach(key => {
                 this.params[key] = this.$route.query[key];
                 if (key === 'fromStationNo' && this.params[key]) {
@@ -641,11 +711,7 @@
   }
 
   .search-ticket {
-    .title {
-      color: #000;
-      font-size: 24px;
-      margin-left: 35px;
-    }
+    position: relative;
   }
 
   /deep/ .el-form {
@@ -663,8 +729,12 @@
     font-size: 12px;
     font-weight: bold;
 
-    .el-table__header {
-      /*width: 1240px !important;*/
+    .fixed-header {
+      position: fixed;
+      top: 0;
+      z-index: 9999;
+      width: 1238px;
+      border: 1px solid #d5d5d5;
     }
 
     th {
@@ -673,6 +743,7 @@
 
       .cell {
         text-align: center;
+        padding: 0;
       }
     }
 
@@ -693,5 +764,11 @@
     }
   }
 
+  .infos {
+    position: absolute;
+    right: 20px;
+    bottom: 10px;
+    font-size: 13px;
+  }
 
 </style>

@@ -16,11 +16,9 @@
         },
         mounted() {
             this.util.on(window, 'scroll', this.handleScroll);
-            this.util.on(window, 'resize', this.handleScroll);
         },
         beforeDestroy() {
             this.util.off(window, 'scroll', this.handleScroll);
-            this.util.off(window, 'resize', this.handleScroll);
         },
         methods: {
             handleScroll() {
