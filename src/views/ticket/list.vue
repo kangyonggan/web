@@ -18,7 +18,6 @@
                 prop="fromStationNo"
               >
                 <el-select
-                  style="width: 220px;"
                   v-model="params.fromStationNo"
                   placeholder="简拼/全拼/汉字"
                   filterable
@@ -85,6 +84,7 @@
                 prop="date"
               >
                 <el-date-picker
+                  style="width: 174px;"
                   :editable="false"
                   v-model="params.date"
                   value-format="yyyy-MM-dd"
@@ -429,7 +429,14 @@
         </el-table-column>
       </el-table>
       <div style="float:left;width:100%;text-align: center;color: #999;font-size: 13px;margin-top: 10px;">
-        仅供学习使用，请勿用于商业用途，由此带来的一切后果，本站概不负责。
+        仅供学习使用，请勿用于商业用途，由此带来的一切后果，本站概不负责。<br>
+        如需购票，请前往
+        <a
+          href="https://www.12306.cn/"
+          target="_blank"
+        >
+          12306官网
+        </a>。
       </div>
     </el-col>
   </div>
