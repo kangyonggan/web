@@ -18,6 +18,7 @@
                 prop="fromStationNo"
               >
                 <el-select
+                  style="width: 174px;"
                   v-model="params.fromStationNo"
                   placeholder="简拼/全拼/汉字"
                   filterable
@@ -40,6 +41,7 @@
                 prop="toStationNo"
               >
                 <el-select
+                  style="width: 174px;"
                   v-model="params.toStationNo"
                   placeholder="简拼/全拼/汉字"
                   filterable
@@ -96,6 +98,7 @@
                 label="出发时间"
               >
                 <el-select
+                  style="width: 174px;"
                   @change="handleChangeStartTime"
                   size="small"
                   v-model="tags.startTime"
