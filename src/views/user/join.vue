@@ -45,17 +45,6 @@
             clearable
           />
         </el-form-item>
-        <el-form-item
-          label="姓名"
-          prop="name"
-        >
-          <el-input
-            v-model="params.name"
-            placeholder="请输入姓名"
-            @keyup.enter.native="submit"
-            clearable
-          />
-        </el-form-item>
         <el-form-item>
           <el-button
             size="medium"
@@ -104,10 +93,6 @@
                     rePassword: [
                         {required: true, message: '确认密码为必填项'},
                         {validator: this.validateRePassword}
-                    ],
-                    name: [
-                        {required: true, message: '姓名为必填项'},
-                        {max: 20, message: '姓名最多为20位'},
                     ]
                 }
             };

@@ -23,7 +23,7 @@
       </ul>
 
       <el-button
-        v-if="!$store.getters.getUser.name"
+        v-if="!$store.getters.getUser.account"
         class="login-btn"
         type="primary"
         @click="login"
@@ -36,12 +36,12 @@
         class="user-info"
       >
         <span @click="admin">
-          <i class="el-icon-monitor" />
-          控制台
+          <i class="el-icon-user" />
+          您好，{{ $store.getters.getUser.name || $store.getters.getUser.account }}
         </span>
         <span @click="logout">
           <i class="el-icon-switch-button" />
-          注销
+          退出
         </span>
       </div>
     </div>
