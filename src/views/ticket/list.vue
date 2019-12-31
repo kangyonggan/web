@@ -74,7 +74,7 @@
                   icon="el-icon-time"
                   @click="warning('开发中...')"
                 >
-                  抢票
+                  预定
                 </el-button>
               </el-form-item>
             </el-row>
@@ -88,7 +88,7 @@
                 <el-date-picker
                   style="width: 174px;"
                   :editable="false"
-                  v-model="params.date"
+                  v-model="params.trainDate"
                   value-format="yyyy-MM-dd"
                   placeholder="请选择出发日期"
                 />
@@ -211,8 +211,8 @@
             class="infos"
             v-show="list.length"
           >
-            {{ stationMap[params.fromStationNo] }}-->{{ stationMap[params.toStationNo] }}（{{ params.date }}）共计 <strong>{{
-            list.length }}</strong> 个车次
+            {{ stationMap[params.fromStationNo] }}-->{{ stationMap[params.toStationNo] }}（{{ oldParams.trainDate }}）共计 <strong>{{
+              list.length }}</strong> 个车次
           </div>
         </el-card>
       </el-col>
@@ -418,16 +418,19 @@
               type="primary"
               style="padding: 6px 12px"
               v-if="scope.row.canWebBuy === 'Y'"
-              @click="warning('开发中...')"
+              @click="order(scope.row)"
             >
-              预定
+              抢票
             </el-button>
-            <div
+            <el-button
+              size="small"
+              type="danger"
+              style="padding: 6px 12px"
               v-else
-              style="color: #999;text-align: center"
+              @click="order(scope.row)"
             >
-              预定
-            </div>
+              抢票
+            </el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -463,7 +466,7 @@
                     toStationNo: [
                         {required: true, message: '请选择目的地'}
                     ],
-                    date: [
+                    trainDate: [
                         {required: true, message: '请选择出发日期'}
                     ]
                 },
@@ -474,7 +477,7 @@
                 params: {
                     fromStationNo: undefined,
                     toStationNo: undefined,
-                    date: this.util.formatTimestamp(new Date().getTime() + 86400000, 'yyyy-MM-dd')
+                    trainDate: this.util.formatTimestamp(new Date().getTime() + 86400000, 'yyyy-MM-dd')
                 },
                 tags: {
                     trainTypes: [],
@@ -630,7 +633,7 @@
                 this.$refs.form.validate((valid) => {
                     if (valid) {
                         this.loading = true;
-                        this.axios.get('/ticket?' + qs.stringify(this.params)).then(data => {
+                        this.axios.get('ticket?' + qs.stringify(this.params)).then(data => {
                             this.oldParams = Object.assign({}, this.params);
 
                             if (this.tags.fromStationsHahChange || this.tags.toStationsHahChange) {
@@ -678,6 +681,15 @@
                 let offset = e.offsetTop;
                 if (e.offsetParent != null) offset += this.getTop(e.offsetParent);
                 return offset;
+            },
+            order(ticket) {
+                ticket.trainDate = this.oldParams.trainDate;
+                ticket.secretStr = '';
+                ticket.buttonTextInfo = '';
+                this.$router.push({
+                   path: '/ticket/order',
+                   query: ticket
+                });
             }
         },
         beforeDestroy() {

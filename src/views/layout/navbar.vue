@@ -80,7 +80,7 @@
                     },
                     {
                         code: '/ticket',
-                        value: '12309'
+                        value: '抢票'
                     }
                 ]
             };

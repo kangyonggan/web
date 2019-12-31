@@ -105,9 +105,16 @@ const routers = [
             {
                 path: 'ticket',
                 meta: {
-                    title: '12309'
+                    title: '抢票'
                 },
                 component: (resolve) => require(['./views/ticket/list.vue'], resolve)
+            },
+            {
+                path: 'ticket/order',
+                meta: {
+                    title: '下单'
+                },
+                component: (resolve) => require(['./views/ticket/order.vue'], resolve)
             },
             {
                 path: '*',
