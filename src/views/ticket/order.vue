@@ -42,7 +42,7 @@
                 v-for="station in result.allStations"
                 :key="station.station_no"
                 :title="station.station_name"
-                :status="station.station_no === query.fromStationNo || station.station_no === query.toStationNo ? 'finish' : 'wait'"
+                :status="(station.station_no * 1 >= query.fromStationNo * 1) && (station.station_no * 1 <= query.toStationNo * 1) ? 'finish' : 'wait'"
               />
             </el-steps>
           </el-row>
