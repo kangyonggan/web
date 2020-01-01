@@ -117,6 +117,13 @@ const routers = [
                 component: (resolve) => require(['./views/ticket/order.vue'], resolve)
             },
             {
+                path: 'ticket/submitted',
+                meta: {
+                    title: '下单成功'
+                },
+                component: (resolve) => require(['./views/ticket/submitted.vue'], resolve)
+            },
+            {
                 path: '*',
                 meta: {
                     title: '404'

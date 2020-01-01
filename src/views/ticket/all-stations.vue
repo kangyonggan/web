@@ -2,7 +2,7 @@
   <el-dialog
     :title="ticket.stationTrainCode + '途径站点'"
     :visible.sync="dialogVisible"
-    width="900"
+    width="900px"
   >
     <el-steps
       v-loading="loading"

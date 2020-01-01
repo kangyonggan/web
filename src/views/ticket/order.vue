@@ -28,147 +28,151 @@
 
         <el-row class="checkbox">
           <el-col
-            :span="4"
+            :span="3"
             style="text-align: right;padding-right: 20px;"
           >
             出发日期：
           </el-col>
-          <el-checkbox-group
-            v-model="params.trainDates"
-          >
-            <el-col
-              :span="4"
-              v-for="date in result.trainDates"
-              :key="date"
+          <el-col :span="21">
+            <el-checkbox-group
+              v-model="params.trainDates"
             >
-              <el-checkbox
-                :disabled="date === params.trainDates[0]"
-                :label="date"
+              <el-col
+                :span="4"
+                v-for="date in result.trainDates"
+                :key="date"
               >
-                {{ date }}
-                <span
-                  style="font-size: 12px;font-weight: normal;"
-                  v-if="date === params.trainDates[0]"
-                >（{{ result.weekday }}）</span>
-              </el-checkbox>
-            </el-col>
-          </el-checkbox-group>
+                <el-checkbox
+                  :disabled="date === params.trainDates[0]"
+                  :label="date"
+                >
+                  {{ date }}
+                  <span
+                    style="font-size: 12px;font-weight: normal;"
+                    v-if="date === params.trainDates[0]"
+                  >（{{ result.weekday }}）</span>
+                </el-checkbox>
+              </el-col>
+            </el-checkbox-group>
+          </el-col>
         </el-row>
 
         <el-row class="checkbox">
           <el-col
-            :span="4"
+            :span="3"
             style="text-align: right;padding-right: 20px;"
           >
             抢票车次：
           </el-col>
-          <el-checkbox-group
-            v-model="params.trainNos"
-          >
-            <el-col
-              class="train-info"
-              :span="20"
-              v-for="ticket in result.goodTickets"
-              :key="ticket.trainNo"
+          <el-col :span="21">
+            <el-checkbox-group
+              v-model="params.trainNos"
             >
-              <el-checkbox
-                :disabled="ticket.trainNo === params.trainNos[0]"
-                :label="ticket.trainNo"
+              <el-col
+                class="train-info"
+                :span="24"
+                v-for="ticket in result.goodTickets"
+                :key="ticket.trainNo"
               >
-                <span>
-                  <label>车次:</label>
-                  <span
-                    style="padding-left: 2px;text-decoration: underline;"
-                    @click="queryAllStations(ticket)"
-                  >{{ ticket.stationTrainCode }}</span>
-                </span>
-                <span>
-                  <label>出发:</label>
-                  {{ ticket.startTime }}
-                </span>
-                <span>
-                  <label>历时:</label>
-                  {{ ticket.lishi }}
-                </span>
-                <span>
-                  <label>到达:</label>
-                  {{ ticket.arriveTime }}
-                  <span
-                    style="font-size: 8px;color: #ccc;"
-                    v-if="ticket.lishi.substring(0, 2) * 1 < 24 && ticket.startTime < ticket.arriveTime"
-                  >
-                    (当日)
+                <el-checkbox
+                  :disabled="ticket.trainNo === params.trainNos[0]"
+                  :label="ticket.trainNo"
+                >
+                  <span>
+                    <label>车次:</label>
+                    <span
+                      style="padding-left: 2px;text-decoration: underline;"
+                      @click="queryAllStations(ticket)"
+                    >{{ ticket.stationTrainCode }}</span>
                   </span>
-                  <span
-                    style="font-size: 8px;color: #e74e19 !important;"
-                    v-else
-                  >
-                    (次日)
+                  <span>
+                    <label>出发:</label>
+                    {{ ticket.startTime }}
                   </span>
-                </span>
-                <div class="ticket-num">
-                  <span v-show="ticket.swzNum">
-                    <label>商务座:</label>
-                    {{ ticket.swzNum }}
-                    <em v-show="ticket.trainNo === params.trainNos[0]">{{ result.ticketPrice.A9 }}</em>
+                  <span>
+                    <label>历时:</label>
+                    {{ ticket.lishi }}
                   </span>
-                  <span v-show="ticket.tzNum">
-                    <label>特等座:</label>
-                    {{ ticket.tzNum }}
+                  <span>
+                    <label>到达:</label>
+                    {{ ticket.arriveTime }}
+                    <span
+                      style="font-size: 8px;color: #ccc;"
+                      v-if="ticket.lishi.substring(0, 2) * 1 < 24 && ticket.startTime < ticket.arriveTime"
+                    >
+                      (当日)
+                    </span>
+                    <span
+                      style="font-size: 8px;color: #e74e19 !important;"
+                      v-else
+                    >
+                      (次日)
+                    </span>
                   </span>
-                  <span v-show="ticket.zyNum">
-                    <label>一等座:</label>
-                    {{ ticket.zyNum }}
-                    <em v-show="ticket.trainNo === params.trainNos[0]">{{ result.ticketPrice.M }}</em>
-                  </span>
-                  <span v-show="ticket.zeNum">
-                    <label>二等座:</label>
-                    {{ ticket.zeNum }}
-                    <em v-show="ticket.trainNo === params.trainNos[0]">{{ result.ticketPrice.O }}</em>
-                  </span>
-                  <span v-show="ticket.grNum">
-                    <label>高软:</label>
-                    {{ ticket.grNum }}
-                    <em v-show="ticket.trainNo === params.trainNos[0]">{{ result.ticketPrice.A6 }}</em>
-                  </span>
-                  <span v-show="ticket.rwNum">
-                    <label>软卧:</label>
-                    {{ ticket.rwNum }}
-                    <em v-show="ticket.trainNo === params.trainNos[0]">{{ result.ticketPrice.A4 }}</em>
-                  </span>
-                  <span v-show="ticket.srrbNum">
-                    <label>动卧:</label>
-                    {{ ticket.srrbNum }}
-                    <em v-show="ticket.trainNo === params.trainNos[0]">{{ result.ticketPrice.F }}</em>
-                  </span>
-                  <span v-show="ticket.ywNum">
-                    <label>硬卧:</label>
-                    {{ ticket.ywNum }}
-                    <em v-show="ticket.trainNo === params.trainNos[0]">{{ result.ticketPrice.A3 }}</em>
-                  </span>
-                  <span v-show="ticket.rzNum">
-                    <label>软座:</label>
-                    {{ ticket.rzNum }}
-                    <em v-show="ticket.trainNo === params.trainNos[0]">{{ result.ticketPrice.A2 }}</em>
-                  </span>
-                  <span v-show="ticket.yzNum">
-                    <label>硬座:</label>
-                    {{ ticket.yzNum }}
-                    <em v-show="ticket.trainNo === params.trainNos[0]">{{ result.ticketPrice.A1 }}</em>
-                  </span>
-                  <span v-show="ticket.wzNum">
-                    <label>无座:</label>
-                    {{ ticket.wzNum }}
-                    <em v-show="ticket.trainNo === params.trainNos[0]">{{ result.ticketPrice.WZ }}</em>
-                  </span>
-                  <span v-show="ticket.qtNum">
-                    <label>其他:</label>
-                    {{ ticket.qtNum }}
-                  </span>
-                </div>
-              </el-checkbox>
-            </el-col>
-          </el-checkbox-group>
+                  <div class="ticket-num">
+                    <span v-show="ticket.swzNum">
+                      <label>商务座:</label>
+                      {{ ticket.swzNum }}
+                      <em v-show="ticket.trainNo === params.trainNos[0]">{{ result.ticketPrice.A9 }}</em>
+                    </span>
+                    <span v-show="ticket.tzNum">
+                      <label>特等座:</label>
+                      {{ ticket.tzNum }}
+                    </span>
+                    <span v-show="ticket.zyNum">
+                      <label>一等座:</label>
+                      {{ ticket.zyNum }}
+                      <em v-show="ticket.trainNo === params.trainNos[0]">{{ result.ticketPrice.M }}</em>
+                    </span>
+                    <span v-show="ticket.zeNum">
+                      <label>二等座:</label>
+                      {{ ticket.zeNum }}
+                      <em v-show="ticket.trainNo === params.trainNos[0]">{{ result.ticketPrice.O }}</em>
+                    </span>
+                    <span v-show="ticket.grNum">
+                      <label>高软:</label>
+                      {{ ticket.grNum }}
+                      <em v-show="ticket.trainNo === params.trainNos[0]">{{ result.ticketPrice.A6 }}</em>
+                    </span>
+                    <span v-show="ticket.rwNum">
+                      <label>软卧:</label>
+                      {{ ticket.rwNum }}
+                      <em v-show="ticket.trainNo === params.trainNos[0]">{{ result.ticketPrice.A4 }}</em>
+                    </span>
+                    <span v-show="ticket.srrbNum">
+                      <label>动卧:</label>
+                      {{ ticket.srrbNum }}
+                      <em v-show="ticket.trainNo === params.trainNos[0]">{{ result.ticketPrice.F }}</em>
+                    </span>
+                    <span v-show="ticket.ywNum">
+                      <label>硬卧:</label>
+                      {{ ticket.ywNum }}
+                      <em v-show="ticket.trainNo === params.trainNos[0]">{{ result.ticketPrice.A3 }}</em>
+                    </span>
+                    <span v-show="ticket.rzNum">
+                      <label>软座:</label>
+                      {{ ticket.rzNum }}
+                      <em v-show="ticket.trainNo === params.trainNos[0]">{{ result.ticketPrice.A2 }}</em>
+                    </span>
+                    <span v-show="ticket.yzNum">
+                      <label>硬座:</label>
+                      {{ ticket.yzNum }}
+                      <em v-show="ticket.trainNo === params.trainNos[0]">{{ result.ticketPrice.A1 }}</em>
+                    </span>
+                    <span v-show="ticket.wzNum">
+                      <label>无座:</label>
+                      {{ ticket.wzNum }}
+                      <em v-show="ticket.trainNo === params.trainNos[0]">{{ result.ticketPrice.WZ }}</em>
+                    </span>
+                    <span v-show="ticket.qtNum">
+                      <label>其他:</label>
+                      {{ ticket.qtNum }}
+                    </span>
+                  </div>
+                </el-checkbox>
+              </el-col>
+            </el-checkbox-group>
+          </el-col>
         </el-row>
 
         <el-row
@@ -176,7 +180,7 @@
           style="margin-top:10px;"
         >
           <el-col
-            :span="4"
+            :span="3"
             style="text-align: right;padding-right: 20px;"
           >
             抢票席座：
@@ -279,7 +283,7 @@
             style="border-right: 1px dashed #d5d5d5;"
           >
             <el-steps
-              :active="1"
+              :active="0"
               direction="vertical"
               style="height: 300px;"
             >
@@ -307,6 +311,7 @@
             class="tips"
           >
             <ul>
+              <li>站长微信手机同号：18516690317。</li>
               <li>用户提交订单并审核通过后，程序会调用12306接口，把乘客信息添加到站长的常用联系人中，从而不需要用户登录12306。</li>
               <li>程序定时调用12306接口查询余票，如果有符合条件的车票立即下单，这时候站长12306的未完成订单中会出现待支付的车票订单。</li>
               <li>站长把车票订单截图发送给用户，用户确认没问题之后把钱转给站长（30分钟内），因为站长是个人不是企业，没那么多钱进行垫付。</li>
@@ -321,6 +326,80 @@
     </el-form>
 
     <all-stations ref="allStations" />
+
+    <el-dialog
+      title="请核对以下信息"
+      :visible.sync="dialogVisible"
+      width="600px"
+      class="confirm-info"
+    >
+      <el-row class="title">
+        {{ result.fromStationName }} ---> {{ result.toStationName }}
+      </el-row>
+      <el-row>
+        <el-col
+          class="label"
+        >
+          出发日期：
+        </el-col>
+        <el-col
+          v-for="(trainDate, index) in params.trainDates"
+          :key="index"
+        >
+          {{ trainDate }}<span v-show="index < params.trainDates.length - 1">、</span>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col
+          class="label"
+        >
+          抢票车次：
+        </el-col>
+        <el-col
+          v-for="(trainNo, index) in params.trainNos"
+          :key="index"
+        >
+          {{ getStationTrainCode(trainNo) }}<span v-show="index < params.trainNos.length - 1">、</span>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col
+          class="label"
+        >
+          抢票席座：
+        </el-col>
+        <el-col
+          v-for="(trainSeat, index) in params.trainSeats"
+          :key="index"
+        >
+          {{ getSeatName(trainSeat) }}<span v-show="index < params.trainSeats.length - 1">、</span>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col
+          class="label"
+        >
+          乘客信息：
+        </el-col>
+        {{ params.name }}、
+        {{ params.idNo }}、
+        {{ params.mobileNo }}
+      </el-row>
+      <div
+        slot="footer"
+        class="dialog-footer"
+      >
+        <el-button @click="dialogVisible = false">
+          取 消
+        </el-button>
+        <el-button
+          type="primary"
+          @click="confirmOk"
+        >
+          确 定
+        </el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -332,6 +411,7 @@
         components: {AllStations},
         data() {
             return {
+                dialogVisible: false,
                 loading: false,
                 params: {
                     trainDates: [],
@@ -341,13 +421,16 @@
                 result: {},
                 rules: {
                     name: [
-                        {required: true, message: '姓名为必填项'}
+                        {required: true, message: '姓名为必填项'},
+                        {max: 20, message: '姓名多20个字符'}
                     ],
                     idNo: [
-                        {required: true, message: '身份证号码为必填项'}
+                        {required: true, message: '身份证号码为必填项'},
+                        {validator: this.validateIdNol}
                     ],
                     mobileNo: [
-                        {required: true, message: '手机号为必填项'}
+                        {required: true, message: '手机号为必填项'},
+                        {max: 20, message: '手机号多20个字符'}
                     ],
                     trainSeats: [
                         {required: true, message: '席别为必填项'}
@@ -356,6 +439,18 @@
             };
         },
         methods: {
+            validateIdNol: function (rule, value, callback) {
+                if (!value) {
+                    callback();
+                    return;
+                }
+
+                this.axios.get('validate/idNo?idNo=' + value).then(() => {
+                    callback();
+                }).catch(res => {
+                    callback(new Error(res.respMsg));
+                });
+            },
             initTicketInfo(params) {
                 this.params.trainDates[0] = params.trainDate;
                 this.params.trainNos[0] = params.trainNo;
@@ -365,18 +460,18 @@
                     let types = [];
                     for (let i = 0; i < data.goodTickets.length; i++) {
                         let ticket = data.goodTickets[i];
-                        this.dealNum(ticket, 'swzNum', '商务座', types, trainSeats);
-                        this.dealNum(ticket, 'tzNum', '特等座', types, trainSeats);
-                        this.dealNum(ticket, 'zyNum', '一等座', types, trainSeats);
-                        this.dealNum(ticket, 'zeNum', '二等座', types, trainSeats);
-                        this.dealNum(ticket, 'grNum', '高软', types, trainSeats);
-                        this.dealNum(ticket, 'rwNum', '软卧', types, trainSeats);
-                        this.dealNum(ticket, 'srrbNum', '动卧', types, trainSeats);
-                        this.dealNum(ticket, 'ywNum', '硬卧', types, trainSeats);
-                        this.dealNum(ticket, 'rzNum', '软座', types, trainSeats);
-                        this.dealNum(ticket, 'yzNum', '硬座', types, trainSeats);
-                        this.dealNum(ticket, 'wzNum', '无座', types, trainSeats);
-                        this.dealNum(ticket, 'qtNum', '其他', types, trainSeats);
+                        this.dealNum(ticket, 'swz', '商务座', types, trainSeats);
+                        this.dealNum(ticket, 'tz', '特等座', types, trainSeats);
+                        this.dealNum(ticket, 'zy', '一等座', types, trainSeats);
+                        this.dealNum(ticket, 'ze', '二等座', types, trainSeats);
+                        this.dealNum(ticket, 'gr', '高软', types, trainSeats);
+                        this.dealNum(ticket, 'rw', '软卧', types, trainSeats);
+                        this.dealNum(ticket, 'srrb', '动卧', types, trainSeats);
+                        this.dealNum(ticket, 'yw', '硬卧', types, trainSeats);
+                        this.dealNum(ticket, 'rz', '软座', types, trainSeats);
+                        this.dealNum(ticket, 'yz', '硬座', types, trainSeats);
+                        this.dealNum(ticket, 'wz', '无座', types, trainSeats);
+                        this.dealNum(ticket, 'qt', '其他', types, trainSeats);
                     }
                     data.trainSeats = trainSeats;
                     this.result = data;
@@ -387,7 +482,7 @@
                 });
             },
             dealNum(ticket, type, label, types, trainSeats) {
-                if (ticket[type] && !types.includes(type)) {
+                if (ticket[type + 'Num'] && !types.includes(type)) {
                     types.push(type);
                     trainSeats.push({
                         type: type,
@@ -404,8 +499,44 @@
                         return;
                     }
 
-
+                    this.dialogVisible = true;
                 });
+            },
+            confirmOk() {
+                this.dialogVisible = false;
+                this.loading = true;
+                this.axios.post('ticket/submitOrder', this.params).then(data => {
+                    this.$router.push({
+                        path: '/ticket/submitted',
+                        query: {
+                            orderNo: data.orderNo
+                        }
+                    });
+                }).catch(res => {
+                    this.error(res.respMsg);
+                }).finally(() => {
+                    this.loading = false;
+                });
+            },
+            getStationTrainCode(trainNo) {
+                if (!this.result.goodTickets) {
+                    return;
+                }
+                for (let i = 0; i < this.result.goodTickets.length; i++) {
+                    if (trainNo === this.result.goodTickets[i].trainNo) {
+                        return this.result.goodTickets[i].stationTrainCode;
+                    }
+                }
+            },
+            getSeatName(trainSeat) {
+                if (!this.result.trainSeats) {
+                    return;
+                }
+                for (let i = 0; i < this.result.trainSeats.length; i++) {
+                    if (trainSeat === this.result.trainSeats[i].type) {
+                        return this.result.trainSeats[i].label;
+                    }
+                }
             }
         },
         mounted() {
@@ -455,7 +586,6 @@
   }
 
   .train-info {
-    float: right;
     margin-bottom: 20px;
     background: #fdfdfd;
     padding: 8px 10px;
@@ -483,7 +613,7 @@
           float: right;
 
           span {
-            width: 108px;
+            width: 120px;
           }
 
           em {
@@ -514,7 +644,37 @@
       li {
         font-size: 13px;
         color: #999;
-        margin-top: 10px;
+        margin-bottom: 10px;
+      }
+    }
+  }
+
+  .confirm-info {
+    /deep/ .el-dialog__body {
+      padding-top: 5px;
+    }
+
+    .title {
+      font-weight: bold;
+      color: #000;
+      font-size: 16px;
+      text-align: center;
+    }
+
+    .el-row {
+      margin-top: 15px;
+
+      .el-col {
+        display: inline-block;
+        font-size: 13px;
+        float: left;
+        width: auto;
+      }
+
+      .label {
+        font-weight: bold;
+        text-align: right;
+        padding-right: 10px;
       }
     }
   }
