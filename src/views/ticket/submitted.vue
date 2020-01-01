@@ -25,6 +25,12 @@
         />
       </el-steps>
     </el-row>
+
+    <el-row style="margin-top: 80px;text-align: center;margin-bottom: 30px;">
+      <el-button @click="$router.push('/ticket')">
+        继续抢票
+      </el-button>
+    </el-row>
   </el-card>
 </template>
 
