@@ -211,7 +211,7 @@
             class="infos"
             v-show="list.length"
           >
-            {{ stationMap[params.fromStationNo] }}-->{{ stationMap[params.toStationNo] }}（{{ oldParams.trainDate }}）共计 <strong>{{
+            {{ stationMap[params.fromStationTelecode] }} --> {{ stationMap[params.toStationTelecode] }}（{{ oldParams.trainDate }}）共计 <strong>{{
               list.length }}</strong> 个车次
           </div>
         </el-card>
@@ -227,7 +227,10 @@
           label="车次"
         >
           <template slot-scope="scope">
-            <div style="font-size: 16px;color: #000;text-align: right">
+            <div
+              style="font-size: 16px;color: #000;text-align: right;cursor: pointer;text-decoration: underline"
+              @click="queryAllStations(scope.row)"
+            >
               {{ scope.row.stationTrainCode }}
             </div>
           </template>
@@ -445,15 +448,18 @@
         </a>。
       </div>
     </el-col>
+
+    <all-stations ref="allStations" />
   </div>
 </template>
 
 <script>
+    import AllStations from './all-stations';
     import Num from './num';
     import qs from 'qs';
 
     export default {
-        components: {Num},
+        components: {AllStations, Num},
         data() {
             return {
                 loading: false,
@@ -695,6 +701,9 @@
                        seatTypes: ticket.seatTypes
                    }
                 });
+            },
+            queryAllStations(ticket) {
+                this.$refs.allStations.show(ticket, this.oldParams.trainDate);
             }
         },
         beforeDestroy() {
@@ -759,7 +768,7 @@
     .fixed-header {
       position: fixed;
       top: 0;
-      z-index: 9999;
+      z-index: 99;
       width: 1238px;
       border: 1px solid #d5d5d5;
     }

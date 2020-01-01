@@ -77,7 +77,10 @@
               >
                 <span>
                   <label>车次:</label>
-                  {{ ticket.stationTrainCode }}
+                  <span
+                    style="padding-left: 2px;text-decoration: underline;"
+                    @click="queryAllStations(ticket)"
+                  >{{ ticket.stationTrainCode }}</span>
                 </span>
                 <span>
                   <label>出发:</label>
@@ -316,13 +319,17 @@
         </el-row>
       </el-card>
     </el-form>
+
+    <all-stations ref="allStations" />
   </div>
 </template>
 
 <script>
+    import AllStations from './all-stations';
     import qs from 'qs';
 
     export default {
+        components: {AllStations},
         data() {
             return {
                 loading: false,
@@ -387,6 +394,9 @@
                         label: label
                     });
                 }
+            },
+            queryAllStations(ticket) {
+                this.$refs.allStations.show(ticket, this.params.trainDates[0]);
             },
             submit() {
                 this.$refs.form.validate((valid) => {
