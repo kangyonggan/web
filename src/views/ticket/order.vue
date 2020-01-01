@@ -454,6 +454,8 @@
             initTicketInfo(params) {
                 this.params.trainDates[0] = params.trainDate;
                 this.params.trainNos[0] = params.trainNo;
+                this.params.fromStationTelecode = params.fromStationTelecode;
+                this.params.toStationTelecode = params.toStationTelecode;
                 this.loading = true;
                 this.axios.get('ticket/info?' + qs.stringify(params)).then(data => {
                     let trainSeats = [];
