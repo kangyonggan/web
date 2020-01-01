@@ -15,11 +15,11 @@
               <el-form-item
                 label="出发地"
                 size="small"
-                prop="fromStationNo"
+                prop="fromStationTelecode"
               >
                 <el-select
                   style="width: 174px;"
-                  v-model="params.fromStationNo"
+                  v-model="params.fromStationTelecode"
                   placeholder="简拼/全拼/汉字"
                   filterable
                   remote
@@ -31,18 +31,18 @@
                     v-for="item in fromStations"
                     :key="item.id"
                     :label="item.stationName"
-                    :value="item.stationNo"
+                    :value="item.stationTelecode"
                   />
                 </el-select>
               </el-form-item>
               <el-form-item
                 label="目的地"
                 size="small"
-                prop="toStationNo"
+                prop="toStationTelecode"
               >
                 <el-select
                   style="width: 174px;"
-                  v-model="params.toStationNo"
+                  v-model="params.toStationTelecode"
                   placeholder="简拼/全拼/汉字"
                   filterable
                   remote
@@ -54,7 +54,7 @@
                     v-for="item in toStations"
                     :key="item.id"
                     :label="item.stationName"
-                    :value="item.stationNo"
+                    :value="item.stationTelecode"
                   />
                 </el-select>
               </el-form-item>
@@ -297,7 +297,7 @@
             </div>
 
             <div style="margin-top: 2px;color: #999">
-              <span v-if="scope.row.startTime < scope.row.arriveTime">
+              <span v-if="scope.row.lishi.substring(0, 2) * 1 < 24 && scope.row.startTime < scope.row.arriveTime">
                 当日到达
               </span>
               <span
@@ -460,10 +460,10 @@
                 oldList: [],
                 list: [],
                 rules: {
-                    fromStationNo: [
+                    fromStationTelecode: [
                         {required: true, message: '请选择出发地'}
                     ],
-                    toStationNo: [
+                    toStationTelecode: [
                         {required: true, message: '请选择目的地'}
                     ],
                     trainDate: [
@@ -471,12 +471,12 @@
                     ]
                 },
                 oldParams: {
-                    fromStationNo: undefined,
-                    toStationNo: undefined
+                    fromStationTelecode: undefined,
+                    toStationTelecode: undefined
                 },
                 params: {
-                    fromStationNo: undefined,
-                    toStationNo: undefined,
+                    fromStationTelecode: undefined,
+                    toStationTelecode: undefined,
                     trainDate: this.util.formatTimestamp(new Date().getTime() + 86400000, 'yyyy-MM-dd')
                 },
                 tags: {
@@ -510,7 +510,7 @@
             query() {
                 this.$refs.form.validate((valid) => {
                     if (valid) {
-                        this.params._random = Math.random();
+                        this.params.random = Math.random();
 
                         this.$router.push({
                             path: '/ticket',
@@ -522,10 +522,10 @@
                 });
             },
             fromStationsChange(val) {
-                this.tags.fromStationsHahChange = this.oldParams.fromStationNo !== val;
+                this.tags.fromStationsHahChange = this.oldParams.fromStationTelecode !== val;
             },
             toStationsChange(val) {
-                this.tags.toStationsHahChange = this.oldParams.toStationNo !== val;
+                this.tags.toStationsHahChange = this.oldParams.toStationTelecode !== val;
             },
             searchFromStations(key) {
                 this.loadingFromStations = true;
@@ -683,12 +683,17 @@
                 return offset;
             },
             order(ticket) {
-                ticket.trainDate = this.oldParams.trainDate;
-                ticket.secretStr = '';
-                ticket.buttonTextInfo = '';
                 this.$router.push({
                    path: '/ticket/order',
-                   query: ticket
+                   query: {
+                       trainDate: this.oldParams.trainDate,
+                       trainNo: ticket.trainNo,
+                       fromStationTelecode: ticket.fromStationTelecode,
+                       toStationTelecode: ticket.toStationTelecode,
+                       fromStationNo: ticket.fromStationNo,
+                       toStationNo: ticket.toStationNo,
+                       seatTypes: ticket.seatTypes
+                   }
                 });
             }
         },
@@ -703,10 +708,10 @@
 
             Object.keys(this.$route.query).forEach(key => {
                 this.params[key] = this.$route.query[key];
-                if (key === 'fromStationNo' && this.params[key]) {
+                if (key === 'fromStationTelecode' && this.params[key]) {
                     this.searchFromStations(this.params[key]);
                 }
-                if (key === 'toStationNo' && this.params[key]) {
+                if (key === 'toStationTelecode' && this.params[key]) {
                     this.searchToStations(this.params[key]);
                 }
             });
