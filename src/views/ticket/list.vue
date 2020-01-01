@@ -74,7 +74,7 @@
                   icon="el-icon-time"
                   @click="warning('开发中...')"
                 >
-                  预定
+                  预约
                 </el-button>
               </el-form-item>
             </el-row>
