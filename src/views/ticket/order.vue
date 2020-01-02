@@ -429,7 +429,6 @@
                         {validator: this.validateIdNol}
                     ],
                     mobileNo: [
-                        {required: true, message: '手机号为必填项'},
                         {max: 20, message: '手机号多20个字符'}
                     ],
                     trainSeats: [

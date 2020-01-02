@@ -110,6 +110,13 @@ const routers = [
                 component: (resolve) => require(['./views/ticket/list.vue'], resolve)
             },
             {
+                path: 'ticket/login',
+                meta: {
+                    title: '登录12306'
+                },
+                component: (resolve) => require(['./views/ticket/login.vue'], resolve)
+            },
+            {
                 path: 'ticket/order',
                 meta: {
                     title: '下单'
