@@ -165,7 +165,7 @@
                         <em v-show="ticket.trainNo === oldParams.trainNo">{{ result.ticketPrice.A1 }}</em>
                       </span>
                       <span v-show="ticket.wzNum">
-                        <label>无座:</label>w
+                        <label>无座:</label>
                         {{ ticket.wzNum }}
                         <em v-show="ticket.trainNo === oldParams.trainNo">{{ result.ticketPrice.WZ }}</em>
                       </span>
@@ -217,7 +217,7 @@
             :span="8"
             style="font-size: 8px;color: #e74e19;float: right;text-align: right;"
           >
-            提示：发车前会放出大量无座票，且黄牛会每隔30分钟吐票一次。
+            提示：发车前会放出部分车票，且黄牛会每隔30分钟吐票一次。
           </el-col>
         </el-row>
       </el-card>
@@ -361,7 +361,7 @@
           v-for="(trainDate, index) in params.trainDates"
           :key="index"
         >
-          {{ trainDate }}<span v-show="index < params.trainDates.length - 1">、</span>
+          {{ trainDate }}、
         </el-col>
       </el-row>
       <el-row>
@@ -374,7 +374,7 @@
           v-for="(trainNo, index) in params.trainNos"
           :key="index"
         >
-          {{ getStationTrainCode(trainNo) }}<span v-show="index < params.trainNos.length - 1">、</span>
+          {{ getStationTrainCode(trainNo) }}、
         </el-col>
       </el-row>
       <el-row>
@@ -387,7 +387,7 @@
           v-for="(trainSeat, index) in params.trainSeats"
           :key="index"
         >
-          {{ getSeatName(trainSeat) }}<span v-show="index < params.trainSeats.length - 1">、</span>
+          {{ getSeatName(trainSeat) }}、
         </el-col>
       </el-row>
       <el-row>
@@ -494,8 +494,6 @@
                         this.dealNum(ticket, 'yw', '硬卧', types, trainSeats);
                         this.dealNum(ticket, 'rz', '软座', types, trainSeats);
                         this.dealNum(ticket, 'yz', '硬座', types, trainSeats);
-                        this.dealNum(ticket, 'wz', '无座', types, trainSeats);
-                        this.dealNum(ticket, 'qt', '其他', types, trainSeats);
                     }
                     data.trainSeats = trainSeats;
                     this.result = data;

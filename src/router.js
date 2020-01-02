@@ -17,6 +17,13 @@ const routers = [
                 component: (resolve) => require(['./views/user/login.vue'], resolve)
             },
             {
+                path: 'ticket/login',
+                meta: {
+                    title: '登录12306'
+                },
+                component: (resolve) => require(['./views/user/ticket-login.vue'], resolve)
+            },
+            {
                 path: 'join',
                 meta: {
                     title: '注册'
@@ -108,13 +115,6 @@ const routers = [
                     title: '抢票'
                 },
                 component: (resolve) => require(['./views/ticket/list.vue'], resolve)
-            },
-            {
-                path: 'ticket/login',
-                meta: {
-                    title: '登录12306'
-                },
-                component: (resolve) => require(['./views/ticket/login.vue'], resolve)
             },
             {
                 path: 'ticket/order',
