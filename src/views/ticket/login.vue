@@ -67,8 +67,8 @@
                     this.timer = setInterval(function () {
                         that.checkQr();
                     }, 2000);
-                }).catch(res => {
-                    this.error(res.respMsg);
+                }).catch(() => {
+                    this.error('权限不足！');
                 });
             },
             reLogin() {
