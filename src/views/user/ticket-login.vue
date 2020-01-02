@@ -54,7 +54,6 @@
             return {
                 loginConf: {},
                 qrPath: '',
-                timer: undefined,
                 status: ''
             };
         },
@@ -64,7 +63,7 @@
                     this.qrPath = data.qrPath;
 
                     let that = this;
-                    this.timer = setInterval(function () {
+                    setInterval(function () {
                         that.checkQr();
                     }, 2000);
                 }).catch(() => {
@@ -79,12 +78,7 @@
                     this.status = data.status;
 
                     if (this.status === '2') {
-                        this.loginConf = data.loginConf;
-                        this.qrPath = '';
-                        if (this.timer) {
-                            clearInterval(this.timer);
-                            this.timer = undefined;
-                        }
+                        window.location.reload();
                     }
                 }).catch(res => {
                     this.error(res.respMsg);

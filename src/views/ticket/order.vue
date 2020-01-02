@@ -221,6 +221,58 @@
           <span>目前仅支持一个人，而且仅支持成人。</span>
         </el-row>
 
+        <el-row class="contacts">
+          常用联系人：
+          <span
+            v-if="!$store.getters.getUser.account"
+            class="login-btn"
+            @click="login"
+          >
+            登录
+          </span>
+          <div
+            v-else
+            style="display: inline-block;margin-left: 20px;"
+          >
+            <div
+              class="cont-list"
+              v-if="contacts.length"
+            >
+              <span
+                v-for="cont in contacts"
+                :key="cont.id"
+                @click="selectContacts(cont)"
+              >
+                {{ cont.name }}
+                <em
+                  v-if="cont.status === '99'"
+                  class="status status_99"
+                >
+                  (通过)
+                </em>
+                <em
+                  v-else-if="cont.status === ''"
+                  class="status status_"
+                >
+                  (审核中)
+                </em>
+                <em
+                  v-else
+                  class="status"
+                >
+                  (失败)
+                </em>
+              </span>
+            </div>
+            <span
+              v-else
+              style="color: #999;"
+            >
+              暂无联系人
+            </span>
+          </div>
+        </el-row>
+
         <el-row class="passenger">
           <el-form-item
             label="姓名"
@@ -408,6 +460,11 @@
         </el-button>
       </div>
     </el-dialog>
+
+    <base-login
+      ref="login-modal"
+      @success="loginSuccess"
+    />
   </div>
 </template>
 
@@ -423,10 +480,14 @@
                 loading: false,
                 oldParams: {},
                 params: {
+                    name: '',
+                    idNo: '',
+                    mobileNo: '',
                     trainDates: [],
                     trainNos: [],
                     trainSeats: []
                 },
+                contacts: [],
                 result: {},
                 rules: {
                     name: [
@@ -518,14 +579,14 @@
                 });
             },
             comeBack() {
-              this.$router.push({
-                  path: '/ticket',
-                  query: {
-                      fromStationTelecode: this.oldParams.fromStationTelecode,
-                      toStationTelecode: this.oldParams.toStationTelecode,
-                      trainDate: this.oldParams.trainDate
-                  }
-              });
+                this.$router.push({
+                    path: '/ticket',
+                    query: {
+                        fromStationTelecode: this.oldParams.fromStationTelecode,
+                        toStationTelecode: this.oldParams.toStationTelecode,
+                        trainDate: this.oldParams.trainDate
+                    }
+                });
             },
             confirmOk() {
                 this.dialogVisible = false;
@@ -562,10 +623,33 @@
                         return this.result.trainSeats[i].label;
                     }
                 }
+            },
+            login() {
+                this.$refs['login-modal'].show();
+            },
+            loginSuccess() {
+                this.axios.get('ticket/contacts').then(data => {
+                    this.contacts = data.contacts;
+                }).catch(res => {
+                   this.error(res.respMsg);
+                });
+            },
+            selectContacts(cont) {
+                if (cont.status !== '99') {
+                    this.warning('联系人' + cont.name + '暂未通过12306的审核，请稍后刷新看看是否通过审核！');
+                    return;
+                }
+                this.params.name = cont.name;
+                this.params.idNo = cont.idNo;
+                this.params.mobileNo = cont.mobileNo;
             }
         },
         mounted() {
             this.initTicketInfo(this.$route.query);
+
+            if (this.$store.getters.getUser.account) {
+                this.loginSuccess();
+            }
         }
     };
 </script>
@@ -654,8 +738,40 @@
     margin-bottom: 0;
   }
 
+  .contacts {
+    margin-top: 20px;
+    font-size: 13px;
+
+    .login-btn {
+      text-decoration: underline;
+      color: #409EFF;
+      cursor: pointer;
+    }
+
+    .cont-list {
+      display: inline-block;
+
+      span {
+        margin-right: 20px;
+        color: #409EFF;
+        cursor: pointer;
+
+        em.status {
+          color: red;
+          font-size: 9px;
+        }
+        em.status_ {
+          color: gray;
+        }
+        em.status_99 {
+          color: #26a306;
+        }
+      }
+    }
+  }
+
   .passenger {
-    margin-top: 25px;
+    margin-top: 18px;
 
     .el-form-item {
       margin-left: 30px;
