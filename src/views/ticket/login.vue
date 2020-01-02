@@ -4,7 +4,7 @@
       <span v-if="loginConf.is_login === 'Y'">
         当前登录用户为：{{ loginConf.name }}
       </span>
-      <span v-else>
+      <span v-else-if="loginConf.is_login === 'F'">
         未登录
       </span>
     </el-row>
