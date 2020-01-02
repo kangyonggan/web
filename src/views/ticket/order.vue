@@ -212,13 +212,6 @@
               </el-col>
             </el-checkbox-group>
           </el-form-item>
-
-          <el-col
-            :span="8"
-            style="font-size: 8px;color: #e74e19;float: right;text-align: right;"
-          >
-            提示：发车前会放出部分车票，且黄牛会每隔30分钟吐票一次。
-          </el-col>
         </el-row>
       </el-card>
 
