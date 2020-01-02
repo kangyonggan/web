@@ -124,10 +124,6 @@
                         {{ ticket.swzNum }}
                         <em v-show="ticket.trainNo === oldParams.trainNo">{{ result.ticketPrice.A9 }}</em>
                       </span>
-                      <span v-show="ticket.tzNum">
-                        <label>特等座:</label>
-                        {{ ticket.tzNum }}
-                      </span>
                       <span v-show="ticket.zyNum">
                         <label>一等座:</label>
                         {{ ticket.zyNum }}
@@ -169,7 +165,7 @@
                         <em v-show="ticket.trainNo === oldParams.trainNo">{{ result.ticketPrice.A1 }}</em>
                       </span>
                       <span v-show="ticket.wzNum">
-                        <label>无座:</label>
+                        <label>无座:</label>w
                         {{ ticket.wzNum }}
                         <em v-show="ticket.trainNo === oldParams.trainNo">{{ result.ticketPrice.WZ }}</em>
                       </span>
