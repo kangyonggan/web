@@ -694,6 +694,7 @@
                    query: {
                        trainDate: this.oldParams.trainDate,
                        trainNo: ticket.trainNo,
+                       stationTrainCode: ticket.stationTrainCode,
                        fromStationTelecode: ticket.fromStationTelecode,
                        toStationTelecode: ticket.toStationTelecode,
                        fromStationNo: ticket.fromStationNo,

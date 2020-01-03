@@ -73,19 +73,19 @@
 
           <el-col :span="21">
             <el-form-item
-              prop="trainNos"
+              prop="stationTrainCodes"
             >
               <el-checkbox-group
-                v-model="params.trainNos"
+                v-model="params.trainCodes"
               >
                 <el-col
                   class="train-info"
                   :span="24"
                   v-for="ticket in result.goodTickets"
-                  :key="ticket.trainNo"
+                  :key="ticket.stationTrainCode"
                 >
                   <el-checkbox
-                    :label="ticket.trainNo"
+                    :label="ticket.stationTrainCode"
                   >
                     <span>
                       <label>车次:</label>
@@ -122,52 +122,52 @@
                       <span v-show="ticket.swzNum">
                         <label>商务座:</label>
                         {{ ticket.swzNum }}
-                        <em v-show="ticket.trainNo === oldParams.trainNo">{{ result.ticketPrice.A9 }}</em>
+                        <em v-show="ticket.stationTrainCode === oldParams.stationTrainCode">{{ result.ticketPrice.A9 }}</em>
                       </span>
                       <span v-show="ticket.zyNum">
                         <label>一等座:</label>
                         {{ ticket.zyNum }}
-                        <em v-show="ticket.trainNo === oldParams.trainNo">{{ result.ticketPrice.M }}</em>
+                        <em v-show="ticket.stationTrainCode === oldParams.stationTrainCode">{{ result.ticketPrice.M }}</em>
                       </span>
                       <span v-show="ticket.zeNum">
                         <label>二等座:</label>
                         {{ ticket.zeNum }}
-                        <em v-show="ticket.trainNo === oldParams.trainNo">{{ result.ticketPrice.O }}</em>
+                        <em v-show="ticket.stationTrainCode === oldParams.stationTrainCode">{{ result.ticketPrice.O }}</em>
                       </span>
                       <span v-show="ticket.grNum">
                         <label>高软:</label>
                         {{ ticket.grNum }}
-                        <em v-show="ticket.trainNo === oldParams.trainNo">{{ result.ticketPrice.A6 }}</em>
+                        <em v-show="ticket.stationTrainCode === oldParams.stationTrainCode">{{ result.ticketPrice.A6 }}</em>
                       </span>
                       <span v-show="ticket.rwNum">
                         <label>软卧:</label>
                         {{ ticket.rwNum }}
-                        <em v-show="ticket.trainNo === oldParams.trainNo">{{ result.ticketPrice.A4 }}</em>
+                        <em v-show="ticket.stationTrainCode === oldParams.stationTrainCode">{{ result.ticketPrice.A4 }}</em>
                       </span>
                       <span v-show="ticket.srrbNum">
                         <label>动卧:</label>
                         {{ ticket.srrbNum }}
-                        <em v-show="ticket.trainNo === oldParams.trainNo">{{ result.ticketPrice.F }}</em>
+                        <em v-show="ticket.stationTrainCode === oldParams.stationTrainCode">{{ result.ticketPrice.F }}</em>
                       </span>
                       <span v-show="ticket.ywNum">
                         <label>硬卧:</label>
                         {{ ticket.ywNum }}
-                        <em v-show="ticket.trainNo === oldParams.trainNo">{{ result.ticketPrice.A3 }}</em>
+                        <em v-show="ticket.stationTrainCode === oldParams.stationTrainCode">{{ result.ticketPrice.A3 }}</em>
                       </span>
                       <span v-show="ticket.rzNum">
                         <label>软座:</label>
                         {{ ticket.rzNum }}
-                        <em v-show="ticket.trainNo === oldParams.trainNo">{{ result.ticketPrice.A2 }}</em>
+                        <em v-show="ticket.stationTrainCode === oldParams.stationTrainCode">{{ result.ticketPrice.A2 }}</em>
                       </span>
                       <span v-show="ticket.yzNum">
                         <label>硬座:</label>
                         {{ ticket.yzNum }}
-                        <em v-show="ticket.trainNo === oldParams.trainNo">{{ result.ticketPrice.A1 }}</em>
+                        <em v-show="ticket.stationTrainCode === oldParams.stationTrainCode">{{ result.ticketPrice.A1 }}</em>
                       </span>
                       <span v-show="ticket.wzNum">
                         <label>无座:</label>
                         {{ ticket.wzNum }}
-                        <em v-show="ticket.trainNo === oldParams.trainNo">{{ result.ticketPrice.WZ }}</em>
+                        <em v-show="ticket.stationTrainCode === oldParams.stationTrainCode">{{ result.ticketPrice.WZ }}</em>
                       </span>
                       <span v-show="ticket.qtNum">
                         <label>其他:</label>
@@ -416,10 +416,10 @@
           抢票车次：
         </el-col>
         <el-col
-          v-for="(trainNo, index) in params.trainNos"
+          v-for="(stationTrainCode, index) in params.trainCodes"
           :key="index"
         >
-          {{ getStationTrainCode(trainNo) }}、
+          {{ stationTrainCode }}、
         </el-col>
       </el-row>
       <el-row>
@@ -484,7 +484,7 @@
                     idNo: '',
                     mobileNo: '',
                     trainDates: [],
-                    trainNos: [],
+                    trainCodes: [],
                     trainSeats: []
                 },
                 contacts: [],
@@ -504,7 +504,7 @@
                     trainDates: [
                         {required: true, message: '至少选择一个出发日期'}
                     ],
-                    trainNos: [
+                    trainCodes: [
                         {required: true, message: '至少选择一个车次'}
                     ],
                     trainSeats: [
@@ -529,7 +529,7 @@
             initTicketInfo(params) {
                 this.oldParams = params;
                 this.params.trainDates[0] = params.trainDate;
-                this.params.trainNos[0] = params.trainNo;
+                this.params.trainCodes[0] = params.stationTrainCode;
                 this.params.fromStationTelecode = params.fromStationTelecode;
                 this.params.toStationTelecode = params.toStationTelecode;
                 this.loading = true;
@@ -603,16 +603,6 @@
                 }).finally(() => {
                     this.loading = false;
                 });
-            },
-            getStationTrainCode(trainNo) {
-                if (!this.result.goodTickets) {
-                    return;
-                }
-                for (let i = 0; i < this.result.goodTickets.length; i++) {
-                    if (trainNo === this.result.goodTickets[i].trainNo) {
-                        return this.result.goodTickets[i].stationTrainCode;
-                    }
-                }
             },
             getSeatName(trainSeat) {
                 if (!this.result.trainSeats) {
