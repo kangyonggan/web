@@ -496,7 +496,7 @@
                     ],
                     idNo: [
                         {required: true, message: '身份证号码为必填项'},
-                        {validator: this.validateIdNol}
+                        {validator: this.validateIdNo}
                     ],
                     mobileNo: [
                         {max: 20, message: '手机号多20个字符'}
@@ -514,7 +514,7 @@
             };
         },
         methods: {
-            validateIdNol: function (rule, value, callback) {
+            validateIdNo: function (rule, value, callback) {
                 if (!value) {
                     callback();
                     return;
@@ -618,7 +618,7 @@
                 this.$refs['login-modal'].show();
             },
             loginSuccess() {
-                this.axios.get('ticket/contacts').then(data => {
+                this.axios.get('ticket/allContacts').then(data => {
                     this.contacts = data.contacts;
                 }).catch(res => {
                    this.error(res.respMsg);
