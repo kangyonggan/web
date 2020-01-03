@@ -639,6 +639,10 @@
                 this.$refs.form.validate((valid) => {
                     if (valid) {
                         this.loading = true;
+                        this.list = [];
+                        this.trainTypeAll = [];
+                        this.fromStationAll = [];
+                        this.toStationAll = [];
                         this.axios.get('ticket?' + qs.stringify(this.params)).then(data => {
                             this.oldParams = Object.assign({}, this.params);
 
