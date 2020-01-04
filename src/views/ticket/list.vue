@@ -68,14 +68,6 @@
                 >
                   查询
                 </el-button>
-                <el-button
-                  size="small"
-                  type="success"
-                  icon="el-icon-time"
-                  @click="warning('开发中...')"
-                >
-                  预约
-                </el-button>
               </el-form-item>
             </el-row>
 
@@ -91,6 +83,7 @@
                   v-model="params.trainDate"
                   value-format="yyyy-MM-dd"
                   placeholder="请选择出发日期"
+                  :picker-options="dateOptions"
                 />
               </el-form-item>
 
@@ -484,6 +477,11 @@
                     fromStationTelecode: undefined,
                     toStationTelecode: undefined,
                     trainDate: this.util.formatTimestamp(new Date().getTime() + 86400000, 'yyyy-MM-dd')
+                },
+                dateOptions: {
+                    disabledDate: function (date) {
+                        return date.getTime() < new Date().getTime() - 86400000 || date.getTime() > new Date().getTime() + 86400000 * 29;
+                    }
                 },
                 tags: {
                     trainTypes: [],
