@@ -9,42 +9,14 @@
       </span>
     </el-row>
 
-    <el-row
-      v-if="qrPath"
-      style="margin-top: 80px;text-align: center;"
-    >
-      <img :src="axios.defaults.baseURL + qrPath">
-
-      <el-col style="margin-top: 30px">
-        二维码状态：
-        <span v-if="status === '0'">
-          待扫码
-        </span>
-        <span v-else-if="status === '1'">
-          已扫码，待确认
-        </span>
-        <span v-else-if="status === '2'">
-          已登录
-        </span>
-        <span v-else>
-          {{ status }}
-        </span>
-      </el-col>
-    </el-row>
-
-    <el-row style="margin-top: 80px;text-align: center;margin-bottom: 30px;">
+    <el-row style="margin-top: 50px;text-align: center">
       <el-button
-        @click="reLogin"
-        type="danger"
+        @click="getLoginConf"
+        type="success"
       >
-        重新登录
+        刷新
       </el-button>
     </el-row>
-
-    <base-auth-code
-      ref="authCode"
-      @success="success"
-    />
   </el-card>
 </template>
 
@@ -52,48 +24,20 @@
     export default {
         data() {
             return {
-                loginConf: {},
-                qrPath: '',
-                status: ''
+                loginConf: {}
             };
         },
         methods: {
-            success() {
-                this.axios.get('ticket/loginQr').then(data => {
-                    this.qrPath = data.qrPath;
-
-                    let that = this;
-                    setInterval(function () {
-                        that.checkQr();
-                    }, 2000);
-                }).catch(() => {
-                    this.error('权限不足！');
-                });
-            },
-            reLogin() {
-                this.$refs.authCode.show();
-            },
-            checkQr() {
-                this.axios.get('ticket/checkQr').then(data => {
-                    this.status = data.status;
-
-                    if (this.status === '2') {
-                        window.location.reload();
-                    }
+            getLoginConf() {
+                this.axios.get('ticket/loginConf').then(data => {
+                    this.loginConf = data.loginConf || {};
                 }).catch(res => {
                     this.error(res.respMsg);
                 });
             }
         },
         mounted() {
-            this.axios.get('ticket/loginConf').then(data => {
-                this.loginConf = data.loginConf || {};
-            }).catch(res => {
-                this.error(res.respMsg);
-            });
+            this.getLoginConf();
         }
     };
 </script>
-
-<style scoped lang="scss">
-</style>
