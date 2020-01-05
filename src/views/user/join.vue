@@ -65,11 +65,6 @@
         。
       </div>
     </div>
-
-    <base-auth-code
-      ref="authCode"
-      @success="success"
-    />
   </div>
 </template>
 
@@ -122,22 +117,19 @@
                         return;
                     }
 
-                    this.$refs.authCode.show();
-                });
-            },
-            success() {
-                this.loading = true;
-                this.axios.post('join', this.params).then(() => {
-                    this.$router.push({
-                        path: '/user/success',
-                        query: {
-                            type: 'join'
-                        }
+                    this.loading = true;
+                    this.axios.post('join', this.params).then(() => {
+                        this.$router.push({
+                            path: '/user/success',
+                            query: {
+                                type: 'join'
+                            }
+                        });
+                    }).catch(res => {
+                        this.error(res.respMsg);
+                    }).finally(() => {
+                        this.loading = false;
                     });
-                }).catch(res => {
-                    this.error(res.respMsg);
-                }).finally(() => {
-                    this.loading = false;
                 });
             }
         }

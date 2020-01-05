@@ -74,11 +74,6 @@
         </div>
       </div>
     </div>
-
-    <base-auth-code
-      ref="authCode"
-      @success="send"
-    />
   </div>
 </template>
 
@@ -141,24 +136,27 @@
                 });
             },
             sendAuthCode() {
-                let that = this;
                 this.$refs.form.validateField('email', function (errMsg) {
                     if (errMsg) {
                         return;
                     }
-                    that.$refs.authCode.show();
-                });
-            },
-            send() {
-                this.loading = true;
-                this.text = '正在发送';
-                this.axios.post('email', {email: this.params.email, type: 'RESET_PWD'}).then(() => {
-                    this.success('邮箱验证码发送成功！');
-                }).catch(res => {
-                    this.error(res.respMsg);
-                }).finally(() => {
-                    this.loading = false;
-                    this.text = '发送';
+
+                    this.$confirm('本站不做验证码，请理性使用?', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(() => {
+                        this.loading = true;
+                        this.text = '正在发送';
+                        this.axios.post('email', {email: this.params.email, type: 'RESET_PWD'}).then(() => {
+                            this.success('邮箱验证码发送成功！');
+                        }).catch(res => {
+                            this.error(res.respMsg);
+                        }).finally(() => {
+                            this.loading = false;
+                            this.text = '发送';
+                        });
+                    });
                 });
             }
         }

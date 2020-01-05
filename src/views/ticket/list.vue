@@ -413,20 +413,26 @@
               size="small"
               type="primary"
               style="padding: 6px 12px"
-              v-if="scope.row.canWebBuy === 'Y'"
+              v-if="scope.row.buttonTextInfo === '预订'"
               @click="order(scope.row)"
             >
               抢票
             </el-button>
             <el-button
               size="small"
-              type="danger"
+              type="warning"
               style="padding: 6px 12px"
-              v-else
+              v-else-if="scope.row.buttonTextInfo.includes('起售')"
               @click="order(scope.row)"
             >
-              抢票
+              预约
             </el-button>
+            <small
+              v-show="scope.row.buttonTextInfo !== '预订'"
+              style="display: block;color: #999"
+            >
+              {{ scope.row.buttonTextInfo }}
+            </small>
           </template>
         </el-table-column>
       </el-table>
