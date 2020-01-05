@@ -23,7 +23,6 @@
           style="margin-top: 20px;"
         >
           抢票方案
-          <span>多选几种方案，可极大提升抢票成功率</span>
         </el-row>
 
         <el-row class="checkbox">
@@ -218,7 +217,7 @@
       <el-card style="margin-top: 20px;">
         <el-row class="header">
           乘客信息
-          <span>目前仅支持一个人，而且仅支持成人。</span>
+          <span>目前仅支持成年人。</span>
         </el-row>
 
         <el-row class="contacts">
@@ -626,7 +625,7 @@
             },
             selectContacts(cont) {
                 if (cont.status !== '99') {
-                    this.warning('联系人' + cont.name + '暂未通过12306的审核，请稍后刷新看看是否通过审核！');
+                    this.warning('联系人' + cont.name + '暂未通过12306的审核，请联系站长！');
                     return;
                 }
                 this.params.name = cont.name;
