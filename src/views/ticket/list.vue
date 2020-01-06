@@ -383,7 +383,7 @@
         </el-table-column>
         <el-table-column
           label="硬座"
-          width="66"
+          width="60"
         >
           <template slot-scope="scope">
             <Num :num="scope.row.yzNum" />
@@ -391,7 +391,7 @@
         </el-table-column>
         <el-table-column
           label="无座"
-          width="66"
+          width="60"
         >
           <template slot-scope="scope">
             <Num :num="scope.row.wzNum" />
@@ -399,7 +399,7 @@
         </el-table-column>
         <el-table-column
           label="其他"
-          width="66"
+          width="60"
         >
           <template slot-scope="scope">
             <Num :num="scope.row.qtNum" />
@@ -407,32 +407,35 @@
         </el-table-column>
         <el-table-column
           label="操作"
+          width="100"
         >
           <template slot-scope="scope">
-            <el-button
-              size="small"
-              type="primary"
-              style="padding: 6px 12px"
-              v-if="scope.row.buttonTextInfo === '预订'"
-              @click="order(scope.row)"
-            >
-              抢票
-            </el-button>
-            <el-button
-              size="small"
-              type="warning"
-              style="padding: 6px 12px"
-              v-else-if="scope.row.buttonTextInfo.includes('起售')"
-              @click="order(scope.row)"
-            >
-              预约
-            </el-button>
-            <small
-              v-show="scope.row.buttonTextInfo !== '预订'"
-              style="display: block;color: #999"
-            >
-              {{ scope.row.buttonTextInfo }}
-            </small>
+            <div style="text-align: center">
+              <el-button
+                size="small"
+                type="primary"
+                style="padding: 6px 12px"
+                v-if="scope.row.buttonTextInfo === '预订'"
+                @click="order(scope.row)"
+              >
+                抢票
+              </el-button>
+              <el-button
+                size="small"
+                type="warning"
+                style="padding: 6px 12px"
+                v-else-if="scope.row.buttonTextInfo.includes('起售')"
+                @click="order(scope.row)"
+              >
+                预约
+              </el-button>
+              <small
+                v-show="scope.row.buttonTextInfo !== '预订'"
+                style="display: block;color: #999"
+              >
+                {{ scope.row.buttonTextInfo }}
+              </small>
+            </div>
           </template>
         </el-table-column>
       </el-table>
