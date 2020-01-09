@@ -211,7 +211,7 @@
         methods: {
             getWebUrl(url) {
                 let port = '';
-                if (window.location.port !== '80') {
+                if (!window.location.port) {
                     port = ':' + window.location.port;
                 }
                 return window.location.protocol + '//' + window.location.hostname + port + '/api/' + url;
