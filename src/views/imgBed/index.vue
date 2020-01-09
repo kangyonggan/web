@@ -269,6 +269,7 @@
         },
         watch: {
             '$store.state.user': function () {
+                this.uploadData['x-auth-token'] = localStorage.getItem('token');
                 this.jump(1);
             }
         }
