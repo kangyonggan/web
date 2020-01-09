@@ -131,6 +131,13 @@ const routers = [
                 component: (resolve) => require(['./views/ticket/submitted.vue'], resolve)
             },
             {
+                path: 'imgBed',
+                meta: {
+                    title: '图床'
+                },
+                component: (resolve) => require(['./views/imgBed/index.vue'], resolve)
+            },
+            {
                 path: '*',
                 meta: {
                     title: '404'

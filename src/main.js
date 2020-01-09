@@ -11,7 +11,11 @@ import './components/index';
 import store from './store';
 import mavonEditor from 'mavon-editor';
 import 'mavon-editor/dist/css/index.css';
+import VueClipboard from 'vue-clipboard2';
 
+VueClipboard.config.autoSetContainer = true;
+
+Vue.use(VueClipboard);
 Vue.use(ElementUI);
 Vue.use(mavonEditor);
 

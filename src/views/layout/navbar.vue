@@ -75,12 +75,16 @@
                         value: '视频'
                     },
                     {
-                        code: '/about',
-                        value: '关于'
-                    },
-                    {
                         code: '/ticket',
                         value: '抢票'
+                    },
+                    {
+                        code: '/imgBed',
+                        value: '图床'
+                    },
+                    {
+                        code: '/about',
+                        value: '关于'
                     }
                 ]
             };
