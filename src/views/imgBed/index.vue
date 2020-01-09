@@ -162,7 +162,10 @@
           @current-change="jump"
         />
 
-        <div class="tips">
+        <div
+          class="tips"
+          v-show="!$store.getters.getUser.account"
+        >
           当前为匿名上传历史，登录后可查看我的上传历史。
         </div>
       </el-card>
