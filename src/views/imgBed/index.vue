@@ -43,12 +43,12 @@
               target="_blank"
               :href="axios.defaults.baseURL + result.web"
             >
-              {{ axios.defaults.baseURL + result.web }}
+              {{ getWebUrl(result.web) }}
             </a>
 
             <span
               class="copy-btn"
-              v-clipboard:copy="axios.defaults.baseURL + result.web"
+              v-clipboard:copy="getWebUrl(result.web)"
               v-clipboard:success="onCopySuccess"
               v-clipboard:error="onCopyError"
             >复制</span>
@@ -209,6 +209,13 @@
             };
         },
         methods: {
+            getWebUrl(url) {
+                let port = '';
+                if (window.location.port !== '80') {
+                    port = ':' + window.location.port;
+                }
+                return window.location.protocol + '//' + window.location.hostname + port + '/api/' + url;
+            },
             beforeUpload(file) {
                 if (!this.imgTypes.includes(file.type)) {
                     this.error('只能选择 gif/jpg/jpeg/bmp/png/webp 格式的图片!');
