@@ -183,7 +183,7 @@
                 loadingHistory: false,
                 params: {
                     pageNum: 1,
-                    pageSize: 8
+                    pageSize: 12
                 },
                 pageInfo: {
                     list: [],
