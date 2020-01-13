@@ -45,6 +45,8 @@
         </span>
       </div>
     </div>
+
+    <base-login ref="login-modal" />
   </div>
 </template>
 
@@ -97,9 +99,7 @@
                 return this.currentUrl.startsWith(url);
             },
             login() {
-                this.$router.push({
-                   path: '/user/login?redirectUrl=' + this.$route.fullPath
-                });
+                this.$refs['login-modal'].show();
             },
             admin() {
               window.location.pathname = '/admin';

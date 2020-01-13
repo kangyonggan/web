@@ -25,6 +25,9 @@
         label="密码"
         prop="password"
       >
+        <router-link to="/user/password/reset">
+          忘记密码？
+        </router-link>
         <el-input
           type="password"
           v-model="params.password"
@@ -44,6 +47,16 @@
         </el-button>
       </el-form-item>
     </el-form>
+
+    <div class="new-account">
+      <div class="create-tips">
+        没有康永敢网站的账号？
+        <router-link :to="'/user/join?redirectUrl=' + $route.path">
+          创建一个账号
+        </router-link>
+        。
+      </div>
+    </div>
   </el-dialog>
 </template>
 
@@ -94,7 +107,7 @@
 
 <style scoped lang="scss">
   /deep/ .el-dialog {
-    max-width: 430px;
+    max-width: 460px;
     min-width: 300px;
   }
 
@@ -107,9 +120,31 @@
   .el-form {
     margin: 0 auto;
 
+    a {
+      float: right;
+      color: #0366d6;
+      text-decoration: none;
+      font-size: 12px;
+      line-height: 24px;
+      margin-top: 10px;
+    }
+
     button {
       margin-top: 20px;
       width: 100%;
+    }
+  }
+
+  .new-account {
+    text-align: center;
+    font-size: 13px;
+    color: #595959;
+
+    .create-tips {
+      a {
+        color: #0366d6;
+        text-decoration: none;
+      }
     }
   }
 </style>
