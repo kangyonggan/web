@@ -37,7 +37,7 @@
       >
         <span @click="admin">
           <i class="el-icon-user" />
-          您好，{{ $store.getters.getUser.name || $store.getters.getUser.account }}
+          欢迎，{{ $store.getters.getUser.name || $store.getters.getUser.account }}
         </span>
         <span @click="logout">
           <i class="el-icon-switch-button" />
