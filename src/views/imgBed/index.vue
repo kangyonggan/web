@@ -32,7 +32,10 @@
           class="summary"
           v-if="!$store.getters.getUser.account"
         >
-          说明：请先<a @click="login">登录</a>，
+          说明：请先<a
+            @click="login"
+            style="cursor: pointer"
+          >登录</a>，
           匿名上传的图片均会显示在右侧列表中，图片最终是匿名上传到微博。
         </div>
         <div
@@ -175,7 +178,10 @@
           class="tips"
           v-show="!$store.getters.getUser.account"
         >
-          当前为匿名上传历史，登录后可查看我的上传历史。
+          当前为匿名上传历史，<a
+            @click="login"
+            style="cursor: pointer"
+          >登录</a>后可查看我的上传历史。
         </div>
       </el-card>
     </el-col>
