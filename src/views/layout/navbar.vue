@@ -77,10 +77,6 @@
                         value: '视频'
                     },
                     {
-                        code: '/ticket',
-                        value: '抢票'
-                    },
-                    {
                         code: '/imgBed',
                         value: '图床'
                     },
