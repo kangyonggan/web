@@ -28,10 +28,19 @@
           </div>
         </el-upload>
 
-        <div class="summary">
-          说明：匿名上传的图片均会显示在右侧列表中，图片最终是匿名上传到微博。
+        <div
+          class="summary"
+          v-if="!$store.getters.getUser.account"
+        >
+          说明：请先<a @click="login">登录</a>，
+          匿名上传的图片均会显示在右侧列表中，图片最终是匿名上传到微博。
         </div>
-
+        <div
+          v-else
+          class="summary"
+        >
+          上传的图片在本站范围仅自己可见，图片最终是匿名上传到微博。
+        </div>
         <div
           class="urls"
           v-show="result.url"
@@ -170,6 +179,8 @@
         </div>
       </el-card>
     </el-col>
+
+    <base-login ref="login-modal" />
   </div>
 </template>
 
@@ -269,6 +280,9 @@
             },
             onCopyError() {
                 this.error('复制失败');
+            },
+            login() {
+                this.$refs['login-modal'].show();
             }
         },
         mounted() {
