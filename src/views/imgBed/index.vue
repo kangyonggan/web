@@ -33,16 +33,32 @@
           v-if="!$store.getters.getUser.account"
         >
           说明：请先<a
-            @click="login"
-            style="cursor: pointer"
-          >登录</a>，
+          @click="login"
+          style="cursor: pointer"
+        >登录</a>，
           匿名上传的图片均会显示在右侧列表中，图片最终是匿名上传到微博。
+
+          <span
+            v-show="showLoginBtn"
+            style="float: right;cursor: pointer;color: #1677d9"
+            @click="dialogVisible = true"
+          >
+            登录微博
+          </span>
         </div>
         <div
           v-else
           class="summary"
         >
           上传的图片在本站范围仅自己可见，图片最终是匿名上传到微博。
+
+          <span
+            v-show="showLoginBtn"
+            style="float: right;cursor: pointer;color: #1677d9"
+            @click="dialogVisible = true"
+          >
+            登录微博
+          </span>
         </div>
         <div
           class="urls"
@@ -179,14 +195,32 @@
           v-show="!$store.getters.getUser.account"
         >
           当前为匿名上传历史，<a
-            @click="login"
-            style="cursor: pointer"
-          >登录</a>后可查看我的上传历史。
+          @click="login"
+          style="cursor: pointer"
+        >登录</a>后可查看我的上传历史。
         </div>
       </el-card>
     </el-col>
 
     <base-login ref="login-modal" />
+
+    <el-dialog
+      center
+      title="微博登录"
+      :close-on-click-modal="false"
+      :visible.sync="dialogVisible"
+      destroy-on-close
+    >
+      <div style="text-align: center">
+        <img
+          v-if="qrUrl"
+          :src="axios.defaults.baseURL + qrUrl"
+        >
+        <div v-show="msg">
+          {{ msg }}
+        </div>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -196,8 +230,14 @@
     export default {
         data() {
             return {
+                dialogVisible: false,
                 loadingUpload: false,
                 loadingHistory: false,
+                showLoginBtn: false,
+                qrUrl: '',
+                qrid: '',
+                msg: '',
+                timer: undefined,
                 params: {
                     pageNum: 1,
                     pageSize: 12
@@ -254,7 +294,22 @@
             uploadSuccess(res) {
                 this.loadingUpload = false;
                 if (res.respCo !== '0000') {
-                    this.error(res.respMsg);
+                    this.qrUrl = '';
+                    this.qrid = '';
+                    this.msg = '';
+                    this.axios.get('terminal/qrcode').then(data => {
+                        this.qrUrl = data.url;
+                        this.qrid = data.qrid;
+                        this.showLoginBtn = true;
+                        this.dialogVisible = true;
+
+                        let that = this;
+                        this.timer = setInterval(function () {
+                            that.qrcheck();
+                        }, 1500);
+                    }).catch(resp => {
+                        this.error(resp.respMsg);
+                    });
                     return;
                 }
 
@@ -266,6 +321,20 @@
                 this.success('图片上传成功');
 
                 this.jump(1);
+            },
+            qrcheck() {
+                this.axios.get('terminal/qrcheck?qrid=' + this.qrid).then(data => {
+                    this.msg = data.msg;
+
+                    if (data.retcode * 1 === 20000000) {
+                        this.dialogVisible = false;
+                        this.showLoginBtn = false;
+                        clearInterval(this.timer);
+                        this.success('你好' + data.nick + '，请重新上传');
+                    }
+                }).catch(res => {
+                    this.error(res.respMsg);
+                });
             },
             loadHistory() {
                 this.loadingHistory = true;
@@ -409,5 +478,9 @@
         }
       }
     }
+  }
+
+  /deep/ .el-dialog--center {
+    width: 350px;
   }
 </style>
