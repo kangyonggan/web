@@ -152,6 +152,13 @@ const routers = [
                 component: (resolve) => require(['./views/tools/json.vue'], resolve)
             },
             {
+                path: 'tools/idNo',
+                meta: {
+                    title: '生成身份证'
+                },
+                component: (resolve) => require(['./views/tools/idNo.vue'], resolve)
+            },
+            {
                 path: '*',
                 meta: {
                     title: '404'
