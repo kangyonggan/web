@@ -159,23 +159,28 @@
         <el-table-column
           prop="name"
           label="姓名"
+          sortable
         />
         <el-table-column
           prop="idNo"
           label="身份证号码"
           width="200"
+          sortable
         />
         <el-table-column
           prop="gender"
           label="性别"
+          sortable
         />
         <el-table-column
           prop="birthday"
           label="出生日期"
+          sortable
         />
         <el-table-column
           prop="length"
           label="长度"
+          sortable
         >
           <template slot-scope="scope">
             {{ scope.row.length }}位
@@ -184,6 +189,7 @@
         <el-table-column
           prop="areaName"
           label="地区"
+          sortable
           width="400"
         />
       </el-table>
