@@ -131,6 +131,13 @@ const routers = [
                 component: (resolve) => require(['./views/ticket/submitted.vue'], resolve)
             },
             {
+                path: 'tools',
+                meta: {
+                    title: '工具'
+                },
+                component: (resolve) => require(['./views/tools/index.vue'], resolve)
+            },
+            {
                 path: 'tools/imgBed',
                 meta: {
                     title: '图床'
@@ -138,11 +145,11 @@ const routers = [
                 component: (resolve) => require(['./views/tools/imgBed.vue'], resolve)
             },
             {
-                path: 'tools',
+                path: 'tools/json',
                 meta: {
-                    title: '工具'
+                    title: 'JSON格式化'
                 },
-                component: (resolve) => require(['./views/tools/index.vue'], resolve)
+                component: (resolve) => require(['./views/tools/json.vue'], resolve)
             },
             {
                 path: '*',
