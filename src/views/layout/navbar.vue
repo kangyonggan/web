@@ -77,8 +77,8 @@
                         value: '视频'
                     },
                     {
-                        code: '/imgBed',
-                        value: '图床'
+                        code: '/tools',
+                        value: '工具'
                     },
                     {
                         code: '/about',

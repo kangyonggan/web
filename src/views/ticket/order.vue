@@ -579,7 +579,7 @@
             },
             comeBack() {
                 this.$router.push({
-                    path: '/ticket',
+                    path: '/tools/ticket',
                     query: {
                         fromStationTelecode: this.oldParams.fromStationTelecode,
                         toStationTelecode: this.oldParams.toStationTelecode,
@@ -592,7 +592,7 @@
                 this.loading = true;
                 this.axios.post('ticket/submitOrder', this.params).then(data => {
                     this.$router.push({
-                        path: '/ticket/submitted',
+                        path: '/tools/ticket/submitted',
                         query: {
                             orderNo: data.orderNo
                         }
@@ -620,6 +620,7 @@
                 this.axios.get('ticket/allContacts').then(data => {
                     this.contacts = data.contacts;
                 }).catch(res => {
+                    console.log(res);
                    this.error(res.respMsg);
                 });
             },

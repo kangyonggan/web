@@ -526,7 +526,7 @@
                         this.params.random = Math.random();
 
                         this.$router.push({
-                            path: '/ticket',
+                            path: '/tools/ticket',
                             query: this.params
                         });
                     } else {
@@ -701,7 +701,7 @@
             },
             order(ticket) {
                 this.$router.push({
-                   path: '/ticket/order',
+                   path: '/tools/ticket/order',
                    query: {
                        trainDate: this.oldParams.trainDate,
                        trainNo: ticket.trainNo,

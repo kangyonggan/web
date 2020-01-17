@@ -110,32 +110,39 @@ const routers = [
                 component: (resolve) => require(['./views/about.vue'], resolve)
             },
             {
-                path: 'ticket',
+                path: 'tools/ticket',
                 meta: {
                     title: '抢票'
                 },
                 component: (resolve) => require(['./views/ticket/list.vue'], resolve)
             },
             {
-                path: 'ticket/order',
+                path: 'tools/ticket/order',
                 meta: {
                     title: '下单'
                 },
                 component: (resolve) => require(['./views/ticket/order.vue'], resolve)
             },
             {
-                path: 'ticket/submitted',
+                path: 'tools/ticket/submitted',
                 meta: {
                     title: '下单成功'
                 },
                 component: (resolve) => require(['./views/ticket/submitted.vue'], resolve)
             },
             {
-                path: 'imgBed',
+                path: 'tools/imgBed',
                 meta: {
                     title: '图床'
                 },
                 component: (resolve) => require(['./views/imgBed/index.vue'], resolve)
+            },
+            {
+                path: 'tools',
+                meta: {
+                    title: '工具'
+                },
+                component: (resolve) => require(['./views/tools/index.vue'], resolve)
             },
             {
                 path: '*',
