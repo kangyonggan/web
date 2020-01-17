@@ -238,6 +238,8 @@
             }).catch(res => {
                 this.error(res.respMsg);
             });
+
+            this.submit();
         }
     };
 </script>
