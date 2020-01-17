@@ -135,7 +135,7 @@ const routers = [
                 meta: {
                     title: '图床'
                 },
-                component: (resolve) => require(['./views/imgBed/index.vue'], resolve)
+                component: (resolve) => require(['./views/tools/imgBed.vue'], resolve)
             },
             {
                 path: 'tools',

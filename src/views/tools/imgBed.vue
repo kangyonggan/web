@@ -33,9 +33,9 @@
           v-if="!$store.getters.getUser.account"
         >
           说明：请先<a
-          @click="login"
-          style="cursor: pointer"
-        >登录</a>，
+            @click="login"
+            style="cursor: pointer"
+          >登录</a>，
           匿名上传的图片均会显示在右侧列表中，图片最终是匿名上传到微博。
 
           <span
@@ -195,9 +195,9 @@
           v-show="!$store.getters.getUser.account"
         >
           当前为匿名上传历史，<a
-          @click="login"
-          style="cursor: pointer"
-        >登录</a>后可查看我的上传历史。
+            @click="login"
+            style="cursor: pointer"
+          >登录</a>后可查看我的上传历史。
         </div>
       </el-card>
     </el-col>
@@ -338,7 +338,7 @@
             },
             loadHistory() {
                 this.loadingHistory = true;
-                this.axios.get('weibo?' + qs.stringify(this.params)).then(data => {
+                this.axios.get('tools/weibo?' + qs.stringify(this.params)).then(data => {
                     this.pageInfo = data.pageInfo;
                 }).catch(res => {
                     this.error(res.respMsg);
