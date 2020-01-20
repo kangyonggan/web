@@ -28,29 +28,11 @@
               >
                 第{{ index + 1 }}帧
               </div>
-              <div
-                v-show="frame.img"
-                :style="{color: frame.color}"
-                class="text black"
-                @click="selectFile($event)"
-              >
-                {{ frame.text }}
-              </div>
               <input
                 type="file"
                 class="hidden"
                 @change="imgChange($event, index)"
               >
-              <input
-                v-model="frame.text"
-                type="text"
-                class="imgText"
-                :placeholder="'第' + (index + 1) + '帧的字幕'"
-              >
-              <el-color-picker
-                v-model="frame.color"
-                class="font-color"
-              />
             </div>
             
             <canvas
@@ -143,13 +125,9 @@
                     height: 180
                 },
                 frameList: [{
-                    img: '',
-                    text: '第1帧的字幕',
-                    color: '#f00'
+                    img: ''
                 }, {
-                    img: '',
-                    text: '第2帧的字幕',
-                    color: '#f00'
+                    img: ''
                 }],
                 result: ''
             };
@@ -157,7 +135,7 @@
         methods: {
             selectFile: function (e) {
                 e.preventDefault();
-                e.target.parentNode.childNodes[3].click();
+                e.target.parentNode.childNodes[2].click();
                 return false;
             },
             imgChange: function (e, index) {
@@ -193,9 +171,7 @@
             },
             addFrame: function () {
                 this.frameList.push({
-                    img: '',
-                    text: '第' + (this.frameList.length + 1) + '帧的字幕',
-                    color: '#f00'
+                    img: ''
                 });
             },
             submit() {
@@ -248,15 +224,6 @@
                     ctx.save();
                     ctx.drawImage(imgObjList[i], 0, 0, canvas.width, canvas.height);
 
-                    let title = this.frameList[i].text;
-
-                    if (title) {
-                        ctx.font = '14px 宋体';
-                        ctx.fillStyle = this.frameList[i].color;
-                        ctx.textAlign = 'center';
-                        ctx.fillText(title, this.params.width / 2, this.params.height - 10);
-                    }
-
                     ctx.restore();
                     gif.addFrame(canvas, {copy: true, delay: 1500});
                     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -273,29 +240,12 @@
   }
 
   .frame {
-    margin: 18px;
+    margin: 18px 28px;
     float: left;
-    width: 260px;
-    height: 210px;
+    width: 240px;
+    height: 180px;
     cursor: pointer;
     position: relative;
-
-    input[type=text] {
-      display: block;
-      width: 190px;
-      height: 35px;
-      line-height: 35px;
-      box-sizing: border-box;
-      outline: none;
-      font-size: 14px;
-      padding: 4px 10px;
-      margin-right: 10px;
-      margin-top: 3px;
-      background: rgba(0, 0, 0, 0.2);
-      background: #fff;
-      border: 1px solid #ccc;
-      color: #333;
-    }
   }
 
   .frame img {
@@ -313,38 +263,11 @@
     color: #999;
   }
 
-  .frame .font-color {
-    position: absolute;
-    bottom: -13px;
-    right: 18px;
-  }
-
-  .frame .file-label:hover {
-    color: #2d8cf0;
-    border: 1px dashed #2d8cf0;
-  }
-
-  .frame div.text {
-    position: absolute;
-    bottom: 40px;
-    left: 10px;
-    width: 210px;
-    overflow: hidden;
-    font-size: 14px;
-    text-align: center;
-  }
-
-  .imgText {
-    position: absolute !important;
-    bottom: -12px;
-    left: 0;
-  }
-
   .more {
-    margin: 18px;
+    margin: 18px 28px;
     float: left;
-    width: 230px;
-    height: 160px;
+    width: 240px;
+    height: 180px;
     border: 1px dashed #ccc;
     border-radius: 8px;
     cursor: pointer;
