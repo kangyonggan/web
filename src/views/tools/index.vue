@@ -36,6 +36,10 @@
                     {
                         name: 'idNo',
                         cover: require('../../assets/images/tools/idNo.jpg')
+                    },
+                    {
+                        name: 'gif',
+                        cover: require('../../assets/images/tools/gif.gif')
                     }
                 ]
             };

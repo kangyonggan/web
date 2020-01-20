@@ -166,6 +166,13 @@ const routers = [
                 component: (resolve) => require(['./views/tools/bazi.vue'], resolve)
             },
             {
+                path: 'tools/gif',
+                meta: {
+                    title: '制作GIF'
+                },
+                component: (resolve) => require(['./views/tools/gif.vue'], resolve)
+            },
+            {
                 path: '*',
                 meta: {
                     title: '404'
