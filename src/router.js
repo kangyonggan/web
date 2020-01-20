@@ -159,6 +159,13 @@ const routers = [
                 component: (resolve) => require(['./views/tools/idNo.vue'], resolve)
             },
             {
+                path: 'tools/bazi',
+                meta: {
+                    title: '五行八字'
+                },
+                component: (resolve) => require(['./views/tools/bazi.vue'], resolve)
+            },
+            {
                 path: '*',
                 meta: {
                     title: '404'

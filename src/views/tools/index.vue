@@ -30,8 +30,8 @@
                         cover: require('../../assets/images/tools/json.jpg')
                     },
                     {
-                        name: 'wuba',
-                        cover: require('../../assets/images/tools/wuba.jpg')
+                        name: 'bazi',
+                        cover: require('../../assets/images/tools/bazi.jpg')
                     },
                     {
                         name: 'idNo',
