@@ -531,7 +531,7 @@
                     fontWeight: '100'
                 },
                 chartDates: ['近一周', '近一月', '近三月', '近六月', '近一年'],
-                chartTagActive: 1,
+                chartTagActive: 0,
                 chartSettings: {
                     labelMap: {
                         'webCount': '网站访问量',
@@ -617,7 +617,7 @@
             // 加载文章
             this.loadArticleList();
             // 加载图表
-            this.loadChartData(1);
+            this.loadChartData(0);
             // 加载书籍
             this.loadNovelList();
             // 加载视频
