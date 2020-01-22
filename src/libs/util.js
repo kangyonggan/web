@@ -8,7 +8,7 @@ let util = {};
  * @param title
  */
 util.title = function (title) {
-    title = title ? title + ' · 康永敢' : '康永敢';
+    title = title ? '康永敢 - ' + title: '康永敢';
     window.document.title = title;
 };
 
