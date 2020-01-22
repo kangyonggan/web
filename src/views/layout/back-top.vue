@@ -35,8 +35,8 @@
 <style scoped lang="scss">
   .back-top {
     position: fixed;
-    bottom: 30px;
-    right: 30px;
+    bottom: 20px;
+    right: 20px;
     z-index: 999999;
     width: 45px;
     height: 40px;

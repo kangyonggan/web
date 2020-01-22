@@ -6,6 +6,16 @@ Vue.use(VueRouter);
 
 const routers = [
     {
+        path: '/wap',
+        component: (resolve) => require(['./views/wap/layout.vue'], resolve),
+        children: [
+            {
+                path: 'article/:id',
+                component: (resolve) => require(['./views/wap/article/detail.vue'], resolve)
+            }
+        ]
+    },
+    {
         path: '/user',
         component: (resolve) => require(['./views/user/layout.vue'], resolve),
         children: [

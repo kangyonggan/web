@@ -1,34 +1,24 @@
 <template>
-  <div class="content">
-    <base-search />
-
+  <div>
     <el-row
       class="article-detail"
       v-loading="loading"
     >
-      <h1 class="title">
+      <h2>
         {{ article.title }}
-      </h1>
-      <div class="info">
-        <span style="margin-right: 15px;">
-          <i class="el-icon-view" />
-          {{ article.viewNum }}
-        </span>
-        <em>
-          <i class="el-icon-time" />
-          {{ util.formatTimestamp(article.createdTime) }}
-        </em>
-      </div>
+      </h2>
 
-      <div style="position: relative;">
+      <div style="position: relative;clear: both">
         <mavon-editor
-          :toolbars="{'navigation': true, help: true, htmlcode: true, readmodel: true}"
+          :toolbars="{}"
           :value="article.content"
         />
       </div>
     </el-row>
 
     <base-reward />
+
+    <div style="height: 20px;" />
   </div>
 </template>
 
@@ -74,11 +64,11 @@
         },
         mounted() {
             if (this.isPC()) {
-                this.loadData();
-            } else {
                 this.$router.push({
-                    path: '/wap/article/' + this.$route.params.id
+                    path: '/article/' + this.$route.params.id
                 });
+            } else {
+                this.loadData();
             }
         }
     };
@@ -86,26 +76,11 @@
 
 <style lang="scss">
   .article-detail {
-    padding: 10px 20px 20px 20px;
-    background: #fff;
-
-    .title {
-      text-align: center;
-      margin-bottom: 10px;
-    }
-
-    .info {
-      text-align: center;
-      color: #595959;
-      font-size: 13px;
-      padding-bottom: 20px;
-      border-bottom: 1px dashed #ddd;
-    }
+    padding: 5px;
 
     .markdown-body {
       border: 0 !important;
       box-shadow: none !important;
-      padding-top: 10px;
     }
 
     .v-note-edit {
@@ -118,20 +93,7 @@
     }
 
     .v-note-op {
-      position: absolute;
-      right: -10px;
-      width: 400px !important;
-      top: -54px;
-      border: 0 !important;
-      text-align: right !important;
-
-      .v-left-item {
-        display: none;
-      }
-
-      .v-right-item {
-        max-width: 100% !important;
-      }
+      display: none !important;
     }
 
     .v-show-content {

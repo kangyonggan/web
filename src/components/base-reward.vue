@@ -22,7 +22,6 @@
       </div>
       <div
         class="imgPanel"
-        style="margin-left: 40px;"
       >
         <img
           src="../assets/images/wechat.png"
@@ -71,6 +70,8 @@
 
   .imgPanel {
     display: inline-block;
+    margin-left: 20px;
+    margin-right: 20px;
   }
 
   p.anim {
