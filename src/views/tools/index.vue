@@ -18,10 +18,6 @@
             return {
                 tools: [
                     {
-                        name: 'ticket',
-                        cover: require('../../assets/images/tools/ticket.jpg')
-                    },
-                    {
                         name: 'imgBed',
                         cover: require('../../assets/images/tools/imgBed.jpg')
                     },
