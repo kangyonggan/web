@@ -539,12 +539,12 @@
                         'novelCount': '书籍访问量',
                         'ckCount': 'CK查询次数',
                         'loginCount': '登录次数',
-                        'ticketCount': '余票查询次数'
+                        'novelPullCount': '文章抓取次数'
                     }
                 },
                 loadingChartData: false,
                 chartData: {
-                    columns: ['date', 'webCount', 'articleCount', 'novelCount', 'ckCount', 'loginCount', 'ticketCount'],
+                    columns: ['date', 'webCount', 'articleCount', 'novelCount', 'ckCount', 'loginCount', 'novelPullCount'],
                     rows: []
                 },
                 articleList: [],
