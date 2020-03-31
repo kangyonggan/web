@@ -182,7 +182,7 @@
                 let that = this;
                 this.djtInterval = setInterval(function () {
                     that.djt = djt.random();
-                }, 2000);
+                }, 3500);
             },
             stopDjt: function () {
                 if (this.djtInterval) {
