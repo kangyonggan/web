@@ -85,12 +85,25 @@
           </div>
         </div>
       </div>
+
+      <div
+        class="notice"
+        @mouseenter="stopDjt"
+        @mouseleave="startDjt"
+      >
+        <img src="../assets/images/notic.png">
+        <div class="djt">
+          {{ djt }}
+        </div>
+      </div>
     </div>
     <div style="clear: both;height: 30px;" />
   </div>
 </template>
 
 <script>
+    import djt from '../libs/djt';
+
     function debounce(fn, delay) {
         let timer;
         return function () {
@@ -136,7 +149,9 @@
                 isSearching: false,
                 showTips: false,
                 cursorIndex: -1,
-                pushRight: false
+                pushRight: false,
+                djt: '',
+                djtInterval: null
             };
         },
         mounted: function () {
@@ -157,8 +172,24 @@
                     that.showTips = false;
                 }
             };
+
+            this.djt = djt.random();
+            this.startDjt();
         },
         methods: {
+            startDjt: function () {
+                this.stopDjt();
+                let that = this;
+                this.djtInterval = setInterval(function () {
+                    that.djt = djt.random();
+                }, 2000);
+            },
+            stopDjt: function () {
+                if (this.djtInterval) {
+                    clearInterval(this.djtInterval);
+                }
+                this.djtInterval = null;
+            },
             /**
              * 格式化结果集，高亮key
              */
@@ -306,7 +337,7 @@
 <style scoped lang="scss">
   .search {
     width: 1000px;
-    height: 94px;
+    height: 134px;
     margin: 0 auto;
   }
 
@@ -453,6 +484,31 @@
         border: none;
         color: #595959;
       }
+    }
+  }
+
+  .notice {
+    width: 924px;
+    margin-top: 10px;
+    padding: 0 20px;
+    height: 40px;
+    line-height: 40px;
+    color: #ff863c;
+    background: #f6e6dd;
+    border-radius: 4px;
+
+    img {
+      float: left;
+      margin-top: 14px;
+    }
+
+    .djt {
+      display: inline-block;
+      margin-left: 15px;
+      font-size: 14px;
+      height: 40px;
+      width: 894px;
+      overflow: hidden;
     }
   }
 </style>
