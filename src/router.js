@@ -155,6 +155,13 @@ const routers = [
                 component: (resolve) => require(['./views/tools/gif.vue'], resolve)
             },
             {
+                path: 'super-slider',
+                meta: {
+                    title: '多段滑块'
+                },
+                component: (resolve) => require(['./views/super-slider-demo.vue'], resolve)
+            },
+            {
                 path: '*',
                 meta: {
                     title: '404'
