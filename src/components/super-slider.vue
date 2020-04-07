@@ -38,9 +38,9 @@
               :content="getBtnTip(index)"
               placement="top"
             >
-            <div
-              class="el-tooltip el-slider__button"
-            />
+              <div
+                class="el-tooltip el-slider__button"
+              />
             </el-tooltip>
           </div>
         </el-tooltip>
@@ -128,8 +128,11 @@
 
                 let changeVal = (this.positionX - this.oldX) * 100 / 500;
                 changeVal = Math.round(changeVal);
-                this.items[this.currentIndex - 1].value += changeVal;
-                this.items[this.currentIndex].value -= changeVal;
+                if (changeVal > 0 && changeVal < this.items[this.currentIndex].value ||
+                    (changeVal < 0 && -changeVal < this.items[this.currentIndex - 1].value)) {
+                    this.items[this.currentIndex - 1].value += changeVal;
+                    this.items[this.currentIndex].value -= changeVal;
+                }
 
                 this.isDragging = false;
                 this.currentIndex = -1;
@@ -145,6 +148,10 @@
     width: 500px;
 
     .el-slider__button-wrapper {
+      outline: none;
+    }
+
+    .el-slider__button {
       outline: none;
     }
   }
