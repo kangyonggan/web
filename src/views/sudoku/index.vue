@@ -41,29 +41,29 @@
           cellpadding="0"
         >
           <tbody>
-          <tr
-            v-for="i in 9"
-            :key="i"
-          >
-            <td
-              v-for="j in 9"
-              :key="j"
-              :class="{lineX: i % 3 === 0, lineY: j % 3 === 0}"
+            <tr
+              v-for="i in 9"
+              :key="i"
             >
-              <input
-                v-if="data[i * 9 - 9 + j - 1]"
-                :value="data[i * 9 - 9 + j - 1]"
-                readonly
+              <td
+                v-for="j in 9"
+                :key="j"
+                :class="{lineX: i % 3 === 0, lineY: j % 3 === 0}"
               >
-              <input
-                v-else
-                :value="data[i * 9 - 9 + j - 1]"
-                type="number"
-                min="1"
-                max="9"
-              >
-            </td>
-          </tr>
+                <input
+                  v-if="data[i * 9 - 9 + j - 1]"
+                  :value="data[i * 9 - 9 + j - 1]"
+                  readonly
+                >
+                <input
+                  v-else
+                  :value="data[i * 9 - 9 + j - 1]"
+                  type="number"
+                  min="1"
+                  max="9"
+                >
+              </td>
+            </tr>
           </tbody>
         </table>
 
@@ -73,21 +73,21 @@
           cellpadding="0"
         >
           <tbody>
-          <tr
-            v-for="i in 9"
-            :key="i"
-          >
-            <td
-              v-for="j in 9"
-              :key="j"
-              :class="{lineX: i % 3 === 0, lineY: j % 3 === 0}"
+            <tr
+              v-for="i in 9"
+              :key="i"
             >
-              <input
-                v-model="answer[i * 9 - 9 + j - 1]"
-                readonly
+              <td
+                v-for="j in 9"
+                :key="j"
+                :class="{lineX: i % 3 === 0, lineY: j % 3 === 0}"
               >
-            </td>
-          </tr>
+                <input
+                  v-model="answer[i * 9 - 9 + j - 1]"
+                  readonly
+                >
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>
