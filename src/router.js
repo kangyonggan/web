@@ -106,6 +106,13 @@ const routers = [
                 component: (resolve) => require(['./views/video/detail.vue'], resolve)
             },
             {
+                path: 'sudoku',
+                meta: {
+                    title: '数独'
+                },
+                component: (resolve) => require(['./views/sudoku/index.vue'], resolve)
+            },
+            {
                 path: 'about',
                 meta: {
                     title: '关于'

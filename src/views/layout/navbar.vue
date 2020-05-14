@@ -81,6 +81,10 @@
                         value: '工具'
                     },
                     {
+                        code: '/sudoku',
+                        value: '数独'
+                    },
+                    {
                         code: '/about',
                         value: '关于'
                     }
