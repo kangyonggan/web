@@ -22,8 +22,11 @@
 
       <div style="position: relative;">
         <mavon-editor
-          :toolbars="{'navigation': true, help: true, htmlcode: true, readmodel: true}"
+          ref="md"
+          :class="{preview: preview}"
+          :toolbars="{'navigation': true, help: true, htmlcode: true, readmodel: true, preview: true}"
           :value="article.content"
+          @previewToggle="previewToggle"
         />
       </div>
     </el-row>
@@ -33,14 +36,21 @@
 </template>
 
 <script>
+    import hljs from 'highlight.js';
+    import 'highlight.js/styles/github.css';
+
     export default {
         data() {
             return {
                 loading: false,
-                article: {}
+                article: {},
+                preview: true
             };
         },
         methods: {
+            previewToggle(status) {
+                this.preview = status;
+            },
             /**
              * 判断是不是PC端
              *
@@ -61,10 +71,21 @@
                 return flag;
             },
             loadData() {
+                window.hljs = hljs;
+                require('highlightjs-line-numbers.js');
+
                 this.loading = true;
                 this.axios.get('article/' + this.$route.params.id).then(data => {
                     this.article = data.article;
                     this.util.title(this.article.title);
+
+                    this.$nextTick(function () {
+                        let pres = this.$refs.md.$el.querySelectorAll('.v-show-content pre');
+                        Object.values(pres).forEach(pre => {
+                            hljs.highlightBlock(pre);
+                            hljs.lineNumbersBlock(pre.firstChild, {singleLine: true});
+                        });
+                    });
                 }).catch(res => {
                     this.error(res.respMsg);
                 }).finally(() => {
@@ -84,8 +105,8 @@
     };
 </script>
 
-<style lang="scss">
-  .article-detail {
+<style lang="scss" scoped>
+  /deep/ .article-detail {
     padding: 10px 20px 20px 20px;
     background: #fff;
 
@@ -102,22 +123,34 @@
       border-bottom: 1px dashed #ddd;
     }
 
-    .markdown-body {
+    /deep/ .preview {
+      .v-note-edit {
+        display: none;
+      }
+
+      .v-note-show {
+        display: block !important;
+        flex: 0 0 100% !important;
+        width: 100% !important;
+      }
+    }
+
+    /deep/ .markdown-body {
       border: 0 !important;
       box-shadow: none !important;
       padding-top: 10px;
     }
 
-    .v-note-edit {
-      display: none;
-    }
-
-    .v-note-show {
+    /deep/ .v-note-edit {
       flex: 0 0 100% !important;
       width: 100% !important;
     }
 
-    .v-note-op {
+    /deep/ .v-note-show {
+      display: none;
+    }
+
+    /deep/ .v-note-op {
       position: absolute;
       right: -10px;
       width: 400px !important;
@@ -134,9 +167,62 @@
       }
     }
 
-    .v-show-content {
+    /deep/ .v-show-content {
       background: #fff !important;
       padding: 0 !important;
+    }
+  }
+
+  /deep/ .markdown-body {
+    pre {
+      padding: 0 !important;
+      border-radius: 0 !important;
+    }
+
+    .hljs {
+      padding: 0 !important;
+    }
+
+    table.hljs-ln {
+      margin-bottom: 0;
+      border: 1px solid #e5e5e5;
+
+      tr {
+        border-top: 0 !important;
+        background: #fff !important;
+
+        td {
+          padding: 3px 13px !important;
+        }
+
+        .hljs-ln-numbers {
+          -webkit-touch-callout: none;
+          -webkit-user-select: none;
+          -khtml-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+          user-select: none;
+
+          text-align: right;
+          color: rgba(0, 0, 0, 0.3);
+          border-bottom: 0;
+          border-top: 0;
+          border-left: 0;
+          border-right: 1px solid #e5e5e5;
+          vertical-align: top;
+          padding-right: 5px !important;
+          background: #f9f9f9;
+
+          min-width: 55px;
+        }
+
+        .hljs-ln-code {
+          border: 0 !important;
+          padding-left: 10px !important;
+          background: #f6f8fa;
+          width: 100%;
+        }
+      }
     }
   }
 </style>

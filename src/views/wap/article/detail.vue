@@ -10,6 +10,7 @@
 
       <div style="position: relative;clear: both">
         <mavon-editor
+          ref="md"
           :toolbars="{}"
           :value="article.content"
         />
@@ -23,6 +24,9 @@
 </template>
 
 <script>
+    import hljs from 'highlight.js';
+    import 'highlight.js/styles/github.css';
+
     export default {
         data() {
             return {
@@ -51,10 +55,21 @@
                 return flag;
             },
             loadData() {
+                window.hljs = hljs;
+                require('highlightjs-line-numbers.js');
+
                 this.loading = true;
                 this.axios.get('article/' + this.$route.params.id).then(data => {
                     this.article = data.article;
                     this.util.title(this.article.title);
+
+                    this.$nextTick(function () {
+                        let pres = this.$refs.md.$el.querySelectorAll('.v-show-content pre');
+                        Object.values(pres).forEach(pre => {
+                            hljs.highlightBlock(pre);
+                            hljs.lineNumbersBlock(pre.firstChild, {singleLine: true});
+                        });
+                    });
                 }).catch(res => {
                     this.error(res.respMsg);
                 }).finally(() => {
@@ -74,8 +89,8 @@
     };
 </script>
 
-<style lang="scss">
-  .article-detail {
+<style lang="scss" scoped>
+  /deep/ .article-detail {
     padding: 5px;
 
     .markdown-body {
@@ -99,6 +114,59 @@
     .v-show-content {
       background: #fff !important;
       padding: 0 !important;
+    }
+  }
+
+  /deep/ .markdown-body {
+    pre {
+      padding: 0 !important;
+      border-radius: 0 !important;
+    }
+
+    .hljs {
+      padding: 0 !important;
+    }
+
+    table.hljs-ln {
+      margin-bottom: 0;
+      border: 1px solid #e5e5e5;
+
+      tr {
+        border-top: 0 !important;
+        background: #fff !important;
+
+        td {
+          padding: 3px 13px !important;
+        }
+
+        .hljs-ln-numbers {
+          -webkit-touch-callout: none;
+          -webkit-user-select: none;
+          -khtml-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+          user-select: none;
+
+          text-align: right;
+          color: rgba(0, 0, 0, 0.3);
+          border-bottom: 0;
+          border-top: 0;
+          border-left: 0;
+          border-right: 1px solid #e5e5e5;
+          vertical-align: top;
+          padding-right: 5px !important;
+          background: #f9f9f9;
+
+          min-width: 35px;
+        }
+
+        .hljs-ln-code {
+          border: 0 !important;
+          padding-left: 10px !important;
+          background: #f6f8fa;
+          width: 100%;
+        }
+      }
     }
   }
 </style>
