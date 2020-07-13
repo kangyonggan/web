@@ -4,12 +4,51 @@
 
     <el-row
       class="article-detail"
-      v-loading="loading"
     >
-      <h1 class="title">
+      <svg
+        v-if="!article.id"
+        width="100%"
+        height="110px"
+        style="background: #fff;border-bottom: 1px dashed #ddd;"
+      >
+        <rect
+          x="20%"
+          y="28"
+          rx="3"
+          ry="3"
+          width="60%"
+          height="35"
+          fill="#f5f6f8"
+        />
+        <rect
+          x="40%"
+          y="72"
+          rx="3"
+          ry="3"
+          width="20%"
+          height="22"
+          fill="#f5f6f8"
+        />
+        <rect
+          x="84%"
+          y="72"
+          rx="3"
+          ry="3"
+          width="15%"
+          height="22"
+          fill="#f5f6f8"
+        />
+      </svg>
+      <h1
+        class="title"
+        v-if="article.id"
+      >
         {{ article.title }}
       </h1>
-      <div class="info">
+      <div
+        class="info"
+        v-if="article.id"
+      >
         <span style="margin-right: 15px;">
           <i class="el-icon-view" />
           {{ article.viewNum }}
@@ -20,7 +59,97 @@
         </em>
       </div>
 
-      <div style="position: relative;">
+      <svg
+        v-if="!article.id"
+        width="100%"
+        height="70px"
+        style="background: #fff;border-bottom: 1px solid #eaecef"
+      >
+        <rect
+          x="0"
+          y="30"
+          rx="3"
+          ry="3"
+          width="100px"
+          height="30px"
+          fill="#f5f6f8"
+        />
+      </svg>
+      <svg
+        v-if="!article.id"
+        width="100%"
+        height="210px"
+        style="background: #fff"
+      >
+        <rect
+          x="3%"
+          y="10"
+          rx="3"
+          ry="3"
+          width="97%"
+          height="20"
+          fill="#f5f6f8"
+        />
+        <rect
+          x="0"
+          y="40"
+          rx="3"
+          ry="3"
+          width="100%"
+          height="20"
+          fill="#f5f6f8"
+        />
+        <rect
+          x="0"
+          y="70"
+          rx="3"
+          ry="3"
+          width="40%"
+          height="20"
+          fill="#f5f6f8"
+        />
+        <rect
+          x="3%"
+          y="100"
+          rx="3"
+          ry="3"
+          width="97%"
+          height="20"
+          fill="#f5f6f8"
+        />
+        <rect
+          x="0"
+          y="130"
+          rx="3"
+          ry="3"
+          width="100%"
+          height="20"
+          fill="#f5f6f8"
+        />
+        <rect
+          x="0"
+          y="160"
+          rx="3"
+          ry="3"
+          width="100%"
+          height="20"
+          fill="#f5f6f8"
+        />
+        <rect
+          x="0"
+          y="190"
+          rx="3"
+          ry="3"
+          width="20%"
+          height="20"
+          fill="#f5f6f8"
+        />
+      </svg>
+
+      <div
+        style="position: relative;"
+        v-else
+      >
         <mavon-editor
           ref="md"
           :class="{preview: preview}"
@@ -31,7 +160,7 @@
       </div>
     </el-row>
 
-    <base-reward />
+    <base-reward v-if="article.id" />
   </div>
 </template>
 
@@ -42,7 +171,6 @@
     export default {
         data() {
             return {
-                loading: false,
                 article: {},
                 preview: true
             };
@@ -74,7 +202,6 @@
                 window.hljs = hljs;
                 require('highlightjs-line-numbers.js');
 
-                this.loading = true;
                 this.axios.get('article/' + this.$route.params.id).then(data => {
                     this.article = data.article;
                     this.util.title(this.article.title);
@@ -88,8 +215,6 @@
                     });
                 }).catch(res => {
                     this.error(res.respMsg);
-                }).finally(() => {
-                    this.loading = false;
                 });
             }
         },

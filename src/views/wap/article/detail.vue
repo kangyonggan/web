@@ -1,14 +1,126 @@
 <template>
   <div>
-    <el-row
-      class="article-detail"
-      v-loading="loading"
-    >
-      <h2>
+    <el-row class="article-detail">
+      <svg
+        v-if="!article.id"
+        width="100%"
+        height="110px"
+        style="background: #fff;"
+      >
+        <rect
+          x="0"
+          y="28"
+          rx="3"
+          ry="3"
+          width="100%"
+          height="30"
+          fill="#f5f6f8"
+        />
+        <rect
+          x="0"
+          y="65"
+          rx="3"
+          ry="3"
+          width="60%"
+          height="30"
+          fill="#f5f6f8"
+        />
+      </svg>
+      <h2 v-else>
         {{ article.title }}
       </h2>
 
-      <div style="position: relative;clear: both">
+      <svg
+        v-if="!article.id"
+        width="100%"
+        height="70px"
+        style="background: #fff;border-bottom: 1px solid #eaecef"
+      >
+        <rect
+          x="0"
+          y="30"
+          rx="3"
+          ry="3"
+          width="100px"
+          height="30px"
+          fill="#f5f6f8"
+        />
+      </svg>
+      <svg
+        v-if="!article.id"
+        width="100%"
+        height="210px"
+        style="background: #fff"
+      >
+        <rect
+          x="3%"
+          y="10"
+          rx="3"
+          ry="3"
+          width="97%"
+          height="20"
+          fill="#f5f6f8"
+        />
+        <rect
+          x="0"
+          y="40"
+          rx="3"
+          ry="3"
+          width="100%"
+          height="20"
+          fill="#f5f6f8"
+        />
+        <rect
+          x="0"
+          y="70"
+          rx="3"
+          ry="3"
+          width="40%"
+          height="20"
+          fill="#f5f6f8"
+        />
+        <rect
+          x="3%"
+          y="100"
+          rx="3"
+          ry="3"
+          width="97%"
+          height="20"
+          fill="#f5f6f8"
+        />
+        <rect
+          x="0"
+          y="130"
+          rx="3"
+          ry="3"
+          width="100%"
+          height="20"
+          fill="#f5f6f8"
+        />
+        <rect
+          x="0"
+          y="160"
+          rx="3"
+          ry="3"
+          width="100%"
+          height="20"
+          fill="#f5f6f8"
+        />
+        <rect
+          x="0"
+          y="190"
+          rx="3"
+          ry="3"
+          width="20%"
+          height="20"
+          fill="#f5f6f8"
+        />
+      </svg>
+      
+      <div
+        v-else
+        style="position: relative;clear: both"
+      >
         <mavon-editor
           ref="md"
           :toolbars="{}"
@@ -17,7 +129,7 @@
       </div>
     </el-row>
 
-    <base-reward />
+    <base-reward v-if="article.id" />
 
     <div style="height: 20px;" />
   </div>
@@ -30,7 +142,6 @@
     export default {
         data() {
             return {
-                loading: false,
                 article: {}
             };
         },
@@ -58,7 +169,6 @@
                 window.hljs = hljs;
                 require('highlightjs-line-numbers.js');
 
-                this.loading = true;
                 this.axios.get('article/' + this.$route.params.id).then(data => {
                     this.article = data.article;
                     this.util.title(this.article.title);
@@ -72,8 +182,6 @@
                     });
                 }).catch(res => {
                     this.error(res.respMsg);
-                }).finally(() => {
-                    this.loading = false;
                 });
             }
         },
