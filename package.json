@@ -8,6 +8,7 @@
     "hd": "vue-cli-service serve --mode hd",
     "build": "vue-cli-service build",
     "deploy": "ssh root@kangyonggan.com 'rm -rf /srv/apps/web/*';scp -r dist/* root@kangyonggan.com:/srv/apps/web/",
+    "onekey-deploy": "vue-cli-service build;ssh root@kangyonggan.com 'rm -rf /srv/apps/web/*';scp -r dist/* root@kangyonggan.com:/srv/apps/web/",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {

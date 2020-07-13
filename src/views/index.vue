@@ -23,8 +23,45 @@
               </el-tooltip>
             </router-link>
           </div>
+          <div v-if="!articleList.length">
+            <svg
+              v-for="i in 7"
+              :key="i"
+              width="100%"
+              height="50"
+              style="border-bottom: 1px solid #ebeef5"
+            >
+              <rect
+                x="12px"
+                y="15px"
+                width="508px"
+                height="20px"
+                rx="3"
+                ry="3"
+                fill="#f5f6f8"
+              />
+              <rect
+                x="560px"
+                y="15px"
+                width="45px"
+                height="20px"
+                rx="3"
+                ry="3"
+                fill="#f5f6f8"
+              />
+              <rect
+                x="630px"
+                y="15px"
+                width="140px"
+                height="20px"
+                rx="3"
+                ry="3"
+                fill="#f5f6f8"
+              />
+            </svg>
+          </div>
           <el-table
-            v-loading="loadingArticleList"
+            v-else
             :data="articleList"
             :header-cell-style="headerCellStyle"
             cell-class-name="body-cell"
@@ -114,8 +151,54 @@
             </router-link>
           </div>
 
+          <div v-if="!novelList.length">
+            <svg
+              v-for="i in 8"
+              :key="i"
+              width="100%"
+              height="44"
+              style="border-bottom: 1px solid #ebeef5"
+            >
+              <rect
+                x="12px"
+                y="12px"
+                width="88px"
+                height="20px"
+                rx="3"
+                ry="3"
+                fill="#f5f6f8"
+              />
+              <rect
+                x="112px"
+                y="12px"
+                width="78px"
+                height="20px"
+                rx="3"
+                ry="3"
+                fill="#f5f6f8"
+              />
+              <rect
+                x="202px"
+                y="12px"
+                width="246px"
+                height="20px"
+                rx="3"
+                ry="3"
+                fill="#f5f6f8"
+              />
+              <rect
+                x="460px"
+                y="12px"
+                width="108px"
+                height="20px"
+                rx="3"
+                ry="3"
+                fill="#f5f6f8"
+              />
+            </svg>
+          </div>
           <el-table
-            v-loading="loadingNovelList"
+            v-else
             :data="novelList"
             :header-cell-style="headerCellStyle"
             cell-class-name="body-cell"
@@ -548,9 +631,7 @@
                     rows: []
                 },
                 articleList: [],
-                loadingArticleList: false,
                 novelList: [],
-                loadingNovelList: false,
                 videoList: [],
                 loadingVideoList: false,
                 photoList: [img1, img2, img3, img4, img5, img6, img7, img8],
@@ -559,13 +640,10 @@
         },
         methods: {
             loadArticleList() {
-                this.loadingArticleList = true;
                 this.axios.get('article?pageSize=7').then(data => {
                     this.articleList = data.pageInfo.list;
                 }).catch(res => {
                     this.error(res.respMsg);
-                }).finally(() => {
-                    this.loadingArticleList = false;
                 });
             },
             loadChartData(index) {
@@ -580,13 +658,10 @@
                 });
             },
             loadNovelList() {
-                this.loadingNovelList = true;
                 this.axios.get('novel?pageSize=7&prop=hold&order=descending').then(data => {
                     this.novelList = data.pageInfo.list;
                 }).catch(res => {
                     this.error(res.respMsg);
-                }).finally(() => {
-                    this.loadingNovelList = false;
                 });
             },
             loadVideoList() {
