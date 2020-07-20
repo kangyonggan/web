@@ -1,86 +1,7 @@
 <template>
   <el-col class="base-table">
-    <svg
-      v-show="loading"
-      width="100%"
-      height="48px"
-    >
-      <rect
-        x="1%"
-        y="14px"
-        width="23%"
-        height="20px"
-        fill="#d5d5d5"
-      />
-      <rect
-        x="26%"
-        y="14px"
-        width="23%"
-        height="20px"
-        fill="#d5d5d5"
-      />
-      <rect
-        x="51%"
-        y="14px"
-        width="23%"
-        height="20px"
-        fill="#d5d5d5"
-      />
-      <rect
-        x="76%"
-        y="14px"
-        width="23%"
-        height="20px"
-        fill="#d5d5d5"
-      />
-    </svg>
-    <svg
-      v-show="loading"
-      v-for="i in 10"
-      :key="i"
-      width="100%"
-      height="47px"
-      style="background: #fff;float: left;border-bottom: 1px solid #f5f6f8"
-    >
-      <rect
-        x="1%"
-        y="14px"
-        rx="3"
-        ry="3"
-        width="23%"
-        height="20px"
-        fill="#f5f6f8"
-      />
-      <rect
-        x="26%"
-        y="14px"
-        rx="3"
-        ry="3"
-        width="23%"
-        height="20px"
-        fill="#f5f6f8"
-      />
-      <rect
-        x="51%"
-        y="14px"
-        rx="3"
-        ry="3"
-        width="23%"
-        height="20px"
-        fill="#f5f6f8"
-      />
-      <rect
-        x="76%"
-        y="14px"
-        rx="3"
-        ry="3"
-        width="23%"
-        height="20px"
-        fill="#f5f6f8"
-      />
-    </svg>
     <el-table
-      v-show="!loading"
+      v-skeleton="{loading: loading, rows: params.pageSize || 10}"
       ref="table"
       :border="border"
       :data="list"
@@ -91,7 +12,6 @@
     </el-table>
 
     <el-row
-      v-show="!loading"
       style="background: #fff;padding: 20px 0;"
       v-if="pagination"
     >
