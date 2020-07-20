@@ -12,10 +12,12 @@ import store from './store';
 import mavonEditor from 'mavon-editor';
 import 'mavon-editor/dist/css/index.css';
 import VueClipboard from 'vue-clipboard2';
+import VueElementUISkeleton from 'vue-elementui-skeleton';
 
 VueClipboard.config.autoSetContainer = true;
 
 Vue.use(VueClipboard);
+Vue.use(VueElementUISkeleton, {rows: 7});
 Vue.use(ElementUI);
 Vue.use(mavonEditor);
 

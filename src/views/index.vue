@@ -24,7 +24,7 @@
             </router-link>
           </div>
           <el-table
-            v-skeleton="{loading: loadingArticleList, rows: 7}"
+            v-skeleton="loadingArticleList"
             :data="articleList"
             :header-cell-style="headerCellStyle"
             cell-class-name="body-cell"
@@ -115,7 +115,7 @@
           </div>
 
           <el-table
-            v-skeleton="{loading: loadingNovelList, rows: 7}"
+            v-skeleton="loadingNovelList"
             :data="novelList"
             :header-cell-style="headerCellStyle"
             cell-class-name="body-cell"
