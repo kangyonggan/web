@@ -18,8 +18,8 @@
       <el-pagination
         layout="sizes, prev, pager, next, jumper, ->, total, slot"
         :total="total"
-        :page-size="params.pageSize"
-        :current-page="params.pageNum"
+        :page-size="params.pageSize * 1"
+        :current-page="params.pageNum * 1"
         @size-change="sizeChange"
         @current-change="jump"
       />
