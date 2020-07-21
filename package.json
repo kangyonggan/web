@@ -24,7 +24,7 @@
     "v-charts": "^1.19.0",
     "vue": "^2.6.10",
     "vue-axios": "^2.1.5",
-    "vue-elementui-skeleton": "^1.0.0",
+    "vue-elementui-skeleton": "^1.0.1",
     "vue-json-viewer": "^2.2.8",
     "vue-router": "^2.8.1",
     "vuex": "^3.1.1"
