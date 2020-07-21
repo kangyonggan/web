@@ -12,7 +12,7 @@
           :rules="rules"
         >
           <el-col>
-            <el-col :span="6">
+            <el-col :span="5">
               <el-form-item
                 label="阴/阳历"
                 prop="isLunar"
@@ -27,7 +27,7 @@
                 </el-radio-group>
               </el-form-item>
             </el-col>
-            <el-col :span="6">
+            <el-col :span="7">
               <el-form-item
                 label="出生日期"
                 prop="birthday"
@@ -40,7 +40,7 @@
                 />
               </el-form-item>
             </el-col>
-            <el-col :span="6">
+            <el-col :span="7">
               <el-form-item
                 label="出生时辰"
                 prop="hour"
@@ -63,7 +63,7 @@
               </el-form-item>
             </el-col>
 
-            <el-col :span="6">
+            <el-col :span="5">
               <el-form-item>
                 <el-button
                   type="primary"
