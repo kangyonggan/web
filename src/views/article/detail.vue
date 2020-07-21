@@ -198,11 +198,11 @@
                 }
                 return flag;
             },
-            loadData() {
+            loadData(id) {
                 window.hljs = hljs;
                 require('highlightjs-line-numbers.js');
 
-                this.axios.get('article/' + this.$route.params.id).then(data => {
+                this.axios.get('article/' + id).then(data => {
                     this.article = data.article;
                     this.util.title(this.article.title);
 
@@ -220,10 +220,20 @@
         },
         mounted() {
             if (this.isPC()) {
-                this.loadData();
+                this.loadData(this.$route.params.id);
             } else {
                 this.$router.push({
                     path: '/wap/article/' + this.$route.params.id
+                });
+            }
+        },
+        beforeRouteUpdate(to, from, next) {
+            if (this.isPC()) {
+                this.loadData(to.params.id);
+                next();
+            } else {
+                this.$router.push({
+                    path: '/wap/article/' + to.params.id
                 });
             }
         }

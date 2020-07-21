@@ -165,11 +165,11 @@
                 }
                 return flag;
             },
-            loadData() {
+            loadData(id) {
                 window.hljs = hljs;
                 require('highlightjs-line-numbers.js');
 
-                this.axios.get('article/' + this.$route.params.id).then(data => {
+                this.axios.get('article/' + id).then(data => {
                     this.article = data.article;
                     this.util.title(this.article.title);
 
@@ -191,7 +191,17 @@
                     path: '/article/' + this.$route.params.id
                 });
             } else {
-                this.loadData();
+                this.loadData(this.$route.params.id);
+            }
+        },
+        beforeRouteUpdate(to, from, next) {
+            if (this.isPC()) {
+                this.$router.push({
+                    path: '/article/' + to.params.id
+                });
+            } else {
+                this.loadData(to.params.id);
+                next();
             }
         }
     };
