@@ -23,7 +23,7 @@
               将文件拖到此处，或<em>点击上传</em>
             </div>
             <div class="el-upload__tip">
-              只能上传gif/jpg/jpeg/bmp/png/webp文件，且不超过2MB。
+              只能上传gif/jpg/jpeg/bmp/png/webp文件，且不超过100MB。
             </div>
           </div>
         </el-upload>
@@ -278,8 +278,8 @@
                     this.error('只能选择 gif/jpg/jpeg/bmp/png/webp 格式的图片!');
                     return false;
                 }
-                if (file.size / 1024 / 1024 > 2) {
-                    this.error('图片大小不能超过2MB!');
+                if (file.size / 1024 / 1024 > 100) {
+                    this.error('图片大小不能超过100MB!');
                     return false;
                 }
 

@@ -20,7 +20,7 @@
             电子邮箱：java@kangyonggan.com
           </div>
           <img
-            src="https://tva1.sinaimg.cn/large/006y8mN6gy1g8t2se9gwoj31oc0m8djz.jpg"
+            src="https://tva1.sinaimg.cn/large/007S8ZIlgy1ggzrs6j1fyj31bi0hcdil.jpg"
             style="width: 500px; margin-top: 30px;"
           >
           <div style="height: 1px;clear: both;" />
