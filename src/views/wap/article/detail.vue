@@ -188,7 +188,8 @@
         mounted() {
             if (this.isPC()) {
                 this.$router.push({
-                    path: '/article/' + this.$route.params.id
+                    path: '/article/' + this.$route.params.id,
+                    hash: this.$route.hash
                 });
             } else {
                 this.loadData(this.$route.params.id);
@@ -197,7 +198,8 @@
         beforeRouteUpdate(to, from, next) {
             if (this.isPC()) {
                 this.$router.push({
-                    path: '/article/' + to.params.id
+                    path: '/article/' + to.params.id,
+                    hash: to.hash
                 });
             } else {
                 this.loadData(to.params.id);

@@ -212,6 +212,9 @@
                             hljs.highlightBlock(pre);
                             hljs.lineNumbersBlock(pre.firstChild, {singleLine: true});
                         });
+                        let hash = window.location.hash;
+                        window.location.hash = '_';
+                        window.location.hash = hash;
                     });
                     document.onclick = function (e) {
                         let a = e.path[0].querySelector('a');
@@ -219,9 +222,6 @@
                             window.location.hash = a.getAttribute('id');
                         }
                     };
-                    let hash = window.location.hash;
-                    window.location.hash = '';
-                    window.location.hash = hash;
                 }).catch(res => {
                     this.error(res.respMsg);
                 });
@@ -232,21 +232,21 @@
                 this.loadData(this.$route.params.id);
             } else {
                 this.$router.push({
-                    path: '/wap/article/' + this.$route.params.id
+                    path: '/wap/article/' + this.$route.params.id,
+                    hash: this.$route.hash
                 });
             }
         },
         beforeRouteUpdate(to, from, next) {
-            if (to.hash) {
-                next();
-                return;
-            }
             if (this.isPC()) {
-                this.loadData(to.params.id);
+                if (!to.hash) {
+                    this.loadData(to.params.id);
+                }
                 next();
             } else {
                 this.$router.push({
-                    path: '/wap/article/' + to.params.id
+                    path: '/wap/article/' + to.params.id,
+                    hash: to.hash
                 });
             }
         }
