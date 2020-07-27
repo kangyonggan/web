@@ -213,6 +213,15 @@
                             hljs.lineNumbersBlock(pre.firstChild, {singleLine: true});
                         });
                     });
+                    document.onclick = function (e) {
+                        let a = e.path[0].querySelector('a');
+                        if (a && e.path[1].classList.contains('v-note-navigation-content')) {
+                            window.location.hash = a.getAttribute('id');
+                        }
+                    };
+                    let hash = window.location.hash;
+                    window.location.hash = '';
+                    window.location.hash = hash;
                 }).catch(res => {
                     this.error(res.respMsg);
                 });
@@ -228,6 +237,10 @@
             }
         },
         beforeRouteUpdate(to, from, next) {
+            if (to.hash) {
+                next();
+                return;
+            }
             if (this.isPC()) {
                 this.loadData(to.params.id);
                 next();
