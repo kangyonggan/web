@@ -213,8 +213,10 @@
                             hljs.lineNumbersBlock(pre.firstChild, {singleLine: true});
                         });
                         let hash = window.location.hash;
-                        window.location.hash = '_';
-                        window.location.hash = hash;
+                        if (hash) {
+                            window.location.hash = '_';
+                            window.location.hash = hash;
+                        }
                     });
                     document.onclick = function (e) {
                         let a = e.path[0].querySelector('a');
