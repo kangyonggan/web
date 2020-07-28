@@ -324,6 +324,10 @@
   }
 
   /deep/ .markdown-body {
+    .v-note-navigation-wrapper {
+      height: min-content !important;
+    }
+
     pre {
       padding: 0 !important;
       border-radius: 0 !important;
