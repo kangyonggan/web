@@ -304,7 +304,7 @@
       position: absolute;
       right: -10px;
       width: 400px !important;
-      top: -54px;
+      top: -50px;
       border: 0 !important;
       text-align: right !important;
 
