@@ -162,6 +162,13 @@ const routers = [
                 component: (resolve) => require(['./views/tools/gif.vue'], resolve)
             },
             {
+                path: 'tools/toc',
+                meta: {
+                    title: '生成Markdown目录'
+                },
+                component: (resolve) => require(['./views/tools/toc.vue'], resolve)
+            },
+            {
                 path: 'super-slider',
                 meta: {
                     title: '多段滑块'

@@ -36,6 +36,10 @@
                     {
                         name: 'gif',
                         cover: require('../../assets/images/tools/gif.gif')
+                    },
+                    {
+                        name: 'toc',
+                        cover: require('../../assets/images/tools/toc.png')
                     }
                 ]
             };
