@@ -21,6 +21,7 @@
     "jquery": "^1.8.3",
     "mavon-editor": "^2.7.7",
     "qs": "^6.9.0",
+    "toc-markdown": "^1.0.1",
     "v-charts": "^1.19.0",
     "vue": "^2.6.10",
     "vue-axios": "^2.1.5",

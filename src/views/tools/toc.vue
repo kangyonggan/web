@@ -29,6 +29,8 @@
 </template>
 
 <script>
+import TocMarkdown from 'toc-markdown';
+
 export default {
   data() {
     return {
@@ -56,82 +58,7 @@ export default {
      * @param md
      */
     getMarkdownToc(md) {
-      let tocList = [];
-      let lines = md.split('\n');
-      let isCodeLine = false;
-      for (let i = 0; i < lines.length; i++) {
-        let line = lines[i].trim();
-        // 暂不考虑4空格代码块
-        if (line.startsWith('```')) {
-          isCodeLine = !isCodeLine;
-        }
-        // 跳过：代码块、空行、不是#开头的行
-        if (isCodeLine || !line || !line.startsWith('#')) {
-          continue;
-        }
-        // 获取标题级别 和 标题名称
-        let spaceIndex = line.indexOf(' ');
-        tocList.push({
-          name: line.substring(spaceIndex).trim(),
-          level: spaceIndex
-        });
-      }
-      this.toToc(tocList);
-    },
-    /**
-     * 转为markdown语法的doc
-     *
-     * @param tocList
-     */
-    toToc(tocList) {
-      let res = '';
-      if (tocList.length === 0) {
-        this.toc = res;
-        return;
-      }
-      let minLevel = this.getMinLevel(tocList);
-      for (let i = 0; i < tocList.length; i++) {
-        for (let j = 0; j < tocList[i].level - minLevel; j++) {
-          res += '  ';
-        }
-        let name = tocList[i].name;
-        let repeat = this.getRepeatName(name, tocList, i);
-        name = name.replace('. ', '-');
-        if (repeat > 0) {
-          res += '- [' + tocList[i].name + '](#' + name + '-' + repeat + ')\n';
-        } else {
-          res += '- [' + tocList[i].name + '](#' + name + ')\n';
-        }
-      }
-      this.toc = res;
-    },
-    /**
-     * 获取name的重复次数
-     */
-    getRepeatName(name, tocList, endIndex) {
-      let count = 0;
-      for (let i = 0; i < endIndex; i++) {
-        if (tocList[i].name === name) {
-          count++;
-        }
-      }
-      return count;
-    },
-    /**
-     * 判断最小的是几级标题
-     *
-     * @param tocList
-     * @returns {number}
-     */
-    getMinLevel(tocList) {
-      let minLevel = 999;
-      for (let i = 0; i < tocList.length; i++) {
-        if (tocList[i].level < minLevel) {
-          minLevel = tocList[i].level;
-        }
-      }
-
-      return minLevel;
+      this.toc = TocMarkdown.generateToc(md);
     }
   },
   mounted() {
