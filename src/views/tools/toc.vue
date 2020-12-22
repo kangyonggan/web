@@ -1,7 +1,7 @@
 <template>
   <el-card>
     <div slot="header">
-      <span>生成Markdown目录</span>
+      <span>生成Markdown目录（适应Gitlab）</span>
     </div>
     <el-col :span="12">
       <el-input
@@ -94,9 +94,28 @@ export default {
         for (let j = 0; j < tocList[i].level - minLevel; j++) {
           res += '  ';
         }
-        res += '- [' + tocList[i].name + '](#' + tocList[i].name + ')\n';
+        let name = tocList[i].name;
+        let repeat = this.getRepeatName(name, tocList, i);
+        name = name.replace('. ', '-');
+        if (repeat > 0) {
+          res += '- [' + tocList[i].name + '](#' + name + '-' + repeat + ')\n';
+        } else {
+          res += '- [' + tocList[i].name + '](#' + name + ')\n';
+        }
       }
       this.toc = res;
+    },
+    /**
+     * 获取name的重复次数
+     */
+    getRepeatName(name, tocList, endIndex) {
+      let count = 0;
+      for (let i = 0; i < endIndex; i++) {
+        if (tocList[i].name === name) {
+          count++;
+        }
+      }
+      return count;
     },
     /**
      * 判断最小的是几级标题
