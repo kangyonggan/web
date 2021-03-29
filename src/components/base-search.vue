@@ -85,17 +85,6 @@
           </div>
         </div>
       </div>
-
-      <div
-        class="notice"
-        @mouseenter="stopDjt"
-        @mouseleave="startDjt"
-      >
-        <img src="../assets/images/notic.png">
-        <div class="djt">
-          {{ djt }}
-        </div>
-      </div>
     </div>
     <div style="clear: both;height: 30px;" />
   </div>
@@ -174,7 +163,7 @@
             };
 
             this.djt = djt.random();
-            this.startDjt();
+            // this.startDjt();
         },
         methods: {
             startDjt: function () {

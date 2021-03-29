@@ -26,31 +26,15 @@
           >侯宾宾
           </a>
         </li>
-        <li>
-          <a
-            target="_blank"
-            href="https://fund.htsec.com/"
-          >基金评价系统
-          </a>
-        </li>
       </ul>
 
       <div class="author-info">
-        开发有风险，入坑需谨慎。
-        中国开发监督管理委员会核准
-        <router-link to="/about">
-          康永敢
-        </router-link>
-        网上开发委托业务
-        <br>
         ©2015-{{ year }}
         <router-link to="/about">
           康永敢
         </router-link>
         版权所有 皖ICP备18009089号.
       </div>
-
-      <div class="links-img" />
     </div>
   </div>
 </template>
@@ -103,26 +87,16 @@
     }
 
     .author-info {
-      width: 600px;
       color: #8c8c8c;
       font-size: 13px;
-      line-height: 20px;
-      float: left;
-      margin-left: 90px;
-      margin-top: 23px;
+      height: 87px;
+      line-height: 87px;
+      float: right;
 
       a {
         color: #8c8c8c;
         font-size: 13px;
       }
-    }
-
-    .links-img {
-      width: 167px;
-      height: 20px;
-      margin-top: 33px;
-      float: right;
-      background: url("../../assets/images/links.jpeg");
     }
   }
 </style>

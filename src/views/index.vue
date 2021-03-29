@@ -87,13 +87,9 @@
 
     <!--书籍-->
     <el-col
-      :span="24"
-      style="margin-top: 20px;position: relative;"
+      class="novel-content"
+      style="margin-top: 30px"
     >
-      <span class="bat-title">书籍</span>
-      <img src="@/assets/images/bar2.jpg">
-    </el-col>
-    <el-col class="novel-content">
       <el-col style="width: 610px;">
         <el-card
           class="box-card"
@@ -177,13 +173,9 @@
 
     <!--生活记录-->
     <el-col
-      :span="24"
-      style="margin-top: 20px;position: relative;"
+      class="life-content"
+      style="margin-top: 30px"
     >
-      <span class="bat2-title">生活记录</span>
-      <img src="@/assets/images/bar1.jpg">
-    </el-col>
-    <el-col class="life-content">
       <!--相册-->
       <el-col style="width: 820px;">
         <el-card
