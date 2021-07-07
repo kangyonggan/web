@@ -153,7 +153,7 @@
         <mavon-editor
           ref="md"
           :class="{preview: preview}"
-          :toolbars="{'navigation': true, help: true, htmlcode: true, readmodel: true, preview: true}"
+          :toolbars="{'navigation': true, help: true, htmlcode: true, readmodel: true, preview: false}"
           :value="article.content"
           @previewToggle="previewToggle"
         />
@@ -256,6 +256,14 @@
 </script>
 
 <style lang="scss" scoped>
+  /deep/ .v-note-wrapper .v-note-panel .v-note-edit.divarea-wrapper.transition {
+    display: none !important;
+  }
+  /deep/ .v-note-wrapper .v-note-panel .v-note-show {
+    flex: 0 0 100% !important;
+    width: 100% !important;
+  }
+
   /deep/ .article-detail {
     padding: 10px 20px 20px 20px;
     background: #fff;
