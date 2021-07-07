@@ -16,7 +16,7 @@
     "core-js": "^3.3.5",
     "echarts": "^4.4.0",
     "element-ui": "^2.12.0",
-    "highlight.js": "^10.1.1",
+    "highlight.js": "^10.4.1",
     "highlightjs-line-numbers.js": "^2.8.0",
     "jquery": "^1.8.3",
     "js-md5": "^0.7.3",
