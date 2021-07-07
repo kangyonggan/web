@@ -17,10 +17,6 @@ axios.interceptors.request.use(function (config) {
         });
     }
 
-    if (config.baseURL === '/bzone/' && process.env.NODE_ENV === 'production') {
-        config.baseURL = 'https://prod-bqmex-bq-front-app.bqmex.com/v1';
-    }
-
     return config;
 }, function (error) {
     return Promise.reject({
@@ -31,7 +27,7 @@ axios.interceptors.request.use(function (config) {
 
 // 响应拦截器
 axios.interceptors.response.use(function (response) {
-    if (response.config.baseURL === '/bzone/' && process.env.NODE_ENV === 'production') {
+    if (response.config.baseURL === '/bzone/') {
         if (response.data.success) {
             return response.data.data;
         } else {
