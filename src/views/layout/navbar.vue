@@ -81,6 +81,10 @@
                         value: '工具'
                     },
                     {
+                        code: '/market',
+                        value: '行情'
+                    },
+                    {
                         code: '/about',
                         value: '关于'
                     }

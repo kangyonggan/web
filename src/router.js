@@ -113,6 +113,13 @@ const routers = [
                 component: (resolve) => require(['./views/sudoku/index.vue'], resolve)
             },
             {
+                path: 'market',
+                meta: {
+                    title: '行情'
+                },
+                component: (resolve) => require(['./views/market/index.vue'], resolve)
+            },
+            {
                 path: 'about',
                 meta: {
                     title: '关于'
