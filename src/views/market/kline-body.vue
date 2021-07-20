@@ -3,6 +3,7 @@
     <div
       id="kline"
       v-loading="loading"
+      :style="{height: height + 'px'}"
     />
     <i
       title="复位"
@@ -26,6 +27,11 @@ export default {
     symbol: {
       required: true,
       type: String
+    },
+    height: {
+      required: false,
+      type: Number,
+      default: 650
     }
   },
   data() {
@@ -84,8 +90,8 @@ export default {
     },
     resetKline() {
       this.kline.setOffsetRightSpace(6);
-      this.kline.setLeftMinVisibleBarCount(50);
-      this.kline.setRightMinVisibleBarCount(50);
+      this.kline.setLeftMinVisibleBarCount(0);
+      this.kline.setRightMinVisibleBarCount(0);
       this.kline.setDataSpace(10);
       this.kline.resize();
     },
@@ -197,6 +203,5 @@ export default {
 <style scoped lang="scss">
 #kline {
   width: 100%;
-  height: 650px;
 }
 </style>
