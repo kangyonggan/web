@@ -141,6 +141,13 @@ const routers = [
                 component: (resolve) => require(['./views/tools/imgBed.vue'], resolve)
             },
             {
+                path: 'tools/market',
+                meta: {
+                    title: '行情'
+                },
+                component: (resolve) => require(['./views/market/index.vue'], resolve)
+            },
+            {
                 path: 'tools/json',
                 meta: {
                     title: 'JSON格式化'

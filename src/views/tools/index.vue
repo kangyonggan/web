@@ -18,8 +18,8 @@
             return {
                 tools: [
                     {
-                        name: 'imgBed',
-                        cover: require('../../assets/images/tools/imgBed.jpg')
+                        name: 'market',
+                        cover: require('../../assets/images/tools/kline.png')
                     },
                     {
                         name: 'json',

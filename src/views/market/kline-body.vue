@@ -95,24 +95,15 @@ export default {
     historyKLine(symbol, interval) {
       this.loading = true;
       let params = 'symbol=' + symbol + '&interval=' + interval;
-      let key = 'kline-' + symbol + '_' + interval;
-      let cacheList = JSON.parse(localStorage.getItem(key + '_list') || '[]');
-      let lastId = localStorage.getItem('kline-' + symbol + '_' + interval + '_last');
-      if (lastId) {
-        params += '&from=' + lastId;
-      }
-      this.axios.get('/quotation/symbolList?' + params, {baseURL: '/bzone/'}).then(data => {
-        cacheList.pop();
+      this.axios.get('/quotation/symbolList?' + params).then(data => {
+        data = data.symbolList;
         for (let i = 0; i < data.length; i++) {
           data[i].timestamp = data[i].id * 1000;
           data[i].volume = data[i].vol;
-          cacheList.push(data[i]);
         }
 
-        localStorage.setItem(key + '_list', JSON.stringify(cacheList));
-        localStorage.setItem(key + '_last', cacheList[cacheList.length - 1].id);
         this.kline.setPriceVolumePrecision(this.pricePrecision[symbol.substring(0, symbol.indexOf('/')).toLowerCase()], 2);
-        this.kline.applyNewData(cacheList);
+        this.kline.applyNewData(data);
       }).catch(res => {
         this.error(res.message);
       }).finally(() => {

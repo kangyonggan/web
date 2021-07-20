@@ -27,22 +27,14 @@ axios.interceptors.request.use(function (config) {
 
 // 响应拦截器
 axios.interceptors.response.use(function (response) {
-    if (response.config.baseURL === '/bzone/') {
-        if (response.data.success) {
-            return response.data.data;
-        } else {
-            return Promise.reject(response.data);
+    if (response.data.respCo === '0000') {
+        const token = response.headers['x-auth-token'];
+        if (token) {
+            localStorage.setItem('token', token);
         }
+        return response.data.data;
     } else {
-        if (response.data.respCo === '0000') {
-            const token = response.headers['x-auth-token'];
-            if (token) {
-                localStorage.setItem('token', token);
-            }
-            return response.data.data;
-        } else {
-            return Promise.reject(response.data);
-        }
+        return Promise.reject(response.data);
     }
 }, function (error) {
     if (!error.isAxiosError) {

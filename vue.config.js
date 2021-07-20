@@ -12,15 +12,6 @@ module.exports = {
         }
     },
     devServer: {
-        port: 8088,
-        proxy: {
-            '/bzone': {
-                target: 'https://prod-bqmex-bq-front-app.bqmex.com/v1',
-                changeOrigin: true,
-                pathRewrite: {
-                    '^/bzone': '/'
-                }
-            }
-        }
+        port: 8088
     }
 };

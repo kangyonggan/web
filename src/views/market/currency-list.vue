@@ -85,8 +85,8 @@ export default {
     loadCurrencyList() {
       let that = this;
       let fc = function () {
-        that.axios.get('/quotation/list?type=ALL', {baseURL: '/bzone/'}).then(data => {
-          that.currencyList = data;
+        that.axios.get('/quotation/list').then(data => {
+          that.currencyList = data.currencyList;
         }).catch(res => {
           that.error(res.message);
         });
