@@ -5,7 +5,7 @@ let env = {};
 
 // 根据环境设置各种地址
 axios.defaults.baseURL = '/api/';
-env.socketUrl = 'wss://' + window.location.hostname + '/api/';
+env.socketUrl = 'wss://' + window.location.hostname + '/api/binance';
 
 if (process.env.NODE_ENV === 'development') {
     axios.defaults.baseURL = 'http://localhost:8080/';
