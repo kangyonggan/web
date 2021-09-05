@@ -43,44 +43,44 @@ export default {
       loading: false,
       intervalList: [
         {
-          code: '1min',
+          code: '1m',
           val: '1分钟',
         },
         {
-          code: '5min',
+          code: '3m',
+          val: '3分钟',
+        },
+        {
+          code: '5m',
           val: '5分钟',
         },
         {
-          code: '15min',
+          code: '15m',
           val: '15分钟',
         },
         {
-          code: '30min',
+          code: '30m',
           val: '30分钟',
         },
         {
-          code: '60min',
+          code: '1h',
           val: '1小时',
         },
         {
-          code: '4hour',
+          code: '4h',
           val: '4小时',
         },
         {
-          code: '1day',
+          code: '1d',
           val: '1天',
         },
         {
-          code: '1week',
+          code: '1w',
           val: '1周',
         },
         {
-          code: '1mon',
+          code: '1M',
           val: '1月',
-        },
-        {
-          code: '1year',
-          val: '1年',
         }
       ],
     };

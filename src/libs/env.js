@@ -9,10 +9,10 @@ env.socketUrl = 'wss://' + window.location.hostname + '/api/';
 
 if (process.env.NODE_ENV === 'development') {
     axios.defaults.baseURL = 'http://localhost:8080/';
-    env.socketUrl = 'ws://localhost:8080/';
+    env.socketUrl = 'ws://localhost:8080/binance';
 } else if (process.env.NODE_ENV === 'hd') {
     axios.defaults.baseURL = 'https://kangyonggan.com/api/';
-    env.socketUrl = 'wss://kangyonggan.com/api/';
+    env.socketUrl = 'wss://kangyonggan.com/api/ws';
 }
 
 export default env;

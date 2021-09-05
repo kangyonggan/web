@@ -1,10 +1,9 @@
 <template>
   <div>
     <div style="width: 20%;float: left">
-      <currency-list
+      <symbol-list
         :symbol="symbol"
         :interval="interval"
-        :last-price="lastPrice"
         @change="changeSub"
       />
     </div>
@@ -13,6 +12,7 @@
         :symbol="symbol"
         :interval="interval"
         :last-price="lastPrice"
+        @change="changeSub"
       />
       <kline-body
         ref="kline-body"
@@ -25,12 +25,12 @@
 </template>
 
 <script>
-import CurrencyList from './currency-list';
+import SymbolList from './symbol-list';
 import KlineHeader from './kline-header';
 import KlineBody from './kline-body';
 
 export default {
-  components: {CurrencyList, KlineHeader, KlineBody},
+  components: {SymbolList, KlineHeader, KlineBody},
   data() {
     return {
       symbol: '',
@@ -56,16 +56,16 @@ export default {
     }
   },
   mounted() {
-    this.symbol = this.$route.query.symbol || 'BTC/USDT';
-    this.interval = this.$route.query.interval || '5min';
+    this.symbol = this.$route.query.symbol || 'btcusdt';
+    this.interval = this.$route.query.interval || '1h';
     let that = this;
     this.$nextTick(() => {
       that.$refs['kline-body'].historyKLine(that.symbol, that.interval);
     });
   },
   beforeRouteUpdate(to, from, next) {
-    this.symbol = to.query.symbol || 'BTC/USDT';
-    this.interval = to.query.interval || '5min';
+    this.symbol = to.query.symbol || 'btcusdt';
+    this.interval = to.query.interval || '1h';
     let that = this;
     this.$nextTick(() => {
       that.$refs['kline-body'].historyKLine(that.symbol, that.interval);
