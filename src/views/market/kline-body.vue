@@ -89,7 +89,6 @@ export default {
 
       let that = this;
       this.ws.onopen = function () {
-        console.log('onopen');
         if (that.symbol && that.interval) {
           that.sub(that.symbol, that.interval);
         }
@@ -112,7 +111,6 @@ export default {
         params: [symbol.toLowerCase() + '_perpetual@continuousKline_' + interval],
         id: new Date().getTime()
       };
-      console.log('unsub', params);
       this.ws.send(JSON.stringify(params));
     },
     /**
@@ -124,7 +122,6 @@ export default {
         params: [symbol.toLowerCase() + '_perpetual@continuousKline_' + interval],
         id: new Date().getTime()
       };
-      console.log('sub', params);
       this.ws.send(JSON.stringify(params));
     },
     close() {
