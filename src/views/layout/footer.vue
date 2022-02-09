@@ -1,8 +1,8 @@
 <template>
   <div class="footer">
-    ©2015-{{ DateTimeUtil.format(new Date().getTime(), 'yyyy') }} 康永敢 版权所有 皖ICP备18009089号.
+    ©2015-{{ DateTimeUtil.format(new Date().getTime(), 'yyyy') }} 皖ICP备18009089号.
     <el-tooltip
-      style="margin-left: 20px;"
+      style="float: right;margin-right: 20px;margin-top: 25px;"
       :content="theme === 'light' ? '切到黑夜模式' : '切到白天模式'"
       placement="top"
     >

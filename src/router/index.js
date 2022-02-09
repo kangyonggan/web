@@ -3,6 +3,8 @@ import Layout from '../views/layout/layout.vue'
 import NotFound from '../views/404.vue'
 import Login from '../views/login.vue'
 import Index from '../views/index.vue'
+import Article from '../views/article/index.vue'
+import ArticleDetail from '../views/article/detail.vue'
 
 const routes = [
   {
@@ -16,6 +18,14 @@ const routes = [
       {
         path: 'login',
         component: Login,
+      },
+      {
+        path: 'article',
+        component: Article,
+      },
+      {
+        path: 'article/:id',
+        component: ArticleDetail,
       },
       {
         path: '/:catchAll(.*)',

@@ -50,7 +50,12 @@
         let res = []
         for (let i = 0; i < menus.length; i++) {
           res.push(menus[i])
-          if (menus[i].path === path) {
+          if (menus[i].path !== '/' && path.startsWith(menus[i].path)) {
+            if (path !== menus[i].path) {
+              res.push({
+                name: '详情'
+              })
+            }
             return res
           } else if (!menus[i].childrens || !menus[i].childrens.length) {
             res.pop()

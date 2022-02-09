@@ -15,15 +15,15 @@
 
 .el-button--primary {
   background: var(--el-color-primary);
-  color: var(--app-text-color-white);
+  color: var(--app-text-color-black);
   border: 0
 }
 
 .el-button:active, .el-button:focus {
-  color: var(--app-text-color-white);
+  color: var(--app-text-color-black);
 }
 
 .el-button--primary:hover {
   background: var(--el-color-primary);
-  color: var(--app-text-color-white);
+  color: var(--app-text-color-black);
 }

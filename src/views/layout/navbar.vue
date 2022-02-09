@@ -12,8 +12,8 @@
     <el-menu
       :default-active="activeIndex"
       mode="horizontal"
-      router
       unique-opened
+      router
     >
       <navbar-menu
         v-for="menu in menus"
@@ -24,19 +24,19 @@
 
     <div
       class="logout"
-      v-if="$store.getters.getUserInfo.token"
+      v-if="$store.getters.getUserInfo.account"
       @click="logout"
     >
       注销
     </div>
 
-    <router-link
+    <div
       v-else
       to="/login"
       class="logout"
     >
       登录
-    </router-link>
+    </div>
   </div>
 </template>
 
@@ -48,26 +48,28 @@
     components: {NavbarMenu},
     data() {
       return {
-        env: localStorage.getItem('env') || 'DEV',
-        activeIndex: this.$route.path || '/',
+        activeIndex: this.getActiveMenu(this.$route.path || '/'),
         menus: Menus,
       }
     },
     methods: {
-      handleCommand: function (command) {
-        this.env = command
-        localStorage.setItem('env', command)
-      },
       logout() {
-        this.axios.delete('/v1/logout').finally(() => {
+        this.axios.get('/logout').finally(() => {
           this.$store.commit("setUserInfo", {})
           this.$router.push('/login')
         })
+      },
+      getActiveMenu(path) {
+        for (let i = 0; i < Menus.length; i++) {
+          if (Menus[i].path !== '/' && path.startsWith(Menus[i].path)) {
+            return Menus[i].path
+          }
+        }
       }
     },
     watch: {
       '$route'(newRoute) {
-        this.activeIndex = newRoute.path
+        this.activeIndex = this.getActiveMenu(newRoute.path)
       }
     }
   }
@@ -99,8 +101,9 @@
     }
 
     .logout {
+      cursor: pointer;
       float: right;
-      margin-right: 10px;
+      margin-right: 20px;
       margin-left: 10px;
       line-height: 60px;
       color: var(--el-color-primary);

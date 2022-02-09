@@ -7,9 +7,6 @@ module.exports = {
             '/api': {
                 target: 'https://kangyonggan.com',
                 changeOrigin: true,
-                pathRewrite: {
-                    '^/api': ""
-                }
             }
         }
     }

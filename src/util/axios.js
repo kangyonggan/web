@@ -3,34 +3,35 @@ import axios from 'axios'
 // 30s超时
 axios.defaults.timeout = 30000
 axios.defaults.headers['Content-Type'] = 'application/json'
-axios.defaults.baseURL = '/toolbox-api/'
+axios.defaults.baseURL = '/api/'
 
 // 请求拦截器
 axios.interceptors.request.use(function (config) {
-  config.headers['env'] = localStorage.getItem('env') || 'DEV'
+  config.headers['x-auth-token'] = localStorage.getItem('token');
   if (config.data) {
     config.data._ts = undefined
-  }
-  let userInfo = JSON.parse(localStorage.getItem('userInfo'))
-  if (userInfo && userInfo.token) {
-    config.headers['Authorization'] = userInfo.token
   }
   return config
 }, function (error) {
   return Promise.reject({
-    message: error + ''
+    msg: error + ''
   })
 })
 
 // 响应拦截器
 axios.interceptors.response.use(function (response) {
-  if (response.data.success) {
-    return response.data.data
+  if (response.data.respCo === '0000') {
+    const token = response.headers['x-auth-token'];
+    if (token) {
+      localStorage.setItem('token', token);
+    }
+    return response.data.data;
+  } else {
+    return Promise.reject({
+      msg: response.data.respMsg,
+      code: response.data.respCo
+    })
   }
-  return Promise.reject({
-    msg: response.data.msg,
-    code: response.data.code
-  })
 }, function (error) {
   return Promise.reject({
     code: error.response.status,

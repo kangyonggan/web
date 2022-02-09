@@ -55,12 +55,12 @@
           </el-form-item>
           <el-form-item
             class="form-item"
-            prop="passwordTxt"
+            prop="password"
           >
             <el-input
               placeholder="请输入密码"
               type="password"
-              v-model="params.passwordTxt"
+              v-model="params.password"
               @keyup.enter.native="submit"
               autocomplete="off"
               show-password
@@ -89,7 +89,6 @@
 </template>
 
 <script>
-import Md5 from "js-md5"
 import { User, Lock } from "@element-plus/icons"
 
 export default {
@@ -98,13 +97,12 @@ export default {
     return {
       loading: false,
       params: {
-        account: "",
-        passwordTxt: "",
-        password: "",
+        account: "admin",
+        password: "o0o00o0",
       },
       rules: {
         account: [{required: true, message: "请输入账号"}],
-        passwordTxt: [{required: true, message: "请输入密码"}],
+        password: [{required: true, message: "请输入密码"}],
       },
     };
   },
@@ -115,22 +113,17 @@ export default {
           return;
         }
         this.loading = true;
-        let data = Object.assign({}, this.params);
-        data.password = Md5(
-          (data.passwordTxt + "www.kangyonggan.com").substring(0, 20)
-        ).toUpperCase();
-        data.passwordTxt = undefined;
-        this.axios.post("/v1/login", data).then((data) => {
-          this.params.password = "";
-          this.params.passwordTxt = "";
-          this.$store.commit("setUserInfo", data);
+        this.axios.post("/login", this.params).then(data => {
+          console.log(data)
+          this.params.password = ""
+          this.$store.commit('setUserInfo', data.user)
           this.$router.push({
             path: '/'
           })
         }).catch((res) => {
-          this.$error(res.msg);
+          this.$error(res.msg)
         }).finally(() => {
-          this.loading = false;
+          this.loading = false
         })
       })
     },
