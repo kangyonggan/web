@@ -32,8 +32,8 @@
 
     <div
       v-else
-      to="/login"
       class="logout"
+      @click="login"
     >
       登录
     </div>
@@ -58,6 +58,9 @@
           this.$store.commit("setUserInfo", {})
           this.$router.push('/login')
         })
+      },
+      login() {
+        this.$router.push('/login')
       },
       getActiveMenu(path) {
         for (let i = 0; i < Menus.length; i++) {

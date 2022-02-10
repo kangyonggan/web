@@ -5,6 +5,7 @@ import Login from '../views/login.vue'
 import Index from '../views/index.vue'
 import Article from '../views/article/index.vue'
 import ArticleDetail from '../views/article/detail.vue'
+import Market from '../views/market/index'
 
 const routes = [
   {
@@ -26,6 +27,10 @@ const routes = [
       {
         path: 'article/:id',
         component: ArticleDetail,
+      },
+      {
+        path: 'market',
+        component: Market,
       },
       {
         path: '/:catchAll(.*)',

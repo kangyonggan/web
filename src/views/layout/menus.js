@@ -5,9 +5,6 @@ export default [{
   path: '/article',
   name: '文章',
 }, {
-  path: '/book',
-  name: '书籍',
-}, {
   path: '/market',
   name: '行情',
 }]
