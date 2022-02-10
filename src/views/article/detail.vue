@@ -1,20 +1,23 @@
 <template>
-  <el-card v-loading="loading">
-    <h3>{{ article.title }}</h3>
-    <div>
+  <div v-loading="loading">
+    <h1 style="text-align: center">
+      {{ article.title }}
+    </h1>
+    <div style="text-align: center;">
       {{ DateTimeUtil.format(article.createdTime) }}
     </div>
-    <vue-markdown>
-      {{ article.content }}
-    </vue-markdown>
-  </el-card>
+    <Markdown
+      class="md-content"
+      :source="article.content"
+    />
+  </div>
 </template>
 
 <script>
-import VueMarkdown from 'vue-markdown'
+import Markdown from 'vue3-markdown-it';
 
 export default {
-  components: {VueMarkdown},
+  components: {Markdown},
   data() {
     return {
       loading: false,
@@ -29,6 +32,7 @@ export default {
       this.loading = true;
       this.axios.get('/article/' + id).then(data => {
         this.article = data.article;
+        document.title = data.article.title + ' - 文章 - 康永敢'
       }).catch(res => {
         this.$error(res.msg);
       }).finally(() => {
@@ -41,3 +45,11 @@ export default {
   }
 };
 </script>
+
+<style scoped lang="scss">
+::v-deep(.md-content blockquote) {
+  border-left: 4px solid var(--el-color-primary);
+  padding-left: 10px;
+  margin-left: 0;
+}
+</style>

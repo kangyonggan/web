@@ -13,8 +13,9 @@ import common from '@/util/common'
 import NumberUtil from '@/util/number-util'
 import DateTimeUtil from '@/util/date-time-util'
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
+import Markdown from 'vue3-markdown-it'
 
-let app = createApp(App).use(store).use(router).use(ElementPlus, {locale: zhCn}).use(VueAxios, axios)
+let app = createApp(App).use(store).use(router).use(ElementPlus, {locale: zhCn}).use(VueAxios, axios).use(Markdown)
 app.mount('#app')
 
 app.config.globalProperties.$success = common.success
@@ -24,4 +25,6 @@ app.config.globalProperties.NumberUtil = NumberUtil
 app.config.globalProperties.DateTimeUtil = DateTimeUtil
 
 // 主题
-document.documentElement.setAttribute('theme', localStorage.getItem('theme') || 'light');
+let theme = localStorage.getItem('theme') || 'light'
+document.documentElement.setAttribute('theme', theme);
+require('highlight.js/styles/stackoverflow-' + theme + '.css')

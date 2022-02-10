@@ -37,6 +37,7 @@ export default {
       }
       localStorage.setItem('theme', this.theme)
       document.documentElement.setAttribute('theme', this.theme);
+      require('highlight.js/styles/stackoverflow-' + this.theme + '.css')
     }
   }
 }
