@@ -1,17 +1,14 @@
 module.exports = {
-    productionSourceMap: false,
-    configureWebpack: () => {
-        if (process.env.NODE_ENV !== 'production') {
-            return {
-                resolve: {
-                    alias: {
-                        vue$: 'vue/dist/vue.js'
-                    }
-                }
-            };
-        }
-    },
     devServer: {
-        port: 8088
+        disableHostCheck: true,
+        port: 8085,
+        public: '0.0.0.0:8085',
+        proxy: {
+            '/api': {
+                target: 'https://kangyonggan.com',
+                changeOrigin: true,
+            }
+        }
     }
-};
+}
+

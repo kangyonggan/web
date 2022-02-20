@@ -10,6 +10,11 @@ npm install
 npm run dev
 ```
 
+### Compiles and hot-reloads for production
+```
+npm run prod
+```
+
 ### Compiles and minifies for production
 ```
 npm run build

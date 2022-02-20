@@ -1,57 +1,55 @@
 {
-  "name": "web",
-  "version": "0.1.0",
+  "name": "kyg",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "init": "npm install",
     "dev": "vue-cli-service serve",
-    "hd": "vue-cli-service serve --mode hd",
     "build": "vue-cli-service build",
-    "deploy": "ssh root@kangyonggan.com 'rm -rf /srv/apps/web/*';scp -r dist/* root@kangyonggan.com:/srv/apps/web/",
-    "onekey-deploy": "vue-cli-service build;ssh root@kangyonggan.com 'rm -rf /srv/apps/web/*';scp -r dist/* root@kangyonggan.com:/srv/apps/web/",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "axios": "^0.19.0",
-    "core-js": "^3.3.5",
-    "echarts": "^4.4.0",
-    "element-ui": "^2.12.0",
-    "highlight.js": "^10.1.1",
-    "highlightjs-line-numbers.js": "^2.8.0",
-    "jquery": "^1.8.3",
-    "js-md5": "^0.7.3",
-    "js-sha256": "^0.9.0",
-    "klinecharts": "^7.5.0",
-    "mavon-editor": "^2.7.7",
-    "qs": "^6.9.0",
-    "toc-markdown": "^1.0.1",
-    "v-charts": "^1.19.0",
-    "vue": "^2.6.10",
-    "vue-axios": "^2.1.5",
-    "vue-elementui-skeleton": "^1.0.2",
-    "vue-json-viewer": "^2.2.8",
-    "vue-router": "^2.8.1",
-    "vuex": "^3.1.1"
+    "@element-plus/icons": "^0.0.11",
+    "@element-plus/icons-vue": "^0.2.4",
+    "axios": "^0.24.0",
+    "core-js": "^3.6.5",
+    "element-plus": "^1.2.0-beta.6",
+    "qs": "^6.10.2",
+    "vue": "^3.0.0",
+    "vue-axios": "^3.4.0",
+    "vue-router": "^4.0.0-0",
+    "vue3-markdown-it": "^1.0.10",
+    "vuex": "^4.0.2"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^4.0.0",
-    "@vue/cli-plugin-eslint": "^4.0.0",
-    "@vue/cli-service": "^4.0.0",
-    "babel-eslint": "^10.0.3",
-    "eslint": "^5.16.0",
-    "eslint-plugin-vue": "^5.0.0",
-    "node-sass": "^4.13.0",
-    "sass-loader": "^8.0.0",
-    "vue-clipboard2": "^0.3.1",
-    "vue-template-compiler": "^2.6.10"
+    "@vue/cli-plugin-babel": "~4.5.0",
+    "@vue/cli-plugin-eslint": "~4.5.0",
+    "@vue/cli-plugin-router": "~4.5.0",
+    "@vue/cli-plugin-vuex": "~4.5.0",
+    "@vue/cli-service": "~4.5.0",
+    "@vue/compiler-sfc": "^3.0.0",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^6.7.2",
+    "eslint-plugin-vue": "^7.0.0",
+    "node-sass": "^6.0.0",
+    "sass-loader": "^10.0.0"
   },
-  "postcss": {
-    "plugins": {
-      "autoprefixer": {}
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/strongly-recommended",
+      "eslint:recommended"
+    ],
+    "parserOptions": {
+      "parser": "babel-eslint"
     }
   },
   "browserslist": [
     "> 1%",
-    "last 2 versions"
+    "last 2 versions",
+    "not dead"
   ]
 }

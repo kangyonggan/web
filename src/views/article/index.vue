@@ -1,139 +1,159 @@
 <template>
-  <div class="content">
-    <base-search />
-
-    <el-col>
-      <el-col class="search-article">
-        <el-card class="box-card">
-          <el-row class="title">
-            全部文章
-          </el-row>
-
-          <el-form
-            :inline="true"
-            :model="params"
-            size="medium"
-            label-width="90px"
-            label-suffix="："
-            style="margin-top: 25px;"
+  <div>
+    <el-card>
+      <el-form
+        :inline="true"
+        :model="params"
+        ref="form"
+      >
+        <el-form-item
+          prop="title"
+          style="min-width: 300px;margin-bottom: 5px;margin-top: 5px;"
+        >
+          <el-input
+            v-model="params.title"
+            placeholder="搜索标题，支持模糊搜索"
+            clearable
+          />
+        </el-form-item>
+        <el-form-item style="margin-bottom: 5px;margin-top: 5px;">
+          <el-button
+            type="primary"
+            :disabled="loading"
+            @click="jump(1)"
           >
-            <el-form-item label="标题">
-              <el-input
-                v-model="params.title"
-                placeholder="请输入标题,支持模糊搜索"
-                clearable
-              />
-            </el-form-item>
-            <el-form-item label="发布日期">
-              <base-daterange v-model="params.createdTime" />
-            </el-form-item>
+            <el-icon>
+              <search />
+            </el-icon>
+            搜索
+          </el-button>
+          <el-button
+            type="info"
+            :disabled="loading"
+            @click="$refs['form'].resetFields()"
+          >
+            <el-icon>
+              <refresh-right />
+            </el-icon>
+            重置
+          </el-button>
+        </el-form-item>
+      </el-form>
+    </el-card>
 
-            <el-col>
-              <el-form-item style="margin-left: 35px;margin-top: 10px;">
-                <el-button
-                  type="primary"
-                  icon="el-icon-search"
-                  @click="$refs.table.jump(1)"
-                >
-                  搜索
-                </el-button>
-                <el-button
-                  @click="reset"
-                  icon="el-icon-refresh"
-                >
-                  重置
-                </el-button>
-              </el-form-item>
-            </el-col>
-          </el-form>
-        </el-card>
-      </el-col>
-
-      <base-table
-        ref="table"
-        url="/article"
-        :params="params"
+    <el-card
+      style="margin-top: 20px;"
+      v-loading="loading"
+    >
+      <el-table
+        :data="list"
+        
+        style="width: 100%"
       >
         <el-table-column
           prop="title"
           label="文章标题"
-          sortable
         >
-          <template slot-scope="scope">
+          <template #default="scope">
             <router-link :to="'/article/' + scope.row.id">
               {{ scope.row.title }}
             </router-link>
           </template>
         </el-table-column>
         <el-table-column
+          prop="viewNum"
           label="访问量"
           width="90"
-          prop="viewNum"
-          sortable
         />
         <el-table-column
           prop="createdTime"
-          label="发布日期"
-          align="center"
-          width="200"
-          sortable
+          label="创建时间"
+          width="165"
         >
-          <template slot-scope="scope">
-            <i class="el-icon-time" />
-            <span
-              style="margin-left: 5px"
-            >{{ util.formatTimestamp(scope.row.createdTime) }}</span>
+          <template #default="scope">
+            {{ DateTimeUtil.format(scope.row.createdTime) }}
           </template>
         </el-table-column>
-      </base-table>
-    </el-col>
+      </el-table>
+
+      <el-pagination
+        :disabled="loading"
+        style="margin: 10px 0;float:right"
+        layout="prev, pager, next"
+        :total="total"
+        :pager-count="5"
+        @current-change="jump($event)"
+        :current-page="params.pageNum * 1"
+        background
+        hide-on-single-page
+      />
+    </el-card>
   </div>
 </template>
 
 <script>
-    export default {
-        data() {
-            return {
-                params: {}
-            };
-        },
-        methods: {
-            reset() {
-                Object.keys(this.params).forEach(key => {
-                    this.params[key] = undefined;
-                });
-                this.$refs.table.clearSort();
-                this.$refs.table.jump(1);
-            }
-        },
-        mounted() {
-            Object.keys(this.$route.query).forEach(key => {
-                this.params[key] = this.$route.query[key];
-            });
-            this.$refs.table.reload();
-        },
-        beforeRouteUpdate(to, from, next) {
-            this.$refs.table.reload();
-            next();
-        }
-    };
+import {Search, RefreshRight} from '@element-plus/icons';
+import qs from 'qs'
+
+export default {
+  components: {Search, RefreshRight},
+  data() {
+    return {
+      loading: false,
+      params: {
+        title: '',
+        pageNum: 1
+      },
+      list: [],
+      total: 0
+    }
+  },
+  methods: {
+    jump(pageNum) {
+      this.params._ts = new Date().getTime()
+      this.params.pageNum = pageNum
+      this.$router.push({
+        path: '/article',
+        query: this.params
+      })
+    },
+    loadData() {
+      if (this.loading) {
+        return
+      }
+      this.loading = true
+      this.axios.get('/article?' + qs.stringify(this.params)).then(data => {
+        this.list = data.pageInfo.list
+        this.total = data.pageInfo.total
+      }).catch(res => {
+        this.$error(res.msg)
+      }).finally(() => {
+        this.loading = false
+      })
+    },
+  },
+  mounted() {
+    Object.keys(this.$route.query).forEach(key => {
+      this.params[key] = this.$route.query[key]
+    })
+    this.loadData()
+  },
+  beforeRouteUpdate(to, from, next) {
+    Object.keys(to.query).forEach(key => {
+      this.params[key] = to.query[key]
+    })
+    this.loadData()
+    next();
+  }
+};
 </script>
 
 <style scoped lang="scss">
-  .box-card {
-    padding: 0 20px;
-  }
-
-  .search-article {
-    .title {
-      color: #000;
-      font-size: 24px;
-      margin-left: 35px;
-    }
-
-    .el-input {
-      width: 460px;
-      margin-right: 50px;
-    }
-  }
+.cell a {
+  color: var(--app-text-color);
+  text-decoration: none;
+}
+.cell a:hover {
+  color: var(--el-color-primary);
+}
 </style>
